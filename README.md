@@ -7,7 +7,7 @@ Fire-bomb is a retro-styled action game inspired by the _1983 Bomberman_. The ob
 - 3 levels with increasing difficulty (more walls, more enemies)
 
 ## Wireframes
-![Wire frame](public/wireframe.png?raw=true)
+![Wire frame](src/wireFrame.png?raw=true)
 
 ## Technologies
 This project will be utitlize the following technologies: 
