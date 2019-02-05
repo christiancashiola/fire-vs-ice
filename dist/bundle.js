@@ -90,9 +90,129 @@
 /*!*********************!*\
   !*** ./src/main.js ***!
   \*********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modules_board_jumbotron__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/board/jumbotron */ "./src/modules/board/jumbotron.js");
+/* harmony import */ var _modules_board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/board/greenBackdrop */ "./src/modules/board/greenBackdrop.js");
+/* harmony import */ var _modules_walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/walls/staticWalls */ "./src/modules/walls/staticWalls.js");
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  Object(_modules_board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_modules_board_jumbotron__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  Object(_modules_walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__["default"])();
+});
+
+/***/ }),
+
+/***/ "./src/modules/board/greenBackdrop.js":
+/*!********************************************!*\
+  !*** ./src/modules/board/greenBackdrop.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (() => {
+  const canvas = document.querySelector('#green-backdrop');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#54C86D';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+});
+
+/***/ }),
+
+/***/ "./src/modules/board/jumbotron.js":
+/*!****************************************!*\
+  !*** ./src/modules/board/jumbotron.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (() => {
+  const canvas = document.querySelector('#jumbotron');
+  if (canvas.getContext) {
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#DDD';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  } else {
+    // one time alert in case browser does not support canvas
+    alert(
+      'Sorry. This games only operates' +
+      'on browsers that support HTML canvas.'
+    );
+  }
+});
+
+/***/ }),
+
+/***/ "./src/modules/walls/staticWalls.js":
+/*!******************************************!*\
+  !*** ./src/modules/walls/staticWalls.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (() => {
+
+  const canvas = document.querySelector('#green-backdrop');
+  const ctx = canvas.getContext('2d');
+  let img = new Image();
+  img.src = '../../../public/gameImages/walls/wall.png';
+
+  img.addEventListener('load', () => {
+    let y = 0, i = 0, x;
+    while (i < 43) {
+      if (i > 20) {
+        x = (i % 21) * 50;
+        y = 500;
+      } else {
+        x = i * 50;
+      }
+
+      ctx.drawImage(img, x, y);
+      i++;
+    }
+
+    x = 0;
+    i = 0;
+    while (i < 19) {
+      if (i > 8) {
+        x = 1000;
+        y = (i % 9) * 50 + 50;
+      } else {
+        y = i * 50 + 50;
+      }
+
+      ctx.drawImage(img, x, y);
+      i++;
+    }
+
+    y = 100;
+    i = 0;
+    let divisor = 9;
+    while (i < 36) {
+      if (i % 10 === divisor) {
+        divisor--;
+        y += 100;
+      } 
+      
+      x = (i % 9) * 100 + 100;
+      ctx.drawImage(img, x, y);
+      i++;
+    }
+  });
+});
 
 
 /***/ })
