@@ -1,3 +1,15 @@
+const allWalls = {};
+
+export const getAllWalls = () => allWalls;
+
+const addToWalls = (pos) => {
+  allWalls[pos[0]] ? 
+  allWalls[pos[0]].push(pos[1]) :
+  allWalls[pos[0]] = [pos[1]];
+
+  return pos;
+}
+
 export const getHorizontalOuterWallPos = () => {
   let y = 0, x;
   return [...Array(42)].map((_, i) => {
@@ -8,7 +20,7 @@ export const getHorizontalOuterWallPos = () => {
       x = i * 50;
     }
 
-    return [x, y];
+    return addToWalls([x, y]);
   });
 };
 
@@ -22,7 +34,7 @@ export const getVerticalOuterWallPos = () => {
       y = i * 50 + 50;
     }
 
-    return [x, y];
+    return addToWalls([x, y]);
   });
 };
 
@@ -35,7 +47,7 @@ export const getInnerWallPos = () => {
     } 
     x = (i % 9) * 100 + 100;
     
-    return [x, y];
+    return addToWalls([x, y]);
   });
 };
 
@@ -43,12 +55,11 @@ export const getRandomBreakableWallPos = () => {
   const allAvailablePos = getAllAvailablePos();
   let breakableWallPos = [];
   let i;
-  while (breakableWallPos.length < 24) {
+  while (breakableWallPos.length < 30) {
     i = Math.floor(Math.random() * allAvailablePos.length);
     const randomPos = (allAvailablePos.splice(i, 1));
-    breakableWallPos = breakableWallPos.concat(randomPos);
+    breakableWallPos.push(addToWalls(randomPos[0]));
   }
-
   return breakableWallPos;
 }
 

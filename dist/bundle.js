@@ -98,7 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (() => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#54C86D';
+  ctx.fillStyle = '#3B8314';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 });
 
@@ -142,17 +142,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return mainCharacter; });
-const frontImg = new Image();
-const backImg = new Image();
-const leftImg = new Image();
-const rightImg = new Image();
-frontImg.src = '../../public/gameImages/characters/fBomber.png';
-backImg.src = '../../public/gameImages/characters/fBomberBack.png';
-leftImg.src = '../../public/gameImages/characters/fBomberLSide.png';
-rightImg.src = '../../public/gameImages/characters/fBomberRSide.png';
+/* harmony import */ var _util_moveUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/moveUtil */ "./src/util/moveUtil.js");
+
 
 class mainCharacter {
-  constructor() {
+  constructor(walls) {
     const canvas = document.querySelector('#green-backdrop');
     this.xPos = 50;
     this.yPos = 50;
@@ -162,6 +156,8 @@ class mainCharacter {
     this.right = rightImg;
     this.ctx = canvas.getContext('2d');
     this.render = this.render.bind(this);
+    this.walls = walls;
+    this.possibleMoves = [39, 40];
     frontImg.addEventListener('load', () => {
       this.ctx.drawImage(this.front, this.xPos, this.yPos);
       window.addEventListener("keydown", this.handleKeydown.bind(this));
@@ -169,6 +165,8 @@ class mainCharacter {
   }
 
   handleKeydown(e) {
+    if (!this.possibleMoves.includes(e.keyCode)) return;
+
     const oldXPos = this.xPos, oldYPos = this.yPos;
     switch(e.keyCode) {
       case 37:
@@ -188,14 +186,32 @@ class mainCharacter {
         this.render(this.front, oldXPos, oldYPos);
         break;  
     } 
+    this.getPossibleMoves();
+  }
+
+  getPossibleMoves() {
+    this.possibleMoves = _util_moveUtil__WEBPACK_IMPORTED_MODULE_0__["getPossibleMoves"](
+      this.walls, this.xPos, this.yPos
+    );
+    debugger
+    console.log(possibleMoves);
   }
 
   render(image, oldXPos, oldYPos) {  
-    this.ctx.fillStyle = '#54C86D';
+    this.ctx.fillStyle = '#3B8314';
     this.ctx.fillRect(oldXPos, oldYPos, 50, 50);
     this.ctx.drawImage(image, this.xPos, this.yPos);
   }
 }
+
+const frontImg = new Image();
+const backImg = new Image();
+const leftImg = new Image();
+const rightImg = new Image();
+frontImg.src = '../../public/gameImages/characters/fBomber.png';
+backImg.src = '../../public/gameImages/characters/fBomberBack.png';
+leftImg.src = '../../public/gameImages/characters/fBomberLSide.png';
+rightImg.src = '../../public/gameImages/characters/fBomberRSide.png';
 
 /***/ }),
 
@@ -213,6 +229,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./walls/staticWalls */ "./src/walls/staticWalls.js");
 /* harmony import */ var _walls_breakableWalls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./walls/breakableWalls */ "./src/walls/breakableWalls.js");
 /* harmony import */ var _characters_mainCharacter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./characters/mainCharacter */ "./src/characters/mainCharacter.js");
+/* harmony import */ var _util_wallUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util/wallUtil */ "./src/util/wallUtil.js");
+
 
 
 
@@ -224,8 +242,44 @@ document.addEventListener('DOMContentLoaded', () => {
   Object(_board_jumbotron__WEBPACK_IMPORTED_MODULE_0__["default"])();
   Object(_walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_walls_breakableWalls__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  new _characters_mainCharacter__WEBPACK_IMPORTED_MODULE_4__["default"]();
+  new _characters_mainCharacter__WEBPACK_IMPORTED_MODULE_4__["default"](Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_5__["getAllWalls"])());
 });
+
+/***/ }),
+
+/***/ "./src/util/moveUtil.js":
+/*!******************************!*\
+  !*** ./src/util/moveUtil.js ***!
+  \******************************/
+/*! exports provided: getPossibleMoves */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPossibleMoves", function() { return getPossibleMoves; });
+const getPossibleMoves = (walls, x, y) => {
+  const possibleMoves = [37, 38, 39, 40];
+  let dX = x - 50, dY = y;
+  
+  const checkCollision = (move) => {
+    if (walls[dX] && walls[dX].includes(dY)) {
+      possibleMoves.splice(possibleMoves.indexOf(move), 1);
+    }
+  }
+
+  checkCollision(37);
+  dX += 50;
+  dY -= 50;
+  checkCollision(38);
+  dX += 50;
+  dY += 50;
+  checkCollision(39);
+  dX -= 50;
+  dY += 50;
+  checkCollision(40);
+  debugger
+  return possibleMoves;
+}
 
 /***/ }),
 
@@ -233,15 +287,28 @@ document.addEventListener('DOMContentLoaded', () => {
 /*!******************************!*\
   !*** ./src/util/wallUtil.js ***!
   \******************************/
-/*! exports provided: getHorizontalOuterWallPos, getVerticalOuterWallPos, getInnerWallPos, getRandomBreakableWallPos */
+/*! exports provided: getAllWalls, getHorizontalOuterWallPos, getVerticalOuterWallPos, getInnerWallPos, getRandomBreakableWallPos */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllWalls", function() { return getAllWalls; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getHorizontalOuterWallPos", function() { return getHorizontalOuterWallPos; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getVerticalOuterWallPos", function() { return getVerticalOuterWallPos; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getInnerWallPos", function() { return getInnerWallPos; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandomBreakableWallPos", function() { return getRandomBreakableWallPos; });
+const allWalls = {};
+
+const getAllWalls = () => allWalls;
+
+const addToWalls = (pos) => {
+  allWalls[pos[0]] ? 
+  allWalls[pos[0]].push(pos[1]) :
+  allWalls[pos[0]] = [pos[1]];
+
+  return pos;
+}
+
 const getHorizontalOuterWallPos = () => {
   let y = 0, x;
   return [...Array(42)].map((_, i) => {
@@ -252,7 +319,7 @@ const getHorizontalOuterWallPos = () => {
       x = i * 50;
     }
 
-    return [x, y];
+    return addToWalls([x, y]);
   });
 };
 
@@ -266,7 +333,7 @@ const getVerticalOuterWallPos = () => {
       y = i * 50 + 50;
     }
 
-    return [x, y];
+    return addToWalls([x, y]);
   });
 };
 
@@ -279,7 +346,7 @@ const getInnerWallPos = () => {
     } 
     x = (i % 9) * 100 + 100;
     
-    return [x, y];
+    return addToWalls([x, y]);
   });
 };
 
@@ -287,12 +354,11 @@ const getRandomBreakableWallPos = () => {
   const allAvailablePos = getAllAvailablePos();
   let breakableWallPos = [];
   let i;
-  while (breakableWallPos.length < 24) {
+  while (breakableWallPos.length < 30) {
     i = Math.floor(Math.random() * allAvailablePos.length);
     const randomPos = (allAvailablePos.splice(i, 1));
-    breakableWallPos = breakableWallPos.concat(randomPos);
+    breakableWallPos.push(addToWalls(randomPos[0]));
   }
-
   return breakableWallPos;
 }
 
