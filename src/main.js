@@ -1,9 +1,11 @@
-import setupJumbotron from './modules/board/jumbotron';
-import setupGreenBackdrop from './modules/board/greenBackdrop';
-import addStaticWalls from './modules/walls/staticWalls';
+import setupJumbotron from './board/jumbotron';
+import setupGreenBackdrop from './board/greenBackdrop';
+import addStaticWalls from './walls/staticWalls';
+import addBreakableWalls from './walls/breakableWalls';
 
 document.addEventListener('DOMContentLoaded', () => {
   setupGreenBackdrop();
   setupJumbotron();
   addStaticWalls();
+  addBreakableWalls();
 });

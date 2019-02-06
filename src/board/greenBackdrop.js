@@ -4,3 +4,4 @@ export default () => {
   ctx.fillStyle = '#54C86D';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+
