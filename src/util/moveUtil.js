@@ -1,10 +1,15 @@
-export const getPossibleMoves = (walls, x, y) => {
+import { getAllWalls } from './wallUtil';
+import { getLiveBombs } from '../bombs/bomb';
+
+export const getPossibleMoves = (x, y) => {
+  const bombs = getLiveBombs();
+  const walls = getAllWalls();
   const possibleMoves = [37, 38, 39, 40];
   let dX = x - 50, dY = y;
-  
-  debugger  
+  debugger
   const checkCollision = (move) => {
-    if (walls[dX] && walls[dX].indexOf(dY) !== -1) {
+    if (walls[dX] && walls[dX].indexOf(dY) !== -1 ||
+        bombs[dX] && bombs[dX].indexOf(dY) !== -1) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
   }

@@ -15,10 +15,24 @@ body {
 
 .game-title {
   position: absolute;
-  left: 33%;
+  left: 41%;
   top: 4%;
   z-index: 5;
   font-size: 80px;
   font-family: 'VT323', monospace;
   margin: 0;
+}
+
+#bomb-1 {
+  position: absolute;
+  left: 60%;
+  top: 5%;
+  font-size: 54px;
+}
+
+#bomb-2 {
+  position: absolute;
+  right: 60%;
+  top: 5%;
+  font-size: 54px;
 }

@@ -1,10 +1,9 @@
 import * as moveUtil from '../util/moveUtil';
+import { dropBomb } from '../bombs/bomb';
 
 export default class mainCharacter {
   constructor(props) {
     Object.assign(this, props);
-    this.render = this.render.bind(this);
-    this.addMovement = this.addMovement.bind(this);
     this.addMovement();
   }
 
@@ -16,39 +15,49 @@ export default class mainCharacter {
   }
 
   handleKeydown(e) {
+    const { left, right, back, front } = this;
+    if (e.keyCode === 32) return this.readyBomb();
     if (!this.possibleMoves.includes(e.keyCode)) return;
 
-    const oldXPos = this.xPos, oldYPos = this.yPos;
     switch(e.keyCode) {
       case 37:
-        this.xPos -= 50;
-        this.render(this.left, oldXPos, oldYPos);
+        this.render(left, -50, 0);
+        this.direction = 'W';
         break;
       case 38:
-        this.yPos -= 50;
-        this.render(this.back, oldXPos, oldYPos);
+        this.render(back, 0, -50);
+        this.direction = 'N';
         break;
       case 39:
-        this.xPos += 50;
-        this.render(this.right, oldXPos, oldYPos);
+        this.render(right ,50, 0);
+        this.direction = 'E';
         break;
       case 40:
-        this.yPos += 50;
-        this.render(this.front, oldXPos, oldYPos);
+        this.render(front, 0, 50);
+        this.direction = 'S';
         break;  
     } 
     this.getPossibleMoves();
   }
 
   getPossibleMoves() {
-    this.possibleMoves = moveUtil.getPossibleMoves(
-      this.walls, this.xPos, this.yPos
-    );
+    this.possibleMoves = moveUtil.getPossibleMoves(this.xPos, this.yPos);
   }
 
-  render(image, oldXPos, oldYPos) {  
+  render(image, dX, dY) {  
+    this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
     this.ctx.fillStyle = '#3B8314';
-    this.ctx.fillRect(oldXPos, oldYPos, 50, 50);
+    if (this.currentImg === image) {
+      this.xPos += dX;
+      this.yPos += dY;
+    } else {
+      this.currentImg = image;
+    }
     this.ctx.drawImage(image, this.xPos, this.yPos);
   }
+
+  readyBomb() {
+    dropBomb(this.direction, this.xPos, this.yPos);
+    this.getPossibleMoves();
+  }  
 }

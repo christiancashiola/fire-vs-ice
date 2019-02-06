@@ -1,5 +1,3 @@
-import { getAllWalls } from './wallUtil';
-
 const frontImg = new Image();
 const backImg = new Image();
 const leftImg = new Image();
@@ -18,8 +16,10 @@ export const initialCharacterState = () => {
     back: backImg,
     left: leftImg,
     right: rightImg,
+    currentImg: frontImg,
+    direction: 'S',
+    bombable: true,
     ctx: canvas.getContext('2d'),
-    walls: getAllWalls(),
     possibleMoves: [39, 40]
   };
 };
