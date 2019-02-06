@@ -1,19 +1,15 @@
 import * as moveUtil from '../util/moveUtil';
 
 export default class mainCharacter {
-  constructor(walls) {
-    const canvas = document.querySelector('#green-backdrop');
-    this.xPos = 50;
-    this.yPos = 50;
-    this.front = frontImg;
-    this.back = backImg;
-    this.left = leftImg;
-    this.right = rightImg;
-    this.ctx = canvas.getContext('2d');
+  constructor(props) {
+    Object.assign(this, props);
     this.render = this.render.bind(this);
-    this.walls = walls;
-    this.possibleMoves = [39, 40];
-    frontImg.addEventListener('load', () => {
+    this.addMovement = this.addMovement.bind(this);
+    this.addMovement();
+  }
+
+  addMovement() {
+    this.front.addEventListener('load', () => {
       this.ctx.drawImage(this.front, this.xPos, this.yPos);
       window.addEventListener("keydown", this.handleKeydown.bind(this));
     });
@@ -56,12 +52,3 @@ export default class mainCharacter {
     this.ctx.drawImage(image, this.xPos, this.yPos);
   }
 }
-
-const frontImg = new Image();
-const backImg = new Image();
-const leftImg = new Image();
-const rightImg = new Image();
-frontImg.src = '../../public/gameImages/characters/fBomber.png';
-backImg.src = '../../public/gameImages/characters/fBomberBack.png';
-leftImg.src = '../../public/gameImages/characters/fBomberLSide.png';
-rightImg.src = '../../public/gameImages/characters/fBomberRSide.png';

@@ -2,6 +2,7 @@ export const getPossibleMoves = (walls, x, y) => {
   const possibleMoves = [37, 38, 39, 40];
   let dX = x - 50, dY = y;
   
+  debugger  
   const checkCollision = (move) => {
     if (walls[dX] && walls[dX].indexOf(dY) !== -1) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
