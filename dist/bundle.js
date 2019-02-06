@@ -132,6 +132,73 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/characters/mainCharacter.js":
+/*!*****************************************!*\
+  !*** ./src/characters/mainCharacter.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return mainCharacter; });
+const frontImg = new Image();
+const backImg = new Image();
+const leftImg = new Image();
+const rightImg = new Image();
+frontImg.src = '../../public/gameImages/characters/fBomber.png';
+backImg.src = '../../public/gameImages/characters/fBomberBack.png';
+leftImg.src = '../../public/gameImages/characters/fBomberLSide.png';
+rightImg.src = '../../public/gameImages/characters/fBomberRSide.png';
+
+class mainCharacter {
+  constructor() {
+    const canvas = document.querySelector('#green-backdrop');
+    this.xPos = 50;
+    this.yPos = 50;
+    this.front = frontImg;
+    this.back = backImg;
+    this.left = leftImg;
+    this.right = rightImg;
+    this.ctx = canvas.getContext('2d');
+    this.render = this.render.bind(this);
+    frontImg.addEventListener('load', () => {
+      this.ctx.drawImage(this.front, this.xPos, this.yPos);
+      window.addEventListener("keydown", this.handleKeydown.bind(this));
+    });
+  }
+
+  handleKeydown(e) {
+    const oldXPos = this.xPos, oldYPos = this.yPos;
+    switch(e.keyCode) {
+      case 37:
+        this.xPos -= 50;
+        this.render(this.left, oldXPos, oldYPos);
+        break;
+      case 38:
+        this.yPos -= 50;
+        this.render(this.back, oldXPos, oldYPos);
+        break;
+      case 39:
+        this.xPos += 50;
+        this.render(this.right, oldXPos, oldYPos);
+        break;
+      case 40:
+        this.yPos += 50;
+        this.render(this.front, oldXPos, oldYPos);
+        break;  
+    } 
+  }
+
+  render(image, oldXPos, oldYPos) {  
+    this.ctx.fillStyle = '#54C86D';
+    this.ctx.fillRect(oldXPos, oldYPos, 50, 50);
+    this.ctx.drawImage(image, this.xPos, this.yPos);
+  }
+}
+
+/***/ }),
+
 /***/ "./src/main.js":
 /*!*********************!*\
   !*** ./src/main.js ***!
@@ -145,6 +212,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./board/greenBackdrop */ "./src/board/greenBackdrop.js");
 /* harmony import */ var _walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./walls/staticWalls */ "./src/walls/staticWalls.js");
 /* harmony import */ var _walls_breakableWalls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./walls/breakableWalls */ "./src/walls/breakableWalls.js");
+/* harmony import */ var _characters_mainCharacter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./characters/mainCharacter */ "./src/characters/mainCharacter.js");
+
 
 
 
@@ -155,6 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Object(_board_jumbotron__WEBPACK_IMPORTED_MODULE_0__["default"])();
   Object(_walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_walls_breakableWalls__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  new _characters_mainCharacter__WEBPACK_IMPORTED_MODULE_4__["default"]();
 });
 
 /***/ }),
@@ -268,7 +338,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (() => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
-  let img = new Image();
+  const img = new Image();
   img.src = '../../public/gameImages/walls/breakableWall.png';
 
   const breakableWallPos = Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["getRandomBreakableWallPos"])();
@@ -296,7 +366,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (() => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
-  let img = new Image();
+  const img = new Image();
   img.src = '../../public/gameImages/walls/wall.png';
 
   const staticWallPos = Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["getHorizontalOuterWallPos"])()

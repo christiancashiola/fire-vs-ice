@@ -7,7 +7,7 @@ import {
 export default () => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
-  let img = new Image();
+  const img = new Image();
   img.src = '../../public/gameImages/walls/wall.png';
 
   const staticWallPos = getHorizontalOuterWallPos()

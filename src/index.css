@@ -10,4 +10,15 @@ body {
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.game-title {
+  position: absolute;
+  left: 33%;
+  top: 4%;
+  z-index: 5;
+  font-size: 80px;
+  font-family: 'VT323', monospace;
+  margin: 0;
 }
