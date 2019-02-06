@@ -48,8 +48,6 @@ export default class mainCharacter {
     this.possibleMoves = moveUtil.getPossibleMoves(
       this.walls, this.xPos, this.yPos
     );
-    debugger
-    console.log(possibleMoves);
   }
 
   render(image, oldXPos, oldYPos) {  

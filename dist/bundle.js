@@ -193,8 +193,6 @@ class mainCharacter {
     this.possibleMoves = _util_moveUtil__WEBPACK_IMPORTED_MODULE_0__["getPossibleMoves"](
       this.walls, this.xPos, this.yPos
     );
-    debugger
-    console.log(possibleMoves);
   }
 
   render(image, oldXPos, oldYPos) {  
@@ -262,7 +260,7 @@ const getPossibleMoves = (walls, x, y) => {
   let dX = x - 50, dY = y;
   
   const checkCollision = (move) => {
-    if (walls[dX] && walls[dX].includes(dY)) {
+    if (walls[dX] && walls[dX].indexOf(dY) !== -1) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
   }
@@ -277,7 +275,6 @@ const getPossibleMoves = (walls, x, y) => {
   dX -= 50;
   dY += 50;
   checkCollision(40);
-  debugger
   return possibleMoves;
 }
 
@@ -354,7 +351,7 @@ const getRandomBreakableWallPos = () => {
   const allAvailablePos = getAllAvailablePos();
   let breakableWallPos = [];
   let i;
-  while (breakableWallPos.length < 30) {
+  while (breakableWallPos.length < 31) {
     i = Math.floor(Math.random() * allAvailablePos.length);
     const randomPos = (allAvailablePos.splice(i, 1));
     breakableWallPos.push(addToWalls(randomPos[0]));
@@ -369,7 +366,7 @@ const Y_POS4 = [50, 150, 250, 350, 450];
 const X_POS = [
   50, 100, 150, 200, 250, 300, 350, 400, 450, 500,
   550, 600, 650, 700, 750, 800, 850, 900, 950
-]
+];
 const getAllAvailablePos = () => {
   const availablePos = [];
   X_POS.forEach((x, i) => {
@@ -385,7 +382,7 @@ const getAllAvailablePos = () => {
   });
 
   return availablePos;
-}
+};
 
 /***/ }),
 

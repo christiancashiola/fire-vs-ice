@@ -55,7 +55,7 @@ export const getRandomBreakableWallPos = () => {
   const allAvailablePos = getAllAvailablePos();
   let breakableWallPos = [];
   let i;
-  while (breakableWallPos.length < 30) {
+  while (breakableWallPos.length < 31) {
     i = Math.floor(Math.random() * allAvailablePos.length);
     const randomPos = (allAvailablePos.splice(i, 1));
     breakableWallPos.push(addToWalls(randomPos[0]));
@@ -70,7 +70,7 @@ const Y_POS4 = [50, 150, 250, 350, 450];
 const X_POS = [
   50, 100, 150, 200, 250, 300, 350, 400, 450, 500,
   550, 600, 650, 700, 750, 800, 850, 900, 950
-]
+];
 const getAllAvailablePos = () => {
   const availablePos = [];
   X_POS.forEach((x, i) => {
@@ -86,4 +86,4 @@ const getAllAvailablePos = () => {
   });
 
   return availablePos;
-}
+};
