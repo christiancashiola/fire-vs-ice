@@ -1,4 +1,6 @@
-import { getBreakableWalls } from '../util/wallUtil';
+import { getBreakableWalls, getStaticWalls } from '../util/wallUtil';
+import { merge } from 'lodash';
+import { renderExplosion } from './explosion';
 
 export const getLiveBombs = () => liveBombs;
 
@@ -20,16 +22,12 @@ export const dropBomb = (direction, x, y) => {
   }
 } 
 
-const renderExplosion = (x, y, ctx) => {
-  liveBombs[x].splice(liveBombs[x].indexOf(y), 1);
-  ctx.fillStyle = '#3B8314';
-  ctx.fillRect(x, y, 50, 50);
-  alert('Boom');
-}
-
 const bombable = (x, y) => {
-  const walls = getBreakableWalls();
-  return (walls[x] && walls[x].indexOf(y) !== -1) ? false : true;
+  const bombBarriers = merge({}, getStaticWalls(), getBreakableWalls());
+  if (bombBarriers[x] && bombBarriers[x].indexOf(y) === -1) {
+    return true;
+  }
+  return false;
 };
 
 const offsetDirection = (direction, x, y) => {

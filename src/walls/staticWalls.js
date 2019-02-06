@@ -15,8 +15,10 @@ export default () => {
     .concat(getInnerWallPos());
 
   img.addEventListener('load', () => {
-    staticWallPos.forEach(pos => {
+    let pos;
+    for (let i = 0; i < staticWallPos.length; i++) {
+      pos = staticWallPos[i];
       ctx.drawImage(img, pos[0], pos[1]);
-    });
+    }
   });
 }

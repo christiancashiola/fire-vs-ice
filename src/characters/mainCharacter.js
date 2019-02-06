@@ -57,7 +57,8 @@ export default class mainCharacter {
   }
 
   readyBomb() {
-    dropBomb(this.direction, this.xPos, this.yPos);
+    let x = this.xPos, y = this.yPos;
+    dropBomb(this.direction, x, y);
     this.getPossibleMoves();
   }  
 }

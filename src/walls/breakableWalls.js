@@ -8,8 +8,10 @@ export default () => {
 
   const breakableWallPos = getRandomBreakableWallPos();
   img.addEventListener('load', () => {
-    breakableWallPos.forEach(pos => {
+    let pos;
+    for (let i = 0; i < breakableWallPos.length; i++) {
+      pos = breakableWallPos[i];
       ctx.drawImage(img, pos[0], pos[1]);
-    });
+    }
   });
 }

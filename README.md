@@ -10,12 +10,14 @@ Fire-bomb is a retro-styled action game inspired by the _1983 Bomberman_. The ob
 ![Wire frame](publib/wireFrame.png?raw=true)
 
 ## Technologies
-This project will be utitlize the following technologies: 
+This project will be utilize the following technologies: 
 + `Javascript` for game logic
 + `HTML Canvas` for graphics rendering
 + `Webbpack` to bundle JS files
 + Music (with toggle) by yours truly
 + All artwork will be created using canvas and my custom art using [www.pixilart.com](https:/www.pixilart.com)
+
+_I will also choose `for` loops over `forEach` loops for the majority of this project for optimization_
 
 ## Implementation Timeline
 **Day 1**: Setup a `create-react-app` and connect to Redux store. Acquire game art and setup canvas backdrop/static walls.  

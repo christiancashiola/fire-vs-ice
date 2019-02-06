@@ -1,7 +1,8 @@
 export const getAllWalls = () => allWalls;
 export const getBreakableWalls = () => breakableWalls;
+export const getStaticWalls = () => staticWalls;
 
-const allWalls = {}, breakableWalls = {};
+const allWalls = {}, breakableWalls = {}, staticWalls = {};
 
 const addToAllWalls = (pos) => {
   allWalls[pos[0]] ? 
@@ -15,6 +16,16 @@ const addToBreakableWalls = pos => {
   breakableWalls[pos[0]] ? 
   breakableWalls[pos[0]].push(pos[1]) :
   breakableWalls[pos[0]] = [pos[1]];
+
+  return addToAllWalls(pos);
+}
+
+const addToStaticWalls = pos => {
+  staticWalls[pos[0]] ? 
+  staticWalls[pos[0]].push(pos[1]) :
+  staticWalls[pos[0]] = [pos[1]];
+
+  return addToAllWalls(pos);
 }
 
 export const getHorizontalOuterWallPos = () => {
@@ -26,8 +37,8 @@ export const getHorizontalOuterWallPos = () => {
     } else {
       x = i * 50;
     }
-
-    return addToAllWalls([x, y]);
+ 
+    return addToStaticWalls([x, y]);
   });
 };
 
@@ -41,7 +52,7 @@ export const getVerticalOuterWallPos = () => {
       y = i * 50 + 50;
     }
 
-    return addToAllWalls([x, y]);
+    return addToStaticWalls([x, y]);
   });
 };
 
@@ -54,7 +65,7 @@ export const getInnerWallPos = () => {
     } 
     x = (i % 9) * 100 + 100;
     
-    return addToAllWalls([x, y]);
+    return addToStaticWalls([x, y]);
   });
 };
 
@@ -65,8 +76,7 @@ export const getRandomBreakableWallPos = () => {
   while (breakableWallPos.length < 31) {
     i = Math.floor(Math.random() * allAvailablePos.length);
     const randomPos = (allAvailablePos.splice(i, 1))[0];
-    addToBreakableWalls(randomPos);
-    breakableWallPos.push(addToAllWalls(randomPos));
+    breakableWallPos.push(addToBreakableWalls(randomPos));
   }
   return breakableWallPos;
 }
@@ -81,17 +91,27 @@ const X_POS = [
 ];
 const getAllAvailablePos = () => {
   const availablePos = [];
-  X_POS.forEach((x, i) => {
+
+  for (let i = 0; i < X_POS.length; i++) {
     if (i < 1) {
-      Y_POS1.forEach(y => availablePos.push([x, y]));
+      availablePos.push(...zipXtoY(Y_POS1, X_POS[i]));
     } else if (i < 2) {
-      Y_POS2.forEach(y => availablePos.push([x, y]));
+      availablePos.push(...zipXtoY(Y_POS2, X_POS[i]));
     } else if (i % 2 === 0) {
-      Y_POS3.forEach(y => availablePos.push([x, y]));
+      availablePos.push(...zipXtoY(Y_POS3, X_POS[i]));
     } else {
-      Y_POS4.forEach(y => availablePos.push([x, y]));
+      availablePos.push(...zipXtoY(Y_POS4, X_POS[i]));
     }
-  });
+  }
 
   return availablePos;
 };
+
+const zipXtoY = (yPos, x) => {
+  const zipped = []
+  for (let i = 0; i < yPos.length; i++) {
+    zipped.push([x, yPos[i]])
+  }
+
+  return zipped;
+}
