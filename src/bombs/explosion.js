@@ -2,8 +2,7 @@ import { staticWalls, removeWall } from '../util/wallUtil';
 import { liveBombs } from './bomb';
 import { p1Pos } from '../main';
 
-export const getFire = () => fire;
-
+export { fire };
 const fire = {};
 
 export const renderExplosion = (x, y, ctx) => {

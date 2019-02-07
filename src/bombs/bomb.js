@@ -2,7 +2,7 @@ import { breakableWalls, staticWalls } from '../util/wallUtil';
 import { merge } from 'lodash';
 import { renderExplosion } from './explosion';
 
-export { liveBombs };
+export { liveBombs }; 
 
 const liveBombs = {};
 
