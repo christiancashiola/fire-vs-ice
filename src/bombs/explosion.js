@@ -1,5 +1,5 @@
 import { getLiveBombs } from './bomb';
-import { getStaticWalls, getBreakableWalls } from '../util/wallUtil';
+import { getStaticWalls, removeWall } from '../util/wallUtil';
 
 export const getFire = () => fire;
 
@@ -15,12 +15,11 @@ export const renderExplosion = (x, y, ctx) => {
     fire[x] ? fire[x].push(y) : fire[x] = [y];
     const spread = getFireSpread(x, y);
     spreadFire(ctx, fireImg, spread);
-    setTimeout(() => coolDown(ctx, spread), 1000);
+    setTimeout(() => coolDown(ctx, spread), 300);
   });
 }
 
 const getFireSpread = (x, y) => {
-  const breakableWalls = getBreakableWalls();
   const staticWalls = getStaticWalls();
   const crossPos = getCrossPos(x, y);
   const spread = [];
@@ -29,11 +28,10 @@ const getFireSpread = (x, y) => {
   for (let i = 0; i < crossPos.length; i++) {
     [xPos, yPos] = crossPos[i];
     if (staticWalls[xPos] && staticWalls[xPos].indexOf(yPos) === -1) {
-      if (breakableWalls[xPos] && 
-        breakableWalls[xPos].indexOf(yPos) !== -1) {
-          breakableWalls[xPos].splice(breakableWalls[xPos].indexOf(yPos), 1);
-      }
+      removeWall(xPos, yPos);
       spread.push([xPos, yPos]);
+    } else {
+      if (i % 2 !== 0) i++;
     }
   }
 
@@ -60,7 +58,11 @@ const coolDown = (ctx, spread) => {
 const getCrossPos = (x, y) => ([
   [x, y],
   [x - 50, y],
+  [x - 100, y],
   [x + 50, y],
+  [x + 100, y],
   [x, y - 50],
-  [x, y + 50]
+  [x, y - 100],
+  [x, y + 50],
+  [x, y + 100]
 ]);

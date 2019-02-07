@@ -29,7 +29,7 @@ export default class mainCharacter {
         this.direction = 'N';
         break;
       case 39:
-        this.render(right ,50, 0);
+        this.render(right, 50, 0);
         this.direction = 'E';
         break;
       case 40:

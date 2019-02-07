@@ -107,6 +107,17 @@ const getAllAvailablePos = () => {
   return availablePos;
 };
 
+export const removeWall = (x, y) => {
+  const wallGroup = [allWalls, breakableWalls, staticWalls];
+
+  for (let i = 0; i < wallGroup.length; i++) {
+    let yIdx;
+
+    if (wallGroup[i][x]) yIdx = wallGroup[i][x].indexOf(y);
+    if (yIdx && yIdx !== -1) wallGroup[i][x].splice(yIdx, 1);
+  }
+};
+
 const zipXtoY = (yPos, x) => {
   const zipped = []
   for (let i = 0; i < yPos.length; i++) {

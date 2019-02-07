@@ -17,7 +17,7 @@ export const dropBomb = (direction, x, y) => {
     liveBombs[dX] ? liveBombs[dX].push(dY) : liveBombs[dX] = [dY];
     bombImg.addEventListener('load', () => {
       ctx.drawImage(bombImg, dX, dY);
-      setTimeout(() => renderExplosion(dX, dY, ctx), 3000);
+      setTimeout(() => renderExplosion(dX, dY, ctx), 1500);
     });
   }
 } 
