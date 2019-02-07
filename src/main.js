@@ -5,10 +5,13 @@ import addBreakableWalls from './walls/breakableWalls';
 import mainCharacter from './characters/mainCharacter';
 import { initialCharacterState } from './util/characterUtil';
 
+export const p1Pos = () => mainCharacterPos;
+const mainCharacterPos = [50, 50];
+
 document.addEventListener('DOMContentLoaded', () => {
   setupGreenBackdrop();
   setupJumbotron();
   addStaticWalls();
   addBreakableWalls();
-  new mainCharacter(initialCharacterState());
+  const p1 = new mainCharacter(initialCharacterState());
 });

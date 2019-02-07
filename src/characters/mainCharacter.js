@@ -1,5 +1,5 @@
 import * as moveUtil from '../util/moveUtil';
-import { dropBomb } from '../bombs/bomb';
+import * as bombUtil from '../bombs/bomb';
 
 export default class mainCharacter {
   constructor(props) {
@@ -16,7 +16,7 @@ export default class mainCharacter {
 
   handleKeydown(e) {
     const { left, right, back, front } = this;
-    if (e.keyCode === 32) return this.readyBomb();
+    if (e.keyCode === 32) return this.dropBomb();
     if (!this.possibleMoves.includes(e.keyCode)) return;
 
     switch(e.keyCode) {
@@ -53,12 +53,13 @@ export default class mainCharacter {
     } else {
       this.currentImg = image;
     }
+
+    moveUtil.updateBoardPos(this.xPos, this.yPos)
     this.ctx.drawImage(image, this.xPos, this.yPos);
   }
 
-  readyBomb() {
-    let x = this.xPos, y = this.yPos;
-    dropBomb(this.direction, x, y);
+  dropBomb() {
+    bombUtil.dropBomb(this.direction, this.xPos, this.yPos);
     this.getPossibleMoves();
   }  
 }

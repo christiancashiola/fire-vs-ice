@@ -1,5 +1,6 @@
 import { getAllWalls } from './wallUtil';
 import { getLiveBombs } from '../bombs/bomb';
+import { p1Pos } from '../main';
 
 export const getPossibleMoves = (x, y) => {
   const bombs = getLiveBombs();
@@ -26,3 +27,9 @@ export const getPossibleMoves = (x, y) => {
   checkCollision(40);
   return possibleMoves;
 }
+
+export const updateBoardPos = (x, y)  => {
+  const mainCharacterPos = p1Pos();
+  mainCharacterPos.length = 0;
+  mainCharacterPos.push(x, y);
+};

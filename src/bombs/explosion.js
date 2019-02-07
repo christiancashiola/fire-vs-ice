@@ -1,5 +1,6 @@
 import { getLiveBombs } from './bomb';
 import { getStaticWalls, removeWall } from '../util/wallUtil';
+import { p1Pos } from '../main';
 
 export const getFire = () => fire;
 
@@ -47,9 +48,16 @@ const spreadFire = (ctx, fireImg, spread) => {
 }
 
 const coolDown = (ctx, spread) => {
+  const mainCharacterPos = p1Pos();
+  Object.freeze(mainCharacterPos);
+
   let pos;
   for (let i = 0; i < spread.length; i++) {
     pos = spread[i];
+    if (mainCharacterPos[0] === pos[0] &&
+        mainCharacterPos[1] === pos[1]) {
+        alert('GAME OVER.')
+    }
     ctx.fillStyle = '#3B8314';
     ctx.fillRect(pos[0], pos[1], 50, 50);   
   }
