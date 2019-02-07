@@ -15,7 +15,8 @@ This project will be utilize the following technologies:
 + `HTML Canvas` for graphics rendering
 + `Webbpack` to bundle JS files
 + Music (with toggle) by yours truly
-+ All artwork will be created using canvas and my custom art using [www.pixilart.com](https:/www.pixilart.com)
++ All artwork and sprites are drawn be me using [www.pixilart.com](https:/www.pixilart.com)
+  However, this art is _heavily_ inspired by the original Bomberman game and I claim no credit for originality.
 
 _I will also choose `for` loops over `forEach` loops for the majority of this project for optimization_
 

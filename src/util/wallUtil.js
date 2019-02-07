@@ -1,6 +1,6 @@
-export const getAllWalls = () => allWalls;
-export const getBreakableWalls = () => breakableWalls;
-export const getStaticWalls = () => staticWalls;
+export { allWalls };
+export { breakableWalls };
+export { staticWalls };
 
 const allWalls = {}, breakableWalls = {}, staticWalls = {};
 

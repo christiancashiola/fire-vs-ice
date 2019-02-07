@@ -1,5 +1,5 @@
-import { getLiveBombs } from './bomb';
-import { getStaticWalls, removeWall } from '../util/wallUtil';
+import { staticWalls, removeWall } from '../util/wallUtil';
+import { liveBombs } from './bomb';
 import { p1Pos } from '../main';
 
 export const getFire = () => fire;
@@ -7,12 +7,11 @@ export const getFire = () => fire;
 const fire = {};
 
 export const renderExplosion = (x, y, ctx) => {
-  const bombs = getLiveBombs();
   const fireImg = new Image();
   fireImg.src = '../../public/gameImages/bombs/fire.png';
   
   fireImg.addEventListener('load', () => {
-    bombs[x].splice(bombs[x].indexOf(y), 1);
+    liveBombs[x].splice(liveBombs[x].indexOf(y), 1);
     fire[x] ? fire[x].push(y) : fire[x] = [y];
     const spread = getFireSpread(x, y);
     spreadFire(ctx, fireImg, spread);
@@ -21,7 +20,6 @@ export const renderExplosion = (x, y, ctx) => {
 }
 
 const getFireSpread = (x, y) => {
-  const staticWalls = getStaticWalls();
   const crossPos = getCrossPos(x, y);
   const spread = [];
 
@@ -48,15 +46,12 @@ const spreadFire = (ctx, fireImg, spread) => {
 }
 
 const coolDown = (ctx, spread) => {
-  const mainCharacterPos = p1Pos();
-  Object.freeze(mainCharacterPos);
-
   let pos;
   for (let i = 0; i < spread.length; i++) {
     pos = spread[i];
-    if (mainCharacterPos[0] === pos[0] &&
-        mainCharacterPos[1] === pos[1]) {
-        alert('GAME OVER.')
+    if (p1Pos[0] === pos[0] &&
+        p1Pos[1] === pos[1]) {
+        alert('GAME OVER.');
     }
     ctx.fillStyle = '#3B8314';
     ctx.fillRect(pos[0], pos[1], 50, 50);   
