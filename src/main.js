@@ -4,6 +4,7 @@ import addStaticWalls from './walls/staticWalls';
 import addBreakableWalls from './walls/breakableWalls';
 import MainCharacter from './characters/mainCharacter';
 import xEnemy from './characters/xEnemy';
+import yEnemy from './characters/yEnemy';
 import {
   getEnemyPos,
   initialCharacterState,
@@ -24,19 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
   addStaticWalls();
   addBreakableWalls();
   new MainCharacter(initialCharacterState(canvas));
-
-  
-  // setTimeout(() => {
-    // debugger
-    const enemyPos = getEnemyPos('x', 5);
-    // debugger
-    let pos;
-    for (let i = 0; i < enemyPos.length; i++) {
-      // debugger
-      pos = enemyPos[i];
-      let e = new xEnemy(initialXEnemyState(canvas, pos[0], pos[1]));
-    }
-
-  // }, 1000)
-
+  // const xEnemyPos = getEnemyPos('x', 5);
+  // const yEnemyPos = getEnemyPos('y', 5);
+  // let pos;
+  // for (let i = 0; i < xEnemyPos.length; i++) {
+  //   pos = xEnemyPos[i];
+  //   new xEnemy(initialXEnemyState(canvas, pos[0], pos[1]));
+  // }
+  // for (let i = 0; i < yEnemyPos.length; i++) {
+  //   pos = yEnemyPos[i];
+  //   new yEnemy(initialXEnemyState(canvas, pos[0], pos[1]));
+  // }
 });

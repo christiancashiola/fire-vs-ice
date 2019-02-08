@@ -1,7 +1,3 @@
-export { allWalls };
-export { breakableWalls };
-export { staticWalls };
-
 const allWalls = {}, breakableWalls = {}, staticWalls = {};
 
 const addToAllWalls = (pos) => {
@@ -126,3 +122,5 @@ const zipXtoY = (yPos, x) => {
 
   return zipped;
 }
+
+export { allWalls, breakableWalls, staticWalls };

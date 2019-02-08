@@ -46,3 +46,21 @@ export const checkXMovement = (direction, x, y) => {
     }
   }
 }
+
+export const checkYMovement = (direction, x, y) => {
+  const walls = allWalls
+  if (direction === 'N') {
+    debugger
+    if (walls[x] && walls[x].indexOf(y - 50) !== -1) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    if (walls[x] && walls[x].indexOf(y + 50) !== -1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}

@@ -39,28 +39,39 @@ export const initialXEnemyState = (canvas, xPos, yPos) => {
 
 export const getEnemyPos = (type, amount) => {
   const enemyPos = [];
-  const walls = allWalls;
-  let xOffset = 50, yOffset = 50;
-  type === 'x' ? yOffset = 100 : xOffset = 100;
   
-  let x, y, pos;
+  let x, y;
   while (enemyPos.length < amount) {
-    pos = [];
-    // TODO: enemies cannot spawn on top of each other
-    x = Math.round(Math.random() * 901 / xOffset) * xOffset + 50;
-    pos.push(x);
-    while (pos.length < 2) {
-      y = Math.round(Math.random() * 401 / yOffset) * yOffset + 50;
-      if (walls[x] && walls[x].indexOf(y) === -1 && notOnTopOfEnemy(x, y)) {
-        pos.push(y);
-        console.log(x, y);
+    x = generateXPos(type)
+
+    while ('no valid y position') {
+      y = generateYPos(type);
+      if (allWalls[x] && allWalls[x].indexOf(y) === -1 && notOnTopOfEnemy(x, y)) {
         allEnemies.push({ x, y });
-        enemyPos.push(pos);
+        enemyPos.push([x, y]);
+        break;
       }
     }
   }
-  
+  console.log(enemyPos);
   return enemyPos;
+}
+
+const SPAWN_COLS = [50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
+const SPAWN_ROWS = SPAWN_COLS.slice(0, 5);
+
+const generateXPos = type => {
+  if (type === 'y') {
+    return SPAWN_COLS[Math.floor(Math.random() * 10)]
+  }
+  return Math.round(Math.random() * 901 / 50) * 50 + 50;
+}
+
+const generateYPos = type => {
+  if (type === 'x') {
+    return SPAWN_ROWS[Math.floor(Math.random() * 10)]
+  }
+  return Math.round(Math.random() * 401 / 50) * 50 + 50;
 }
 
 const notOnTopOfEnemy = (x, y) => {
