@@ -138,4 +138,5 @@ export {
   allWallsXToY,
   allWallsYToX,
   breakableWalls, 
-  staticWalls };
+  staticWalls 
+};

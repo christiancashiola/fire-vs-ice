@@ -37,16 +37,23 @@ export const updateBoardPos = (x, y)  => {
 };
 
 export const updateEnemyPos = (id, x, y) => {
-  allEnemies[id].x = x;
-  allEnemies[id].y = y;
+  const enemies = Object.values(allEnemies);
+  let enemy;
+  for (let i = 0; i < enemies.length; i++) {
+    enemy = enemies[i];
+    if (enemy.id === id) {
+      enemy.xPos = x;
+      enemy.yPos = y;
+    }    
+  }
 }
 
 export const canMoveX = (direction, x, y) => {
-  let [dX, dY] = offsetDirection(direction, x, y);
+  let [dX, dY] = getEnemyOffsetDirection(direction, x, y);
   let closestWall;
   let walls = allWallsYToX[y];
   walls = walls.concat(getEnemyXVals(y));
-  
+
   if (direction === 'W') {
     for (let i = 0; i < walls.length; i++) {
       if (walls[i] < dX) {
@@ -72,7 +79,7 @@ export const canMoveX = (direction, x, y) => {
 }
 
 export const canMoveY = (direction, x, y) => {
-  let [dX, dY] = offsetDirection(direction, x, y);
+  let [dX, dY] = getEnemyOffsetDirection(direction, x, y);
   let closestWall;
   let walls = allWallsXToY[x];
   walls = walls.concat(getEnemyYVals(x));
@@ -101,13 +108,7 @@ export const canMoveY = (direction, x, y) => {
   return Math.abs(dY - closestWall) < 25 ? false : true;
 }
 
-const noEnemiesInTheWay = (x, y) => {
-  const a = allEnemies;
-  const r = !allEnemies.some(enemy => enemy.x === x & enemy.y === y);
-  return r;
-}
-
-export const offsetDirection = (direction, x, y) => {
+const getEnemyOffsetDirection = (direction, x, y) => {
   switch (direction) {
     case 'W':
       x -= 30;

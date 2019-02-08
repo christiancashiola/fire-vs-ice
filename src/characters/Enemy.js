@@ -13,6 +13,12 @@ export default class Enemy {
     this.direction = i ? directions[0] : directions[1];
   }
 
+  destroy() {
+    this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
+    this.ctx.fillStyle = '#3B8314';
+    cancelAnimationFrame(this.animationId);
+  }
+
   render() {
     let canMove;
     canMove = this.directions[0] === 'W' ? canMoveX : canMoveY

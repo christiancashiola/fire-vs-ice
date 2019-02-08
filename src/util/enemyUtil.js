@@ -13,8 +13,7 @@ export const generateEnemies = (type, amount) => {
     id = `${type}${i}`
     x = pos[i][0];
     y = pos[i][1];
-    allEnemies[id] = { x, y };
-    new Enemy(initialEnemyState(id, type, canvas, x, y));
+    allEnemies[id] = new Enemy(initialEnemyState(id, type, canvas, x, y));
   }
 }
 
@@ -47,7 +46,6 @@ const getEnemyPos = (type, amount) => {
       }
     }
   }
-  console.log(enemyPos);
   return enemyPos;
 }
 
@@ -69,7 +67,7 @@ const notOnTopOfEnemy = (x, y) => {
   let enemy;
   for (let i = 0; i < enemies.length; i++) {
     enemy = enemies[i];
-    if (enemy.x === x && enemy.y === y) return false;
+    if (enemy.xPos === x && enemy.yPos === y) return false;
   } 
 
   return true;
@@ -79,7 +77,8 @@ export const getEnemyXVals = (y) => {
   const enemies = Object.values(allEnemies);
   const enemyXVals = [];
   for (let i = 0; i < enemies.length; i++) {
-    if (enemies[i].y === y) {
+    // debugger
+    if (enemies[i].yPos === y) {
       enemyXVals.push(Math.round(enemies[i].x / 50) * 50);
     }
   }
