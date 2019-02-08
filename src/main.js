@@ -3,17 +3,11 @@ import setupGreenBackdrop from './board/greenBackdrop';
 import addStaticWalls from './walls/staticWalls';
 import addBreakableWalls from './walls/breakableWalls';
 import MainCharacter from './characters/mainCharacter';
-import xEnemy from './characters/xEnemy';
-import yEnemy from './characters/yEnemy';
-import {
-  getEnemyPos,
-  initialCharacterState,
-  initialXEnemyState  
-} from './util/characterUtil';
+import { initialCharacterState } from './util/characterUtil';
+import { generateEnemies } from './util/enemyUtil';
 
 const p1Pos = [50, 50];
 export { p1Pos };
-
 
 document.addEventListener('DOMContentLoaded', () => {
   if (window.innerWidth < 1050) {
@@ -25,15 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   addStaticWalls();
   addBreakableWalls();
   new MainCharacter(initialCharacterState(canvas));
-  // const xEnemyPos = getEnemyPos('x', 5);
-  // const yEnemyPos = getEnemyPos('y', 5);
-  // let pos;
-  // for (let i = 0; i < xEnemyPos.length; i++) {
-  //   pos = xEnemyPos[i];
-  //   new xEnemy(initialXEnemyState(canvas, pos[0], pos[1]));
-  // }
-  // for (let i = 0; i < yEnemyPos.length; i++) {
-  //   pos = yEnemyPos[i];
-  //   new yEnemy(initialXEnemyState(canvas, pos[0], pos[1]));
-  // }
+  // generateEnemies('x', 5);
+  generateEnemies('y', 5);
 });

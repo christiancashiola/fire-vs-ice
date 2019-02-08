@@ -16,7 +16,9 @@ export default class Enemy {
   };
 
   pivot() {
-    this.direction = this.direction === 'W' ? 'E' : 'W';
+    const directions = this.directions;
+    let i = directions.indexOf(this.direction);
+    this.direction = i ? directions[0] : directions[1];
   }
 
   render() {
@@ -27,10 +29,19 @@ export default class Enemy {
     this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
     this.ctx.fillStyle = '#3B8314';
 
-    if (this.direction === 'E') {
-      this.xPos += 1;
-    } else {
-      this.xPos -= 1;
+    switch (this.direction) {
+      case 'W':
+        this.xPos -= 1;
+        break;
+      case 'N':
+        this.yPos -= 1;
+        break;
+      case 'E':
+        this.xPos += 1;
+        break;
+      case 'S':
+        this.yPos += 1;
+        break;
     }
     this.ctx.drawImage(this.image, this.xPos, this.yPos);
   }
