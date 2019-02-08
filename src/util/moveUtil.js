@@ -1,14 +1,18 @@
-import { allWalls } from './wallUtil';
-import { allEnemies } from './enemyUtil';
+import { allWallsXToY, allWallsYToX } from './wallUtil';
 import { liveBombs } from '../bombs/bomb';
 import { p1Pos } from '../main';
+import { 
+  allEnemies, 
+  getEnemyXVals,
+  getEnemyYVals,
+} from './enemyUtil';
 
 export const getPossibleMoves = (x, y) => {
   const possibleMoves = [37, 38, 39, 40];
   let dX = x - 50, dY = y;
   
   const checkCollision = (move) => {
-    if (allWalls[dX] && allWalls[dX].indexOf(dY) !== -1 ||
+    if (allWallsXToY[dX] && allWallsXToY[dX].indexOf(dY) !== -1 ||
         liveBombs[dX] && liveBombs[dX].indexOf(dY) !== -1) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
@@ -32,32 +36,90 @@ export const updateBoardPos = (x, y)  => {
   p1Pos.push(x, y);
 };
 
-export const canMove = (direction, x, y) => {
-  const [dX, dY] = offsetDirection(direction, x, y);
-  if (allWalls[dX] && allWalls[dX].indexOf(dY) !== -1) {
-    return false;
+export const updateEnemyPos = (id, x, y) => {
+  allEnemies[id].x = x;
+  allEnemies[id].y = y;
+}
+
+export const canMoveX = (direction, x, y) => {
+  let [dX, dY] = offsetDirection(direction, x, y);
+  let closestWall;
+  let walls = allWallsYToX[y];
+  walls = walls.concat(getEnemyXVals(y));
+  
+  if (direction === 'W') {
+    for (let i = 0; i < walls.length; i++) {
+      if (walls[i] < dX) {
+        if (closestWall) {
+          closestWall = walls[i] > closestWall ? walls[i] : closestWall;
+        } else {
+          closestWall = walls[i];
+        }
+      }      
+    }
   } else {
-    return true;
+    for (let i = 0; i < walls.length; i++) {
+      if (walls[i] > dX) {
+        if (closestWall) {
+          closestWall = walls[i] < closestWall ? walls[i] : closestWall;
+        } else {
+          closestWall = walls[i];
+        }
+      }      
+    }
   }
+  return Math.abs(dX - closestWall) < 25 ? false : true;
+}
+
+export const canMoveY = (direction, x, y) => {
+  let [dX, dY] = offsetDirection(direction, x, y);
+  let closestWall;
+  let walls = allWallsXToY[x];
+  walls = walls.concat(getEnemyYVals(x));
+  
+  if (direction === 'N') {
+    for (let i = 0; i < walls.length; i++) {
+      if (walls[i] < dY) {
+        if (closestWall) {
+          closestWall = walls[i] > closestWall ? walls[i] : closestWall;
+        } else {
+          closestWall = walls[i];
+        }
+      }      
+    }
+  } else {
+    for (let i = 0; i < walls.length; i++) {
+      if (walls[i] > dY) {
+        if (closestWall) {
+          closestWall = walls[i] < closestWall ? walls[i] : closestWall;
+        } else {
+          closestWall = walls[i];
+        }
+      }      
+    }
+  }
+  return Math.abs(dY - closestWall) < 25 ? false : true;
 }
 
 const noEnemiesInTheWay = (x, y) => {
-  return !allEnemies.some(enemy => enemy.x === x & enemy.y === y);
+  const a = allEnemies;
+  const r = !allEnemies.some(enemy => enemy.x === x & enemy.y === y);
+  return r;
 }
 
 export const offsetDirection = (direction, x, y) => {
   switch (direction) {
     case 'W':
-      x -= 50;
+      x -= 30;
       break;
     case 'N':
-      y -= 50;
+      y -= 30;
       break;
     case 'E':
-      x += 50;
+      x += 30;
       break;
     case 'S':
-      y += 50;
+      y += 30;
       break;
   }
 

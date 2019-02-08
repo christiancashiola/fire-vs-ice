@@ -1,22 +1,28 @@
 import Enemy from '../characters/enemy';
-import { allWalls } from './wallUtil';
+import { allWallsXToY } from './wallUtil';
 
 const enemy = new Image();
 enemy.src = '../../public/gameImages/characters/enemy1.png';
-const allEnemies = [];
+const allEnemies = {};
 
 export const generateEnemies = (type, amount) => {
   const canvas = document.querySelector('#green-backdrop');
   const pos = getEnemyPos(type, amount);
+  let id, x, y;
   for (let i = 0; i < pos.length; i++) {
-    new Enemy(initialEnemyState(type, canvas, pos[i][0], pos[i][1]));
+    id = `${type}${i}`
+    x = pos[i][0];
+    y = pos[i][1];
+    allEnemies[id] = { x, y };
+    new Enemy(initialEnemyState(id, type, canvas, x, y));
   }
 }
 
-const initialEnemyState = (type, canvas, xPos, yPos) => {
+const initialEnemyState = (id, type, canvas, xPos, yPos) => {
   let directions;
   directions = type === 'x' ? ['W', 'E'] : ['N', 'S'];
   return {
+    id,
     xPos,
     yPos,
     directions,
@@ -35,8 +41,7 @@ const getEnemyPos = (type, amount) => {
 
     while ('no valid y position') {
       y = generateYPos(type);
-      if (allWalls[x] && allWalls[x].indexOf(y) === -1 && notOnTopOfEnemy(x, y)) {
-        allEnemies.push({ x, y });
+      if (allWallsXToY[x] && allWallsXToY[x].indexOf(y) === -1 && notOnTopOfEnemy(x, y)) {
         enemyPos.push([x, y]);
         break;
       }
@@ -60,13 +65,38 @@ const generateYPos = type => {
 }
 
 const notOnTopOfEnemy = (x, y) => {
+  const enemies = Object.values(allEnemies);
   let enemy;
-  for (let i = 0; i < allEnemies.length; i++) {
-    enemy = allEnemies[i];
+  for (let i = 0; i < enemies.length; i++) {
+    enemy = enemies[i];
     if (enemy.x === x && enemy.y === y) return false;
   } 
 
   return true;
+}
+
+export const getEnemyXVals = (y) => {
+  const enemies = Object.values(allEnemies);
+  const enemyXVals = [];
+  for (let i = 0; i < enemies.length; i++) {
+    if (enemies[i].y === y) {
+      enemyXVals.push(Math.round(enemies[i].x / 50) * 50);
+    }
+  }
+
+  return enemyXVals;
+}
+
+export const getEnemyYVals = (x) => {
+  const enemies = Object.values(allEnemies);
+  const enemyYVals = [];
+  for (let i = 0; i < enemies.length; i++) {
+    if (enemies[i].x === x) {
+      enemyYVals.push(Math.round(enemies[i].y / 50) * 50);
+    }
+  }
+
+  return enemyYVals;
 }
 
 export { allEnemies };

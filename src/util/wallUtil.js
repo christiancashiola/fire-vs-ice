@@ -1,13 +1,20 @@
-const allWalls = {}, breakableWalls = {}, staticWalls = {};
+const allWallsXToY = {}, 
+      allWallsYToX = {},
+      breakableWalls = {}, 
+      staticWalls = {};
 
 const addToAllWalls = (pos) => {
-  allWalls[pos[0]] ? 
-  allWalls[pos[0]].push(pos[1]) :
-  allWalls[pos[0]] = [pos[1]];
-  
+  allWallsXToY[pos[0]] ? 
+  allWallsXToY[pos[0]].push(pos[1]) :
+  allWallsXToY[pos[0]] = [pos[1]];
+
+  allWallsYToX[pos[1]] ? 
+  allWallsYToX[pos[1]].push(pos[0]) :
+  allWallsYToX[pos[1]] = [pos[0]];
+
   return pos;
 }
-
+  
 const addToBreakableWalls = pos => {
   breakableWalls[pos[0]] ? 
   breakableWalls[pos[0]].push(pos[1]) :
@@ -104,7 +111,7 @@ const getAllAvailablePos = () => {
 };
 
 export const removeWall = (x, y) => {
-  const wallGroup = [allWalls, breakableWalls, staticWalls];
+  const wallGroup = [allWallsXToY, breakableWalls, staticWalls];
 
   for (let i = 0; i < wallGroup.length; i++) {
     let yIdx;
@@ -112,6 +119,10 @@ export const removeWall = (x, y) => {
     if (wallGroup[i][x]) yIdx = wallGroup[i][x].indexOf(y);
     if (yIdx && yIdx !== -1) wallGroup[i][x].splice(yIdx, 1);
   }
+
+  let xIdx;
+  if (allWallsYToX[y]) xIdx = allWallsYToX[y].indexOf(x);
+  if (xIdx && xIdx !== -1) allWallsYToX[y].splice(xIdx, 1);
 };
 
 const zipXtoY = (yPos, x) => {
@@ -123,4 +134,8 @@ const zipXtoY = (yPos, x) => {
   return zipped;
 }
 
-export { allWalls, breakableWalls, staticWalls };
+export { 
+  allWallsXToY,
+  allWallsYToX,
+  breakableWalls, 
+  staticWalls };

@@ -10,9 +10,9 @@ const p1Pos = [50, 50];
 export { p1Pos };
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (window.innerWidth < 1050) {
-    alert('This game is best enjoyed on a full screen desktop computer.')
-  }
+  // if (window.innerWidth < 1050) {
+  //   alert('This game is best enjoyed on a full screen desktop computer.')
+  // }
   const canvas = document.querySelector('#green-backdrop');
   setupGreenBackdrop();
   setupJumbotron();
