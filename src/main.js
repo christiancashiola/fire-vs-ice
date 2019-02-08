@@ -19,6 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   addStaticWalls();
   addBreakableWalls();
   new MainCharacter(initialCharacterState(canvas));
-  // generateEnemies('x', 5);
-  generateEnemies('y', 5);
+  generateEnemies('x', 3);
+  generateEnemies('y', 3);
 });

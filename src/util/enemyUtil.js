@@ -1,4 +1,4 @@
-import Enemy from '../characters/Enemy';
+import Enemy from '../characters/enemy';
 import { allWalls } from './wallUtil';
 
 const enemy = new Image();
@@ -60,10 +60,10 @@ const generateYPos = type => {
 }
 
 const notOnTopOfEnemy = (x, y) => {
-  let enemyPos;
+  let enemy;
   for (let i = 0; i < allEnemies.length; i++) {
-    enemyPos = allEnemies[i];
-    if (enemyPos[0] === x && enemyPos[1] === y) return false;
+    enemy = allEnemies[i];
+    if (enemy.x === x && enemy.y === y) return false;
   } 
 
   return true;

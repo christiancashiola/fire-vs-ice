@@ -31,7 +31,7 @@ export const updateBoardPos = (x, y)  => {
   p1Pos.push(x, y);
 };
 
-export const checkXMovement = (direction, x, y) => {
+export const canMoveX = (direction, x, y) => {
   if (direction === 'W') {
     if (allWalls[x - 50] && allWalls[x - 50].indexOf(y) !== -1) {
       return false;
@@ -47,7 +47,7 @@ export const checkXMovement = (direction, x, y) => {
   }
 }
 
-export const checkYMovement = (direction, x, y) => {
+export const canMoveY = (direction, x, y) => {
   const walls = allWalls
   if (direction === 'N') {
     debugger
