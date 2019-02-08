@@ -1,6 +1,7 @@
 import { breakableWalls, staticWalls } from '../util/wallUtil';
 import { merge } from 'lodash';
 import { renderExplosion } from './explosion';
+import { offsetDirection } from '../util/moveUtil';
 
 export { liveBombs }; 
 
@@ -29,22 +30,3 @@ const bombable = (x, y) => {
   }
   return false;
 };
-
-const offsetDirection = (direction, x, y) => {
-  switch (direction) {
-    case 'W':
-      x -= 50;
-      break;
-    case 'N':
-      y -= 50;
-      break;
-    case 'E':
-      x += 50;
-      break;
-    case 'S':
-      y += 50;
-      break;
-  }
-
-  return [x, y];
-}

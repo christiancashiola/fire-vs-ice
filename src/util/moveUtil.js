@@ -1,4 +1,5 @@
 import { allWalls } from './wallUtil';
+import { allEnemies } from './enemyUtil';
 import { liveBombs } from '../bombs/bomb';
 import { p1Pos } from '../main';
 
@@ -31,36 +32,34 @@ export const updateBoardPos = (x, y)  => {
   p1Pos.push(x, y);
 };
 
-export const canMoveX = (direction, x, y) => {
-  if (direction === 'W') {
-    if (allWalls[x - 50] && allWalls[x - 50].indexOf(y) !== -1) {
-      return false;
-    } else {
-      return true;
-    }
+export const canMove = (direction, x, y) => {
+  const [dX, dY] = offsetDirection(direction, x, y);
+  if (allWalls[dX] && allWalls[dX].indexOf(dY) !== -1) {
+    return false;
   } else {
-    if (allWalls[x + 50] && allWalls[x + 50].indexOf(y) !== -1) {
-      return false;
-    } else {
-      return true;
-    }
+    return true;
   }
 }
 
-export const canMoveY = (direction, x, y) => {
-  const walls = allWalls
-  if (direction === 'N') {
-    debugger
-    if (walls[x] && walls[x].indexOf(y - 50) !== -1) {
-      return false;
-    } else {
-      return true;
-    }
-  } else {
-    if (walls[x] && walls[x].indexOf(y + 50) !== -1) {
-      return false;
-    } else {
-      return true;
-    }
+const noEnemiesInTheWay = (x, y) => {
+  return !allEnemies.some(enemy => enemy.x === x & enemy.y === y);
+}
+
+export const offsetDirection = (direction, x, y) => {
+  switch (direction) {
+    case 'W':
+      x -= 50;
+      break;
+    case 'N':
+      y -= 50;
+      break;
+    case 'E':
+      x += 50;
+      break;
+    case 'S':
+      y += 50;
+      break;
   }
+
+  return [x, y];
 }

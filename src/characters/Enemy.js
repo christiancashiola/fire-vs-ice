@@ -1,4 +1,4 @@
-import { canMoveX, canMoveY } from '../util/moveUtil';
+import { canMove } from '../util/moveUtil';
 
 export default class Enemy {
   constructor(props) {
@@ -23,8 +23,6 @@ export default class Enemy {
   }
 
   render() {
-    let canMove;
-    canMove = this.directions[0] === 'W' ? canMoveX : canMoveY;
     if (!canMove(this.direction, this.xPos, this.yPos)) {
       return this.pivot();
     }
