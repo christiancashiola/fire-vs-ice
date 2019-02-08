@@ -30,3 +30,19 @@ export const updateBoardPos = (x, y)  => {
   p1Pos.length = 0;
   p1Pos.push(x, y);
 };
+
+export const checkXMovement = (direction, x, y) => {
+  if (direction === 'W') {
+    if (allWalls[x - 50] && allWalls[x - 50].indexOf(y) !== -1) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    if (allWalls[x + 50] && allWalls[x + 50].indexOf(y) !== -1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}

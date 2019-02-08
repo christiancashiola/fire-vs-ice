@@ -1,7 +1,7 @@
 import * as moveUtil from '../util/moveUtil';
 import * as bombUtil from '../bombs/bomb';
 
-export default class mainCharacter {
+export default class MainCharacter {
   constructor(props) {
     Object.assign(this, props);
     this.addMovement();
