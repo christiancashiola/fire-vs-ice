@@ -9,7 +9,7 @@ backImg.src = '../../public/gameImages/characters/bombermanBack.png';
 leftImg.src = '../../public/gameImages/characters/bombermanLeft.png';
 rightImg.src = '../../public/gameImages/characters/bombermanRight.png';
 
-export const initialCharacterState = (canvas) => ({
+export const initialCharacterState = (ctx) => ({
   xPos: 50,
   yPos: 50,
   bombPower: 1,
@@ -21,6 +21,6 @@ export const initialCharacterState = (canvas) => ({
   currentImg: frontImg,
   direction: 'S',
   bombable: true,
-  ctx: canvas.getContext('2d'),
+  ctx,
   possibleMoves: [39, 40]
 });

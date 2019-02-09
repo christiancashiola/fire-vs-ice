@@ -1,5 +1,6 @@
 import * as moveUtil from '../util/moveUtil';
 import * as bombUtil from '../bombs/bomb';
+import { fireUp } from '../powerUps/fireUp';
 
 export default class MainCharacter {
   constructor(props) {
@@ -45,10 +46,10 @@ export default class MainCharacter {
     this.possibleMoves = moveUtil.getPossibleMoves(this.xPos, this.yPos);
   }
 
-  render(image, dX, dY) {  
+  render(image, dX, dY) {
     const prevX = this.xPos, prevY = this.yPos;
-    this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
     this.ctx.fillStyle = '#3B8314';
+    this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
     if (this.currentImg === image) {
       this.xPos += dX;
       this.yPos += dY;
@@ -56,6 +57,13 @@ export default class MainCharacter {
       this.currentImg = image;
     }
 
+    // TODO: refactor
+
+    if (fireUp(this.xPos, this.yPos)) {
+      this.bombPower += 1;
+      this.reRender();
+    }
+    
     if (this.bombSet || bombUtil.containsBomb(prevX, prevY)) {
       this.bombRender(prevX, prevY);
     }
@@ -68,6 +76,13 @@ export default class MainCharacter {
     if (prevX !== this.xPos || prevY !== this.yPos) {
       this.bombSet = false;
     }
+  }
+
+  reRender() {
+    this.ctx.fillStyle = '#3B8314';
+    this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
+    this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
+    debugger
   }
 
   dropBomb() {

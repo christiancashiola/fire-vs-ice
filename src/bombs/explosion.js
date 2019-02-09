@@ -2,7 +2,7 @@ import { staticWalls, removeWall } from '../util/wallUtil';
 import { liveBombs } from './bomb';
 import { p1Pos } from '../main';
 import { allEnemies } from '../util/enemyUtil';
-
+import { fireUpPos, renderFireUp } from '../powerUps/fireUp';
 
 const liveFire = {};
 
@@ -29,11 +29,10 @@ const getFireSpread = (x, y, bombPower) => {
       removeWall(xPos, yPos);
       spread.push([xPos, yPos]);
     } else {
-      debugger
+      // TODO: fix fire here
       if (i % (Math.floor(fire.length / 2) / 2) !== 0) i++;
     }
   }
-  debugger
   return spread;
 }
 
@@ -82,8 +81,11 @@ const coolDown = (ctx, spread) => {
       p1Pos[1] === pos[1]) {
       alert('GAME OVER.');
     }
-      ctx.fillStyle = '#3B8314';
-      ctx.fillRect(pos[0], pos[1], 50, 50);   
+    ctx.fillStyle = '#3B8314';
+    ctx.fillRect(pos[0], pos[1], 50, 50);   
+      if (fireUpPos[pos[0]] === pos[1]) {
+        renderFireUp();
+      }
     }
     removeFromLiveFire(spread);
 };

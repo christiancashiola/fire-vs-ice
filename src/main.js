@@ -1,7 +1,8 @@
-import setupJumbotron from './board/jumbotron';
 import setupGreenBackdrop from './board/greenBackdrop';
+import setupJumbotron from './board/jumbotron';
 import addStaticWalls from './walls/staticWalls';
 import addBreakableWalls from './walls/breakableWalls';
+import { addFireUp } from './powerUps/fireUp';
 import MainCharacter from './characters/mainCharacter';
 import { initialCharacterState } from './util/characterUtil';
 import { generateEnemies } from './util/enemyUtil';
@@ -15,13 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // setup -- soon to be encapsulated
   const canvas = document.querySelector('#green-backdrop');
+  const ctx = canvas.getContext('2d');
   setupGreenBackdrop();
   setupJumbotron();
   addStaticWalls();
   addBreakableWalls();
-  new MainCharacter(initialCharacterState(canvas));
-  // generateEnemies('x' , 3);
-  // generateEnemies('y', 3);
+  addFireUp(ctx);
+  new MainCharacter(initialCharacterState(ctx));
+  generateEnemies('x' , 1);
+  generateEnemies('y', 1);
 });
 
 export { p1Pos };
