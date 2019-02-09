@@ -85,9 +85,9 @@ const coolDown = (ctx, spread) => {
       alert('GAME OVER.');
     }
     ctx.fillStyle = '#3B8314';
-    ctx.fillRect(pos[0], pos[1], 50, 50);   
-      if (fireUpPos[pos[0]] === pos[1]) {
-        renderFireUp();
+    ctx.fillRect(pos[0], pos[1], 50, 50);  
+    if (fireUpPos[pos[0]] === pos[1]) {
+        renderFireUp(pos[0], pos[1] );
       }
     }
     removeFromLiveFire(spread);

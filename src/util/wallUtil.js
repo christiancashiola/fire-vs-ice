@@ -1,4 +1,4 @@
-let allWallsXToY = {}, 
+const allWallsXToY = {}, 
       allWallsYToX = {},
       breakableWalls = {}, 
       staticWalls = {};
@@ -33,8 +33,8 @@ const addToStaticWalls = pos => {
 
 export const getHorizontalOuterWallPos = () => {
   let y = 0, x;
-  return [...Array(42)].map((_, i) => {
-    if (i > 20) {
+  return [...Array(36)].map((_, i) => {
+    if (i > 15) {
       x = (i % 21) * 50;
       y = 500;
     } else {
@@ -49,7 +49,7 @@ export const getVerticalOuterWallPos = () => {
   let x = 0, y;
   return [...Array(18)].map((_, i) => {
     if (i > 8) {
-      x = 1000;
+      x = 700;
       y = (i % 9) * 50 + 50;
     } else {
       y = i * 50 + 50;
@@ -60,13 +60,13 @@ export const getVerticalOuterWallPos = () => {
 };
 
 export const getInnerWallPos = () => {
-  let y = 100, x, divisor = 9;
-  return [...Array(36)].map((_, i) => {
-    if (i % 10 === divisor) {
+  let y = 100, x, divisor = 6;
+  return [...Array(24)].map((_, i) => {
+    if (i % 7 === divisor) {
       divisor--;
       y += 100;
     } 
-    x = (i % 9) * 100 + 100;
+    x = (i % 6) * 100 + 100;
     
     return addToStaticWalls([x, y]);
   });
@@ -76,7 +76,7 @@ export const getRandomBreakableWallPos = () => {
   const allAvailablePos = getAllAvailablePos();
   let breakableWallPos = [];
   let i;
-  while (breakableWallPos.length < 40) {
+  while (breakableWallPos.length < 20) {
     i = Math.floor(Math.random() * allAvailablePos.length);
     const randomPos = (allAvailablePos.splice(i, 1))[0];
     breakableWallPos.push(addToBreakableWalls(randomPos));
@@ -86,11 +86,13 @@ export const getRandomBreakableWallPos = () => {
 
 const Y_POS1 = [150, 200, 250, 300, 350, 400, 450];
 const Y_POS2 = [150, 250, 350, 450];
-const Y_POS3 = [50, 100, 150, 200, 250, 300, 350, 400, 450];
-const Y_POS4 = [50, 150, 250, 350, 450];
+const Y_POS3 = [50, 150, 250, 350];
+const Y_POS4 = [50, 100, 150, 200, 250, 350, 400];
+const Y_POS5 = [50, 100, 150, 200, 250, 300, 350, 400, 450];
+const Y_POS6 = [50, 150, 250, 350, 450];
 const X_POS = [
-  50, 100, 150, 200, 250, 300, 350, 400, 450, 500,
-  550, 600, 650, 700, 750, 800, 850, 900, 950
+  50, 100, 150, 200, 250, 300, 350, 
+  400, 450, 500, 550, 600, 650
 ];
 export const getAllAvailablePos = () => {
   const availablePos = [];
@@ -100,10 +102,14 @@ export const getAllAvailablePos = () => {
       availablePos.push(...zipXtoY(Y_POS1, X_POS[i]));
     } else if (i < 2) {
       availablePos.push(...zipXtoY(Y_POS2, X_POS[i]));
-    } else if (i % 2 === 0) {
+    } else if (i > 10) {
       availablePos.push(...zipXtoY(Y_POS3, X_POS[i]));
-    } else {
+    } else if (i > 11) {
       availablePos.push(...zipXtoY(Y_POS4, X_POS[i]));
+    } else if (i % 2 === 0) {
+      availablePos.push(...zipXtoY(Y_POS5, X_POS[i]));
+    } else {
+      availablePos.push(...zipXtoY(Y_POS6, X_POS[i]));
     }
   }
 
@@ -133,30 +139,6 @@ const zipXtoY = (yPos, x) => {
 
   return zipped;
 };
-
-export const clearBreakableWalls = ctx => {
-  const xWalls = Object.keys(breakableWalls);
-
-  let xWall, yWall, yWalls;
-  for (let i = 0; i < xWalls.length; i++) {
-    xWall = xWalls[i];
-    yWalls = breakableWalls[xWalls[i]];   
-    
-    for (let j = 0; j < yWalls.length; j++) {
-      ctx.fillStyle = '#3B8314';
-      ctx.fillRect(xWall, yWall, 50, 50);    
-      yWall = yWalls[j];
-      removeWall(xWall, yWall);
-    }
-  }
-};
-
-export const resetAllWalls = () => {
-  allWallsXToY = {};
-  allWallsYToX = {};
-  breakableWalls = {};
-  staticWalls = {};
-}
 
 export { 
   allWallsXToY,
