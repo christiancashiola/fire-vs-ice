@@ -13,6 +13,7 @@ export const generateEnemies = (type, amount) => {
     id = `${type}${i}`
     x = pos[i][0];
     y = pos[i][1];
+    console.log(x, y)
     allEnemies[id] = new Enemy(initialEnemyState(id, type, canvas, x, y));
   }
 }
@@ -49,17 +50,17 @@ const getEnemyPos = (type, amount) => {
   return enemyPos;
 }
 
-const SPAWN_COLS = [50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
-const SPAWN_ROWS = SPAWN_COLS.slice(0, 5);
+const SPAWN_COLS = [150, 250, 350, 450, 550, 650, 750, 850, 950];
+const SPAWN_ROWS = SPAWN_COLS.slice(0, 4);
 
 const generateXPos = type => {
   if (type === 'y') return SPAWN_COLS[Math.floor(Math.random() * 10)];
-  return Math.round(Math.random() * 901 / 50) * 50 + 50;
+  return Math.round(Math.random() * 801 / 50) * 50 + 150;
 }
 
 const generateYPos = type => {
-  if (type === 'x') return SPAWN_ROWS[Math.floor(Math.random() * 5)];
-  return Math.round(Math.random() * 401 / 50) * 50 + 50;
+  if (type === 'x') return SPAWN_ROWS[Math.floor(Math.random() * 4)];
+  return Math.round(Math.random() * 301 / 50) * 50 + 150;
 }
 
 const notOnTopOfEnemy = (x, y) => {

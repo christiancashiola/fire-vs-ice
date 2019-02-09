@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack --watch --mode=development"
+    "webpack": "webpack --watch --mode=development",
+    "start": "webpack-dev-server"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "webpack-cli": "^3.1.2"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.3.0"
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "webpack-dev-server": "^3.1.14"
   }
 }

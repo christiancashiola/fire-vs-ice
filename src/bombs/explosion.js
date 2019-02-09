@@ -29,6 +29,7 @@ const getFireSpread = (x, y, bombPower) => {
       removeWall(xPos, yPos);
       spread.push([xPos, yPos]);
     } else {
+      // skip all fire going direction blocked by static wall
       if ((i + 1) % (fire.length / 4) !== 0) i++;
     }
   }
