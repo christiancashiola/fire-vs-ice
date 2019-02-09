@@ -45,14 +45,13 @@ const spreadFire = (ctx, fireImg, spread) => {
   destroyCharacters();
 }
 
-// TODO: remove enemy from all enemies
 const destroyCharacters = () => {
   let enemy;
   const enemies = Object.values(allEnemies);
   const xVals = Object.keys(liveFire)
-  let yVals;
   outerLoop:
   for (let i = 0; i < enemies.length; i++) {
+    let yVals;
     enemy = enemies[i];
     for (let j = 0; j < xVals.length; j++) {
       if (Math.abs(xVals[j] - enemy.xPos) <= 49) {
@@ -62,10 +61,9 @@ const destroyCharacters = () => {
     }
     if (yVals) {
       for (let k = 0; k < yVals.length; k++) {
-        if (Math.abs(yVals[k] - enemy.yPos <= 49)) {
+        if (Math.abs(yVals[k] - enemy.yPos) <= 49) {
           enemy.destroy();
           delete allEnemies[enemy.id]
-          debugger
           break outerLoop;
         }
       }
@@ -75,6 +73,7 @@ const destroyCharacters = () => {
 
 const coolDown = (ctx, spread) => {
   let pos;
+  destroyCharacters();
   for (let i = 0; i < spread.length; i++) {
     pos = spread[i];
     if (p1Pos[0] === pos[0] &&
