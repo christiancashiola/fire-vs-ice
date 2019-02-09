@@ -82,7 +82,6 @@ export default class MainCharacter {
     this.ctx.fillStyle = '#3B8314';
     this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
-    debugger
   }
 
   dropBomb() {

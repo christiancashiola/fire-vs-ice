@@ -1,4 +1,4 @@
-const allWallsXToY = {}, 
+let allWallsXToY = {}, 
       allWallsYToX = {},
       breakableWalls = {}, 
       staticWalls = {};
@@ -76,7 +76,7 @@ export const getRandomBreakableWallPos = () => {
   const allAvailablePos = getAllAvailablePos();
   let breakableWallPos = [];
   let i;
-  while (breakableWallPos.length < 30) {
+  while (breakableWallPos.length < 40) {
     i = Math.floor(Math.random() * allAvailablePos.length);
     const randomPos = (allAvailablePos.splice(i, 1))[0];
     breakableWallPos.push(addToBreakableWalls(randomPos));
@@ -132,6 +132,30 @@ const zipXtoY = (yPos, x) => {
   }
 
   return zipped;
+};
+
+export const clearBreakableWalls = ctx => {
+  const xWalls = Object.keys(breakableWalls);
+
+  let xWall, yWall, yWalls;
+  for (let i = 0; i < xWalls.length; i++) {
+    xWall = xWalls[i];
+    yWalls = breakableWalls[xWalls[i]];   
+    
+    for (let j = 0; j < yWalls.length; j++) {
+      ctx.fillStyle = '#3B8314';
+      ctx.fillRect(xWall, yWall, 50, 50);    
+      yWall = yWalls[j];
+      removeWall(xWall, yWall);
+    }
+  }
+};
+
+export const resetAllWalls = () => {
+  allWallsXToY = {};
+  allWallsYToX = {};
+  breakableWalls = {};
+  staticWalls = {};
 }
 
 export { 

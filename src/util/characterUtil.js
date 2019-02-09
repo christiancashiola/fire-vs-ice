@@ -20,7 +20,16 @@ export const initialCharacterState = (ctx) => ({
   right: rightImg,
   currentImg: frontImg,
   direction: 'S',
-  bombable: true,
   ctx,
   possibleMoves: [39, 40]
 });
+
+export const resetCharacterPos = (character) => {
+  character.ctx.fillStyle = '#3B8314';
+  character.ctx.fillRect(character.xPos, character.yPos, 50, 50);
+  character.xPos = 50;
+  character.yPos = 50;
+  character.possibleMoves = [39, 40];
+  character.currentImg = frontImg;
+  character.reRender();
+}

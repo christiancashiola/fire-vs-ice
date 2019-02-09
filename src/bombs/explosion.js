@@ -3,6 +3,7 @@ import { liveBombs } from './bomb';
 import { p1Pos } from '../main';
 import { allEnemies } from '../util/enemyUtil';
 import { fireUpPos, renderFireUp } from '../powerUps/fireUp';
+import { checkLevelComplete } from '../util/gameUtil';
 
 const liveFire = {};
 
@@ -66,6 +67,7 @@ const destroyCharacters = () => {
         if (Math.abs(yVals[k] - enemy.yPos) <= 49) {
           enemy.destroy();
           delete allEnemies[enemy.id]
+          // checkLevelComplete();
           break outerLoop;
         }
       }

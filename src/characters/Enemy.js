@@ -46,7 +46,6 @@ export default class Enemy {
     
     updateEnemyPos(this.id, this.xPos, this.yPos);
     this.ctx.drawImage(this.image, this.xPos, this.yPos);
-    characterDeath();
     this.animationId = window.requestAnimationFrame(this.render);
   }
 }

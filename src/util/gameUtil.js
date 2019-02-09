@@ -1,11 +1,9 @@
-import { p1Pos } from '../main';
-import { allEnemies } from './enemyUtil';
+import { allEnemies, enemyCount } from './enemyUtil';
+import { setupNewLevel } from '../main';
 
-let gameOver = false;
-
-export const characterDeath = () => {
+export const gameOver = (character) => {
   const enemies = Object.values(allEnemies);
-  const [x, y] = p1Pos;
+  const [x, y] = [character.xPos, character.yPos];
 
   let enemy;
   for (let i = 0; i < enemies.length; i++) {
@@ -16,8 +14,15 @@ export const characterDeath = () => {
       y < enemy.yPos + 50 &&
       y + 50 > enemy.yPos
     ) {
-      console.log('GAME OVER.');
-      gameOver = true;
+      return true;
     }
+  }
+
+  return false;
+}
+
+export const checkLevelComplete = () => {
+  if (!enemyCount()) {
+    setupNewLevel();
   }
 }

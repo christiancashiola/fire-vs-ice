@@ -2,12 +2,16 @@ import { getAllAvailablePos, breakableWalls, removeWall } from '../util/wallUtil
 
 let fireUpPos = {};
 
-export const addFireUp = ctx => {
-  const walls = Object.keys(breakableWalls);
-  const x = walls[Math.floor(Math.random() * walls.length)];
-  const y = breakableWalls[x][Math.floor(Math.random() * breakableWalls[x].length)];
-  fireUpPos[x] = y;
-  console.log(fireUpPos);
+export const addFireUp = () => {
+
+  let i = 0;
+  while(i < 5) {
+    const walls = Object.keys(breakableWalls);
+    const x = walls[Math.floor(Math.random() * walls.length)];
+    const y = breakableWalls[x][Math.floor(Math.random() * breakableWalls[x].length)];
+    fireUpPos[x] = y;
+    i++;
+  }
 };
 
 export const renderFireUp = () => {
@@ -31,12 +35,15 @@ export const renderFireUp = () => {
 
 export const fireUp = (x, y) => {
   if (fireUpPos[x] === y) {
-    fireUpPos = {};
-    console.log(fireUpPos);
+    clearFireUp();
     return true;
   }
 
   return false;
+};
+
+export const clearFireUp = () => {
+  fireUpPos = {};
 };
 
 export { fireUpPos };

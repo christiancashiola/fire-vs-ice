@@ -5,16 +5,16 @@ const enemy = new Image();
 enemy.src = '../../public/gameImages/characters/blueEnemy.png';
 const allEnemies = {};
 
-export const generateEnemies = (type, amount) => {
+export const generateEnemies = (type, amount, id) => {
   const canvas = document.querySelector('#green-backdrop');
   const pos = getEnemyPos(type, amount);
-  let id, x, y;
+  let x, y;
   for (let i = 0; i < pos.length; i++) {
-    id = `${type}${i}`
+    // id = `${type}${i}`
     x = pos[i][0];
     y = pos[i][1];
-    console.log(x, y)
     allEnemies[id] = new Enemy(initialEnemyState(id, type, canvas, x, y));
+    console.log(allEnemies);
   }
 }
 
@@ -113,5 +113,9 @@ export const getImposedEnemyPos = () => {
   
   return imposedPos;
 };
+
+export const enemyCount = () => {
+  return Object.values(allEnemies).length;
+}
 
 export { allEnemies };
