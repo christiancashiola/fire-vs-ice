@@ -5,6 +5,7 @@ export default class MainCharacter {
   constructor(props) {
     Object.assign(this, props);
     this.addMovement();
+    this.bombSet = false;
   }
 
   addMovement() {
@@ -35,7 +36,7 @@ export default class MainCharacter {
       case 40:
         this.render(front, 0, 50);
         this.direction = 'S';
-        break;  
+        break;
     } 
     this.getPossibleMoves();
   }
@@ -45,6 +46,7 @@ export default class MainCharacter {
   }
 
   render(image, dX, dY) {  
+    const prevX = this.xPos, prevY = this.yPos;
     this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
     this.ctx.fillStyle = '#3B8314';
     if (this.currentImg === image) {
@@ -54,12 +56,32 @@ export default class MainCharacter {
       this.currentImg = image;
     }
 
+    if (this.bombSet || bombUtil.containsBomb(prevX, prevY)) {
+      this.bombRender(prevX, prevY);
+    }
     moveUtil.updateBoardPos(this.xPos, this.yPos)
     this.ctx.drawImage(image, this.xPos, this.yPos);
   }
 
+  bombRender(prevX, prevY) {
+    this.ctx.drawImage(this.bombImg, prevX, prevY);
+    if (prevX !== this.xPos || prevY !== this.yPos) {
+      this.bombSet = false;
+    }
+  }
+
   dropBomb() {
-    bombUtil.dropBomb(this.direction, this.xPos, this.yPos);
+    const props = {
+      bombImg: this.bombImg,
+      bombPower: this.bombPower,
+      x: this.xPos,
+      y: this.yPos,
+      ctx: this.ctx
+    }
+
+    bombUtil.dropBomb(props);
+    this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
+    this.bombSet = true;
     this.getPossibleMoves();
   }  
 }

@@ -16,8 +16,7 @@ export const getPossibleMoves = (x, y) => {
   let dX = x - 50, dY = y;
   
   const checkCollision = (move) => {
-    if (allWallsXToY[dX] && allWallsXToY[dX].indexOf(dY) !== -1 ||
-        liveBombs[dX] && liveBombs[dX].indexOf(dY) !== -1) {
+    if (allWallsXToY[dX] && allWallsXToY[dX].indexOf(dY) !== -1) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
   }

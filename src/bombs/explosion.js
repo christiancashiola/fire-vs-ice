@@ -3,35 +3,37 @@ import { liveBombs } from './bomb';
 import { p1Pos } from '../main';
 import { allEnemies } from '../util/enemyUtil';
 
+
 const liveFire = {};
 
-export const renderExplosion = (x, y, ctx) => {
+export const renderExplosion = (x, y, ctx, bombPower) => {
   const fireImg = new Image();
   fireImg.src = '../../public/gameImages/bombs/fire.png';
   
   fireImg.addEventListener('load', () => {
     liveBombs[x].splice(liveBombs[x].indexOf(y), 1);
-    const spread = getFireSpread(x, y);
+    const spread = getFireSpread(x, y, bombPower);
     spreadFire(ctx, fireImg, spread);
     setTimeout(() => coolDown(ctx, spread), 300);
   });
 }
 
-const getFireSpread = (x, y) => {
-  const crossPos = getCrossPos(x, y);
+const getFireSpread = (x, y, bombPower) => {
+  const fire = getFire(x, y, bombPower);
   const spread = [];
 
   let xPos, yPos;
-  for (let i = 0; i < crossPos.length; i++) {
-    [xPos, yPos] = crossPos[i];
+  for (let i = 0; i < fire.length; i++) {
+    [xPos, yPos] = fire[i];
     if (staticWalls[xPos] && staticWalls[xPos].indexOf(yPos) === -1) {
       removeWall(xPos, yPos);
       spread.push([xPos, yPos]);
     } else {
-      if (i % 2 !== 0) i++;
+      debugger
+      if (i % (Math.floor(fire.length / 2) / 2) !== 0) i++;
     }
   }
-
+  debugger
   return spread;
 }
 
@@ -86,17 +88,22 @@ const coolDown = (ctx, spread) => {
     removeFromLiveFire(spread);
 };
 
-const getCrossPos = (x, y) => ([
-  [x, y],
-  [x - 50, y],
-  [x - 100, y],
-  [x + 50, y],
-  [x + 100, y],
-  [x, y - 50],
-  [x, y - 100],
-  [x, y + 50],
-  [x, y + 100]
-]);
+const getFire = (x, y, bombPower) => {
+  const firePower = bombPower * 4
+  const fire = [[x, y]];
+
+  let i = 1;
+  while (fire.length < firePower + 1) {
+    fire.push(
+      [x - (50 * i), y],
+      [x + (50 * i), y],
+      [x, y - (50 * i)],
+      [x, y + (50 * i)]
+    )
+    i++;
+  }
+  return fire;
+};
 
 const addToLiveFire = (pos) => {
   let [x, y] = pos;
