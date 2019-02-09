@@ -78,8 +78,8 @@ const coolDown = (ctx, spread) => {
     pos = spread[i];
     if (p1Pos[0] === pos[0] &&
       p1Pos[1] === pos[1]) {
-        alert('GAME OVER.');
-      }
+      alert('GAME OVER.');
+    }
       ctx.fillStyle = '#3B8314';
       ctx.fillRect(pos[0], pos[1], 50, 50);   
     }

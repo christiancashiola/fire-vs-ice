@@ -7,12 +7,13 @@ import { initialCharacterState } from './util/characterUtil';
 import { generateEnemies } from './util/enemyUtil';
 
 const p1Pos = [50, 50];
-export { p1Pos };
 
 document.addEventListener('DOMContentLoaded', () => {
   // if (window.innerWidth < 1050) {
   //   alert('This game is best enjoyed on a full screen desktop computer.')
   // }
+  
+  // setup -- soon to be encapsulated
   const canvas = document.querySelector('#green-backdrop');
   setupGreenBackdrop();
   setupJumbotron();
@@ -22,3 +23,5 @@ document.addEventListener('DOMContentLoaded', () => {
   generateEnemies('x' , 3);
   generateEnemies('y', 3);
 });
+
+export { p1Pos };

@@ -2,7 +2,7 @@ import Enemy from '../characters/enemy';
 import { allWallsXToY } from './wallUtil';
 
 const enemy = new Image();
-enemy.src = '../../public/gameImages/characters/enemy1.png';
+enemy.src = '../../public/gameImages/characters/blueEnemy.png';
 const allEnemies = {};
 
 export const generateEnemies = (type, amount) => {

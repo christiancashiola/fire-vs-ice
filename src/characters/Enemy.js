@@ -1,4 +1,5 @@
 import { canMoveX, canMoveY, updateEnemyPos } from '../util/moveUtil';
+import { characterDeath } from '../util/gameUtil';
 
 export default class Enemy {
   constructor(props) {
@@ -45,6 +46,7 @@ export default class Enemy {
     
     updateEnemyPos(this.id, this.xPos, this.yPos);
     this.ctx.drawImage(this.image, this.xPos, this.yPos);
+    characterDeath();
     this.animationId = window.requestAnimationFrame(this.render);
   }
 }
