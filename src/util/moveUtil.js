@@ -1,11 +1,14 @@
 import { allWallsXToY, allWallsYToX } from './wallUtil';
-import { liveBombs } from '../bombs/bomb';
+import {
+  liveBombs,
+  getBombXVals,
+  getBombYVals
+} from '../bombs/bomb';
 import { p1Pos } from '../main';
 import { 
   allEnemies, 
   getEnemyXVals,
   getEnemyYVals,
-  getImposedEnemyPos,
 } from './enemyUtil';
 
 export const getPossibleMoves = (x, y) => {
@@ -50,10 +53,11 @@ export const updateEnemyPos = (id, x, y) => {
 }
 
 export const canMoveX = (direction, x, y) => {
-  let [dX, dY] = getEnemyOffsetDirection(direction, x, y);
+  let [dX, _] = getEnemyOffsetDirection(direction, x, y);
   let closestWall;
   let walls = allWallsYToX[y];
   walls = walls.concat(getEnemyXVals(y));
+  walls = walls.concat(getBombXVals(y));
 
   if (direction === 'W') {
     for (let i = 0; i < walls.length; i++) {
@@ -80,10 +84,11 @@ export const canMoveX = (direction, x, y) => {
 }
 
 export const canMoveY = (direction, x, y) => {
-  let [dX, dY] = getEnemyOffsetDirection(direction, x, y);
+  let [_, dY] = getEnemyOffsetDirection(direction, x, y);
   let closestWall;
   let walls = allWallsXToY[x];
   walls = walls.concat(getEnemyYVals(x));
+  walls = walls.concat(getBombYVals(x));
   
   if (direction === 'N') {
     for (let i = 0; i < walls.length; i++) {

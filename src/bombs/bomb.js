@@ -1,7 +1,5 @@
-import { breakableWalls, staticWalls, allWallsXToY } from '../util/wallUtil';
-import { merge } from 'lodash';
+import { allWallsXToY } from '../util/wallUtil';
 import { renderExplosion } from './explosion';
-import { offsetDirection } from '../util/moveUtil';
 
 export { liveBombs }; 
 
@@ -48,3 +46,26 @@ const getBombOffsetDirection = (direction, x, y) => {
 
   return [x, y];
 }
+
+export const getBombYVals = (x) => {
+    return liveBombs[x];
+  }
+
+  export const getBombXVals = (y) => {
+    const xVals = Object.keys(liveBombs);
+    const bombXVals = [];
+
+    let xVal, yVals;
+    for (let i = 0; i < xVals.length; i++) {
+      xVal = xVals[i];
+      yVals = liveBombs[xVal];
+
+      for (let j = 0; j < yVals.length; j++) {
+        if (yVals[i] === y) {
+          bombXVals.push(xVal);
+        }
+      }
+    }
+
+    return bombXVals;
+  }
