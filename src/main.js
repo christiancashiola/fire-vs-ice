@@ -4,20 +4,22 @@ import addStaticWalls from './walls/staticWalls';
 import addBreakableWalls from './walls/breakableWalls';
 import { addFireUp, clearFireUp } from './powerUps/fireUp';
 import MainCharacter from './characters/mainCharacter';
-import { initialCharacterState, resetCharacterPos } from './util/characterUtil';
+import MainCharacter2 from './characters/mainCharacter2';
+import { initialCharacterState, initialCharacterState2, resetCharacterPos } from './util/characterUtil';
 import { generateEnemies, enemyCount } from './util/enemyUtil';
 import { clearBreakableWalls, resetAllWalls } from './util/wallUtil';
 import { gameOver } from './util/gameUtil';
 
 let level = 0;
 const p1Pos = [50, 50];
+const p2Pos = [950, 450];
 document.addEventListener('DOMContentLoaded', () => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
   // c.ctx = ctx;
   // initialSetup(ctx);
   initialSetup();
-  setupNewLevel();
+  // setupNewLevel();
 });
 
 // const gameLoop = ctx => {
@@ -44,6 +46,7 @@ const initialSetup = () => {
   // clearFireUp();
   addFireUp(ctx);
   new MainCharacter(initialCharacterState(ctx));
+  new MainCharacter2(initialCharacterState2(ctx));
   // resetCharacterPos(c);
 }
 

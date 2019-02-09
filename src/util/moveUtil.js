@@ -34,6 +34,29 @@ export const getPossibleMoves = (x, y) => {
   return possibleMoves;
 }
 
+export const getPossibleMoves2 = (x, y) => {
+  const possibleMoves = [65, 87, 68, 83];
+  let dX = x - 50, dY = y;
+  
+  const checkCollision = (move) => {
+    if (allWallsXToY[dX] && allWallsXToY[dX].indexOf(dY) !== -1) {
+      possibleMoves.splice(possibleMoves.indexOf(move), 1);
+    }
+  }
+
+  checkCollision(65);
+  dX += 50;
+  dY -= 50;
+  checkCollision(87);
+  dX += 50;
+  dY += 50;
+  checkCollision(68);
+  dX -= 50;
+  dY += 50;
+  checkCollision(83);
+  return possibleMoves;
+}
+
 export const updateBoardPos = (x, y)  => {
   p1Pos.length = 0;
   p1Pos.push(x, y);

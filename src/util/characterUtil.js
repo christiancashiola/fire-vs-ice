@@ -10,6 +10,7 @@ leftImg.src = '../../public/gameImages/characters/bombermanLeft.png';
 rightImg.src = '../../public/gameImages/characters/bombermanRight.png';
 
 export const initialCharacterState = (ctx) => ({
+  id: 1,
   xPos: 50,
   yPos: 50,
   bombPower: 1,
@@ -22,6 +23,22 @@ export const initialCharacterState = (ctx) => ({
   direction: 'S',
   ctx,
   possibleMoves: [39, 40]
+});
+
+export const initialCharacterState2 = (ctx) => ({
+  id: 2,
+  xPos: 950,
+  yPos: 450,
+  bombPower: 1,
+  bombImg,
+  front: frontImg,
+  back: backImg,
+  left: leftImg,
+  right: rightImg,
+  currentImg: backImg,
+  direction: 'N',
+  ctx,
+  possibleMoves: [65, 87]
 });
 
 export const resetCharacterPos = (character) => {

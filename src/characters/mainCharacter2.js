@@ -3,7 +3,8 @@ import * as bombUtil from '../bombs/bomb';
 import { fireUp } from '../powerUps/fireUp';
 import { handleKeydown } from './moveMap';
 
-export default class MainCharacter {
+
+export default class MainCharacter2 {
   constructor(props) {
     Object.assign(this, props);
     this.addMovement();
@@ -18,24 +19,26 @@ export default class MainCharacter {
   }
 
   // handleKeydown(e) {
+  //   debugger
   //   const { left, right, back, front } = this;
   //   if (e.keyCode === 32) return this.dropBomb();
   //   if (!this.possibleMoves.includes(e.keyCode)) return;
 
   //   switch(e.keyCode) {
-  //     case 37:
+  //     case 65:
+  //     alert(1);
   //       this.render(left, -50, 0);
   //       this.direction = 'W';
   //       break;
-  //     case 38:
+  //     case 87:
   //       this.render(back, 0, -50);
   //       this.direction = 'N';
   //       break;
-  //     case 39:
+  //     case 68:
   //       this.render(right, 50, 0);
   //       this.direction = 'E';
   //       break;
-  //     case 40:
+  //     case 83:
   //       this.render(front, 0, 50);
   //       this.direction = 'S';
   //       break;
@@ -44,7 +47,7 @@ export default class MainCharacter {
   // }
 
   getPossibleMoves() {
-    this.possibleMoves = moveUtil.getPossibleMoves(this.xPos, this.yPos);
+    this.possibleMoves = moveUtil.getPossibleMoves2(this.xPos, this.yPos);
   }
 
   render(image, dX, dY) {
