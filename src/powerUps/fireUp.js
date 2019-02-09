@@ -45,7 +45,6 @@ export const renderFireUp = () => {
 }
 
 export const fireUp = (x, y) => {
-  debugger
   if (fireUpPos[x] === y) {
     fireUpPos = {};
     console.log(fireUpPos);

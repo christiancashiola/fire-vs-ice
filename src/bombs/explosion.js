@@ -25,14 +25,14 @@ const getFireSpread = (x, y, bombPower) => {
   let xPos, yPos;
   for (let i = 0; i < fire.length; i++) {
     [xPos, yPos] = fire[i];
-    if (staticWalls[xPos] && staticWalls[xPos].indexOf(yPos) === -1) {
+    if (checkFire(xPos, yPos)) {
       removeWall(xPos, yPos);
       spread.push([xPos, yPos]);
     } else {
-      // TODO: fix fire here
-      if (i % (Math.floor(fire.length / 2) / 2) !== 0) i++;
+      if ((i + 1) % (fire.length / 4) !== 0) i++;
     }
   }
+  spread.push([x, y]);
   return spread;
 }
 
@@ -91,21 +91,28 @@ const coolDown = (ctx, spread) => {
 };
 
 const getFire = (x, y, bombPower) => {
-  const firePower = bombPower * 4
-  const fire = [[x, y]];
+  let fire = [];
 
-  let i = 1;
-  while (fire.length < firePower + 1) {
-    fire.push(
-      [x - (50 * i), y],
-      [x + (50 * i), y],
-      [x, y - (50 * i)],
-      [x, y + (50 * i)]
-    )
-    i++;
+  // intentional so array is sorted based off of direction of fire
+  for (let i = 1; i < bombPower + 1; i++) {
+    fire.push([x - (50 * i), y]); 
   }
+  for (let i = 1; i < bombPower + 1; i++) {
+    fire.push([x + (50 * i), y]);
+  }
+  for (let i = 1; i < bombPower + 1; i++) {
+    fire.push([x, y - (50 * i)]);
+  }
+  for (let i = 1; i < bombPower + 1; i++) {
+    fire.push([x, y + (50 * i)]);
+  }
+
   return fire;
 };
+
+const checkFire  = (x, y) => {
+  return (staticWalls[x] && staticWalls[x].indexOf(y) === -1);
+}
 
 const addToLiveFire = (pos) => {
   let [x, y] = pos;
