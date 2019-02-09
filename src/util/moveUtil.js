@@ -5,6 +5,7 @@ import {
   allEnemies, 
   getEnemyXVals,
   getEnemyYVals,
+  getImposedEnemyPos,
 } from './enemyUtil';
 
 export const getPossibleMoves = (x, y) => {

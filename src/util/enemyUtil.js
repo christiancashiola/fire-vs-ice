@@ -74,12 +74,11 @@ const notOnTopOfEnemy = (x, y) => {
 }
 
 export const getEnemyXVals = (y) => {
-  const enemies = Object.values(allEnemies);
+  const enemies = getImposedEnemyPos();
   const enemyXVals = [];
   for (let i = 0; i < enemies.length; i++) {
-    // debugger
     if (enemies[i].yPos === y) {
-      enemyXVals.push(Math.round(enemies[i].x / 50) * 50);
+      enemyXVals.push(Math.round(enemies[i].xPos / 50) * 50);
     }
   }
 
@@ -87,15 +86,31 @@ export const getEnemyXVals = (y) => {
 }
 
 export const getEnemyYVals = (x) => {
-  const enemies = Object.values(allEnemies);
+  const enemies = getImposedEnemyPos();
   const enemyYVals = [];
   for (let i = 0; i < enemies.length; i++) {
-    if (enemies[i].x === x) {
-      enemyYVals.push(Math.round(enemies[i].y / 50) * 50);
+    if (enemies[i].xPos === x) {
+      enemyYVals.push(Math.round(enemies[i].yPos / 50) * 50);
     }
   }
 
   return enemyYVals;
 }
+
+export const getImposedEnemyPos = () => {
+  const enemies = Object.values(allEnemies);
+  const imposedPos = [];
+  let xPos, yPos;
+
+  for (let i = 0; i < enemies.length; i++) {
+    let enemy = enemies[i];
+    xPos = Math.round(enemy.xPos / 50) * 50;
+    yPos = Math.round(enemy.yPos / 50) * 50;
+    
+    imposedPos.push({ xPos, yPos });
+  }
+  
+  return imposedPos;
+};
 
 export { allEnemies };
