@@ -676,7 +676,7 @@ const initialSetup = () => {
 
 
 const loadSounds = () => {
-  explosionSound = new _sounds_explosionSound__WEBPACK_IMPORTED_MODULE_9__["default"]('/public/gameSounds/explosion.mp3');
+  explosionSound = new _sounds_explosionSound__WEBPACK_IMPORTED_MODULE_9__["default"]('public/gameSounds/explosion.mp3');
   shieldSound = new _sounds_shieldSound__WEBPACK_IMPORTED_MODULE_10__["default"]('public/gameSounds/shield.mp3');
   powerUpSound = new _sounds_powerUpSound__WEBPACK_IMPORTED_MODULE_11__["default"]('public/gameSounds/powerUp.mp3');
   introSound = new _sounds_introSound__WEBPACK_IMPORTED_MODULE_12__["default"]('public/gameSounds/intro.mp3');
