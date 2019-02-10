@@ -1,11 +1,16 @@
 import { renderExplosion } from './explosion';
+import { player1, player2 } from '../main';
 
 const liveBombs = {};
 
-export const dropBomb = ({ bombImg, bombPower, x, y, ctx, id }) => {
-  liveBombs[x] ? liveBombs[x].push(y) : liveBombs[x] = [y];
-  ctx.drawImage(bombImg, x, y);
-  setTimeout(() => renderExplosion(x, y, ctx, bombPower, id), 1500);
+export const dropBomb = id => {
+  let player;
+  player = id === 1 ? player1 : player2;
+  const { xPos, yPos, ctx, bombImg, bombPower } = player;
+
+  liveBombs[xPos] ? liveBombs[xPos].push(yPos) : liveBombs[xPos] = [yPos];
+  ctx.drawImage(bombImg, xPos, yPos);
+  setTimeout(() => renderExplosion(xPos, yPos, ctx, bombPower, id), 1500);
 }
 
 export const containsBomb = (x, y) => {

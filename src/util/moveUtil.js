@@ -1,5 +1,5 @@
 import { allWallsXToY } from './wallUtil';
-import { p1Pos, p2Pos } from '../main';
+import { player1, player2 } from '../main';
 
 
 export const getPlayer1Moves = (x, y) => {
@@ -8,7 +8,7 @@ export const getPlayer1Moves = (x, y) => {
 
   const checkCollision = (move) => {
     if (allWallsXToY[dX] && allWallsXToY[dX].indexOf(dY) !== -1 ||
-      (p2Pos[0] === dX && p2Pos[1] === dY)) {
+      (player2.xPos === dX && player2.yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
   }
@@ -32,7 +32,7 @@ export const getPlayer2Moves = (x, y) => {
   
   const checkCollision = (move) => {
     if (allWallsXToY[dX] && allWallsXToY[dX].indexOf(dY) !== -1 ||
-      (p1Pos[0] === dX && p1Pos[1] === dY)) {
+      (player1.xPos === dX && player1.yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
   }
@@ -49,13 +49,3 @@ export const getPlayer2Moves = (x, y) => {
   checkCollision(75);
   return possibleMoves;
 }
-
-export const updateP1Pos = (x, y)  => {
-  p1Pos.length = 0;
-  p1Pos.push(x, y);
-};
-
-export const updateP2Pos = (x, y)  => {
-  p2Pos.length = 0;
-  p2Pos.push(x, y);
-};

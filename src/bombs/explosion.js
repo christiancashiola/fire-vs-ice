@@ -1,23 +1,25 @@
 import { staticWalls, removeWall } from '../util/wallUtil';
 import { liveBombs } from './bomb';
 import { powerUpPos, renderPowerUp } from '../powerUps/powerUp';
+import { shieldPos, renderShield } from '../powerUps/shield';
 import { checkGameOver } from '../util/gameUtil';
 
 const liveAttack = {};
 
-export const renderExplosion = (x, y, ctx, bombPower, id) => {
+export const renderExplosion = (xPos, yPos, ctx, bombPower, id) => {
   const attackImg = new Image();
   if (id === 1) {
     attackImg.src = '../../public/gameImages/bombs/fire.png';
   } else {
     attackImg.src = '../../public/gameImages/bombs/ice.png';
   }
-  
+  let attackIntervalId;
   attackImg.addEventListener('load', () => {
-    liveBombs[x].splice(liveBombs[x].indexOf(y), 1);
-    const spread = getSpread(x, y, bombPower);
+    liveBombs[xPos].splice(liveBombs[xPos].indexOf(yPos), 1);
+    const spread = getSpread(xPos, yPos, bombPower);
     spreadAttack(ctx, attackImg, spread);
-    setTimeout(() => coolDown(ctx, spread), 200);
+    checkGameOver(spread, 1);
+    setTimeout(() => coolDown(ctx, spread), 300);
   });
 }
 
@@ -47,20 +49,18 @@ const spreadAttack = (ctx, attackImg, spread) => {
     addToLiveAttack(pos);
     ctx.drawImage(attackImg, pos[0], pos[1]);    
   }
+  checkGameOver(liveAttack);
 }
 
 const coolDown = (ctx, spread) => {
   let pos;
-  checkGameOver(spread);
   for (let i = 0; i < spread.length; i++) {
     pos = spread[i];
     ctx.fillStyle = '#3B8314';
     ctx.fillRect(pos[0], pos[1], 50, 50);  
-    if (powerUpPos[pos[0]] === pos[1]) {
-      renderPowerUp(pos[0], pos[1] );
-    }
+    if (powerUpPos[pos[0]] === pos[1]) renderPowerUp(pos[0], pos[1]);
+    if (shieldPos[pos[0]] === pos[1]) renderShield(pos[0], pos[1]);
   }
-    removeFromLiveAttack(spread);
 };
 
 const getAttack = (x, y, bombPower) => {

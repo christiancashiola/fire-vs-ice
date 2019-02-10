@@ -1,7 +1,8 @@
-import * as moveUtil from '../util/moveUtil';
 import * as bombUtil from '../bombs/bomb';
 import { powerUp } from '../powerUps/powerUp';
 import moveMap from './moveMap';
+import { shield } from '../powerUps/shield';
+import { getPlayer1Moves } from '../util/moveUtil';
 
 export default class Player1 {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class Player1 {
   }
 
   getPossibleMoves() {
-    this.possibleMoves = moveUtil.getPlayer1Moves(this.xPos, this.yPos);
+    this.possibleMoves = getPlayer1Moves(this.xPos, this.yPos);
   }
 
   readyRender(image, dX, dY) {
@@ -33,21 +34,34 @@ export default class Player1 {
       this.currentImg = image;
     }
 
-    if (powerUp(this.xPos, this.yPos)) {
-      this.bombPower += 1;
-      this.reRender();
-    }
-    
-    if (this.bombSet || bombUtil.containsBomb(prevX, prevY)) {
-      this.bombRender(prevX, prevY);
-    }
-
+    this.checkFooting(prevX, prevY);
     this.render();
   }
 
   render() {
-    moveUtil.updateP1Pos(this.xPos, this.yPos)
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
+    if (this.shield) this.activateShield();
+  }
+
+  checkFooting(prevX, prevY) {
+    if (powerUp(this.xPos, this.yPos)) {
+      this.bombPower += 1;
+      this.reRender();
+    }
+    if (shield(this.xPos, this.yPos)) {
+      this.shield = true;
+      this.reRender();
+    } 
+    if (this.bombSet || bombUtil.containsBomb(prevX, prevY)) {
+      this.bombRender(prevX, prevY);
+    }
+  }
+  
+  activateShield() {
+    this.ctx.beginPath();
+    this.ctx.arc(this.xPos + 25, this.yPos + 25, 25, 0, 2 * Math.PI);
+    this.ctx.fillStyle = "rgba(220, 220, 255, 0.5)";
+    this.ctx.fill();
   }
 
 
@@ -65,16 +79,7 @@ export default class Player1 {
   }
 
   dropBomb() {
-    const props = {
-      bombImg: this.bombImg,
-      bombPower: this.bombPower,
-      x: this.xPos,
-      y: this.yPos,
-      ctx: this.ctx,
-      id: this.id
-    }
-
-    bombUtil.dropBomb(props);
+    bombUtil.dropBomb(this.id);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     this.bombSet = true;
     this.getPossibleMoves();
