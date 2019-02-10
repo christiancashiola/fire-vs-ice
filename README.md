@@ -1,10 +1,13 @@
-# F-bomb (エフボンブ)
+# Fire & Ice (火の氷)
 ## Background
-Fire-bomb is a retro-styled action game inspired by the _1983 Bomberman_. The object of the game is to destroy all enemies using fire bombs. There are two different kinds of walls which impede the player: static walls and breakable walls. The fire bombs can used on both enemies and breakable walls, but beware... The explosion makes a deadly cross of fire that must be avoided by taking cover behind static walls.
+Fire & Ice is a retro-styled 2-player action game inspired by the _1983 Bomberman_. The object is the game is to detroy the other player using fire or ice bombs. Blowing up breakable walls sometimes releases power ups or a trap. There is a shield power up (which grants the player an extra hit-point), an attack power up (which increasing attack range), and spikes (which you want to avoid). Beware, it is very possible for player to destroy him/herself!
 
 ## Functionality & MVP
-- Start, pause, reset with modals for each
-- 3 levels with increasing difficulty (more walls, more enemies)
+- Start, pause, reset with modals
+- Toggle-able music and sound
+- Randomly, but carefully generated walls and power up positions
+- Custom artwork (inspired by _Bomberman_)
+- Custom music
 
 ## Wireframes
 ![Wire frame](public/wireFrame.png?raw=true)
@@ -15,15 +18,13 @@ This project will be utilize the following technologies:
 + `HTML Canvas` for graphics rendering
 + `Webbpack` to bundle JS files
 + Music (with toggle) by yours truly
-+ All artwork and sprites are drawn be me using [www.pixilart.com](https:/www.pixilart.com)
-  However, this art is _heavily_ inspired by the original Bomberman game and I claim no credit for originality.
 
-_I will also choose `for` loops over `forEach` loops for the majority of this project for optimization_
+_In most cases I chose `for` loops over `forEach` loops for optimization_
 
 ## Implementation Timeline
-**Day 1**: Setup a `create-react-app` and connect to Redux store. Acquire game art and setup canvas backdrop/static walls.  
+**Day 1**: Acquire game art and setup canvas backdrop/static walls.  
 **Day 2**: Add main character and create logic for basic movements and wall collisions. Add bomb-dropping functionality.  
 **Day 3**: Create enemy sprites, fire art, and create all modals. Add game over logic.  
 
 ## Bonus Features
-+ Hook up a backend database to save a user's initials & highscore
++ Hook up Google Firebase to save a user's initials & highscore
