@@ -20,7 +20,7 @@ export const renderShield = (x, y) => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
   const shield = new Image();
-  shield.src = '../../public/gameImages/powerUps/shield.png';
+  shield.src = 'public/gameImages/powerUps/shield.png';
 
   shield.addEventListener('load', () => {
     ctx.fillRect(x, y, 50, 50);

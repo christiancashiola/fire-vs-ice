@@ -20,7 +20,7 @@ export const renderPowerUp = (x, y) => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
   const powerUp = new Image();
-  powerUp.src = '../../public/gameImages/powerUps/powerUp.png';
+  powerUp.src = 'public/gameImages/powerUps/powerUp.png';
 
   powerUp.addEventListener('load', () => {
     ctx.fillRect(x, y, 50, 50);

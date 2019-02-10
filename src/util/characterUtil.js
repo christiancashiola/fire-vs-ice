@@ -3,7 +3,7 @@ const player1back = new Image();
 const player1lSide = new Image();
 const player1rSide = new Image();
 const bombImg = new Image();
-bombImg.src = '/public/gameImages/bombs/bomb.png';
+bombImg.src = 'public/gameImages/bombs/bomb.png';
 player1front.src = 'public/gameImages/characters/player1front.png';
 player1back.src = 'public/gameImages/characters/player1back.png';
 player1lSide.src = 'public/gameImages/characters/player1lSide.png';
@@ -29,10 +29,10 @@ const player2front = new Image();
 const player2back = new Image();
 const player2lSide = new Image();
 const player2rSide = new Image();
-player2front.src = '../../public/gameImages/characters/player2front.png';
-player2back.src = '../../public/gameImages/characters/player2back.png';
-player2lSide.src = '../../public/gameImages/characters/player2lSide.png';
-player2rSide.src = '../../public/gameImages/characters/player2rSide.png';
+player2front.src = 'public/gameImages/characters/player2front.png';
+player2back.src = 'public/gameImages/characters/player2back.png';
+player2lSide.src = 'public/gameImages/characters/player2lSide.png';
+player2rSide.src = 'public/gameImages/characters/player2rSide.png';
 
 export const player2State = (ctx) => ({
   id: 2,

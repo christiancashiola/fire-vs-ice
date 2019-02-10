@@ -10,9 +10,9 @@ const liveAttack = {};
 export const renderExplosion = (xPos, yPos, ctx, bombPower, id) => {
   const attackImg = new Image();
   if (id === 1) {
-    attackImg.src = '../../public/gameImages/bombs/fire.png';
+    attackImg.src = 'public/gameImages/bombs/fire.png';
   } else {
-    attackImg.src = '../../public/gameImages/bombs/ice.png';
+    attackImg.src = 'public/gameImages/bombs/ice.png';
   }
   attackImg.addEventListener('load', () => {
     explosionSound.play();

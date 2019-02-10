@@ -225,9 +225,9 @@ const liveAttack = {};
 const renderExplosion = (xPos, yPos, ctx, bombPower, id) => {
   const attackImg = new Image();
   if (id === 1) {
-    attackImg.src = '../../public/gameImages/bombs/fire.png';
+    attackImg.src = 'public/gameImages/bombs/fire.png';
   } else {
-    attackImg.src = '../../public/gameImages/bombs/ice.png';
+    attackImg.src = 'public/gameImages/bombs/ice.png';
   }
   attackImg.addEventListener('load', () => {
     _main__WEBPACK_IMPORTED_MODULE_5__["explosionSound"].play();
@@ -677,10 +677,10 @@ const initialSetup = () => {
 
 const loadSounds = () => {
   explosionSound = new _sounds_explosionSound__WEBPACK_IMPORTED_MODULE_9__["default"]('/public/gameSounds/explosion.mp3');
-  shieldSound = new _sounds_shieldSound__WEBPACK_IMPORTED_MODULE_10__["default"]('../public/gameSounds/shield.mp3');
-  powerUpSound = new _sounds_powerUpSound__WEBPACK_IMPORTED_MODULE_11__["default"]('../public/gameSounds/powerUp.mp3');
-  introSound = new _sounds_introSound__WEBPACK_IMPORTED_MODULE_12__["default"]('../public/gameSounds/intro.mp3');
-  music = new _sounds_music__WEBPACK_IMPORTED_MODULE_13__["default"]('../public/gameSounds/music.mp3');
+  shieldSound = new _sounds_shieldSound__WEBPACK_IMPORTED_MODULE_10__["default"]('public/gameSounds/shield.mp3');
+  powerUpSound = new _sounds_powerUpSound__WEBPACK_IMPORTED_MODULE_11__["default"]('public/gameSounds/powerUp.mp3');
+  introSound = new _sounds_introSound__WEBPACK_IMPORTED_MODULE_12__["default"]('public/gameSounds/intro.mp3');
+  music = new _sounds_music__WEBPACK_IMPORTED_MODULE_13__["default"]('public/gameSounds/music.mp3');
 }
 
 
@@ -724,7 +724,7 @@ const renderPowerUp = (x, y) => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
   const powerUp = new Image();
-  powerUp.src = '../../public/gameImages/powerUps/powerUp.png';
+  powerUp.src = 'public/gameImages/powerUps/powerUp.png';
 
   powerUp.addEventListener('load', () => {
     ctx.fillRect(x, y, 50, 50);
@@ -789,7 +789,7 @@ const renderShield = (x, y) => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
   const shield = new Image();
-  shield.src = '../../public/gameImages/powerUps/shield.png';
+  shield.src = 'public/gameImages/powerUps/shield.png';
 
   shield.addEventListener('load', () => {
     ctx.fillRect(x, y, 50, 50);
@@ -978,7 +978,7 @@ const player1back = new Image();
 const player1lSide = new Image();
 const player1rSide = new Image();
 const bombImg = new Image();
-bombImg.src = '/public/gameImages/bombs/bomb.png';
+bombImg.src = 'public/gameImages/bombs/bomb.png';
 player1front.src = 'public/gameImages/characters/player1front.png';
 player1back.src = 'public/gameImages/characters/player1back.png';
 player1lSide.src = 'public/gameImages/characters/player1lSide.png';
@@ -1004,10 +1004,10 @@ const player2front = new Image();
 const player2back = new Image();
 const player2lSide = new Image();
 const player2rSide = new Image();
-player2front.src = '../../public/gameImages/characters/player2front.png';
-player2back.src = '../../public/gameImages/characters/player2back.png';
-player2lSide.src = '../../public/gameImages/characters/player2lSide.png';
-player2rSide.src = '../../public/gameImages/characters/player2rSide.png';
+player2front.src = 'public/gameImages/characters/player2front.png';
+player2back.src = 'public/gameImages/characters/player2back.png';
+player2lSide.src = 'public/gameImages/characters/player2lSide.png';
+player2rSide.src = 'public/gameImages/characters/player2rSide.png';
 
 const player2State = (ctx) => ({
   id: 2,
@@ -1331,7 +1331,7 @@ __webpack_require__.r(__webpack_exports__);
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
   const img = new Image();
-  img.src = '../../public/gameImages/walls/breakableWall.png';
+  img.src = 'public/gameImages/walls/breakableWall.png';
 
   const breakableWallPos = Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["getRandomBreakableWallPos"])();
   img.addEventListener('load', () => {
@@ -1361,7 +1361,7 @@ __webpack_require__.r(__webpack_exports__);
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
   const img = new Image();
-  img.src = '../../public/gameImages/walls/wall.png';
+  img.src = 'public/gameImages/walls/wall.png';
 
   const staticWallPos = Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["getHorizontalOuterWallPos"])()
     .concat(Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["getVerticalOuterWallPos"])())
