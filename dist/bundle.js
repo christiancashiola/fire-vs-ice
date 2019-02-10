@@ -235,7 +235,7 @@ const renderExplosion = (xPos, yPos, ctx, bombPower, id) => {
     const spread = getSpread(xPos, yPos, bombPower);
     spreadAttack(ctx, attackImg, spread);
     Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_4__["checkGameOver"])(spread, 1);
-    setTimeout(() => coolDown(ctx, spread), 2000);
+    setTimeout(() => coolDown(ctx, spread), 300);
   });
 }
 
@@ -645,8 +645,10 @@ document.addEventListener('DOMContentLoaded', () => {
   loadSounds();
   const button = document.querySelector('button');
   initialSetup();
-  setTimeout(() => introSound.play(), 1000);
-  setTimeout(() => music.play(), 3500);
+  setTimeout(() => {
+    introSound.play();
+    setTimeout(() => music.play(), 3500);
+  }, 1000);
   button.addEventListener('click', () => {
     if (music.on) {
       music.stop()
@@ -674,11 +676,11 @@ const initialSetup = () => {
 
 
 const loadSounds = () => {
-  explosionSound = new _sounds_explosionSound__WEBPACK_IMPORTED_MODULE_9__["default"]('/public/gameSounds/explosion.mp3');
-  shieldSound = new _sounds_shieldSound__WEBPACK_IMPORTED_MODULE_10__["default"]('/public/gameSounds/shield.mp3');
-  powerUpSound = new _sounds_powerUpSound__WEBPACK_IMPORTED_MODULE_11__["default"]('/public/gameSounds/powerUp.mp3');
-  introSound = new _sounds_introSound__WEBPACK_IMPORTED_MODULE_12__["default"]('/public/gameSounds/intro.mp3');
-  music = new _sounds_music__WEBPACK_IMPORTED_MODULE_13__["default"]('/public/gameSounds/music.mp3');
+  explosionSound = new _sounds_explosionSound__WEBPACK_IMPORTED_MODULE_9__["default"]('../public/gameSounds/explosion.mp3');
+  shieldSound = new _sounds_shieldSound__WEBPACK_IMPORTED_MODULE_10__["default"]('../public/gameSounds/shield.mp3');
+  powerUpSound = new _sounds_powerUpSound__WEBPACK_IMPORTED_MODULE_11__["default"]('../public/gameSounds/powerUp.mp3');
+  introSound = new _sounds_introSound__WEBPACK_IMPORTED_MODULE_12__["default"]('../public/gameSounds/intro.mp3');
+  music = new _sounds_music__WEBPACK_IMPORTED_MODULE_13__["default"]('../public/gameSounds/music.mp3');
 }
 
 
