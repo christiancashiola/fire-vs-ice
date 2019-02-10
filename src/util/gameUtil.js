@@ -1,4 +1,4 @@
-import { player1, player2 } from '../main';
+import { player1, player2, music } from '../main';
 
 export const checkGameOver = (spread, checkNumber) => {
   let p1Win = false, p2Win = false, pos;
@@ -21,10 +21,13 @@ export const checkGameOver = (spread, checkNumber) => {
 
   if (p1Win && p2Win) {
     alert('TIE!');
+    music.stop();
   } else if (p1Win) {
     alert('PLAYER 1 WINS!');
+    music.stop();
   } else if (p2Win) {
     alert('PLAYER 2 WINS!');
+    music.stop();
   } 
 }
 

@@ -3,6 +3,7 @@ import { powerUp } from '../powerUps/powerUp';
 import moveMap from './moveMap';
 import { shield } from '../powerUps/shield';
 import { getPlayer1Moves } from '../util/moveUtil';
+import { shieldSound, powerUpSound } from '../main';
 
 export default class Player1 {
   constructor(props) {
@@ -45,10 +46,12 @@ export default class Player1 {
 
   checkFooting(prevX, prevY) {
     if (powerUp(this.xPos, this.yPos)) {
+      powerUpSound.play();
       this.bombPower += 1;
       this.reRender();
     }
     if (shield(this.xPos, this.yPos)) {
+      shieldSound.play();
       this.shield = true;
       this.reRender();
     } 

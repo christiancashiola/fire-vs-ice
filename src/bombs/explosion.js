@@ -3,6 +3,7 @@ import { liveBombs } from './bomb';
 import { powerUpPos, renderPowerUp } from '../powerUps/powerUp';
 import { shieldPos, renderShield } from '../powerUps/shield';
 import { checkGameOver } from '../util/gameUtil';
+import { explosionSound } from '../main';
 
 const liveAttack = {};
 
@@ -13,8 +14,8 @@ export const renderExplosion = (xPos, yPos, ctx, bombPower, id) => {
   } else {
     attackImg.src = '../../public/gameImages/bombs/ice.png';
   }
-  let attackIntervalId;
   attackImg.addEventListener('load', () => {
+    explosionSound.play();
     liveBombs[xPos].splice(liveBombs[xPos].indexOf(yPos), 1);
     const spread = getSpread(xPos, yPos, bombPower);
     spreadAttack(ctx, attackImg, spread);
