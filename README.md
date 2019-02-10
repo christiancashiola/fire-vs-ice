@@ -1,6 +1,6 @@
 # Fire Vs Ice (火対氷)
 ## Background
-Fire & Ice is a retro-styled 2-player action game inspired by the _1983 Bomberman_. The object is the game is to detroy the other player using fire or ice bombs. Blowing up breakable walls sometimes releases power ups or a trap. There is a shield power up (which grants the player an extra hit-point), an attack power up (which increasing attack range), and spikes (which you want to avoid). Beware, it is very possible for player to destroy him/herself!
+Fire Vs Ice is a retro-styled 2-player action game inspired by the _1983 Bomberman_. The object is the game is to detroy the other player using fire or ice bombs. Blowing up breakable walls sometimes releases power ups or a trap. There is a shield power up (which grants the player an extra hit-point), an attack power up (which increasing attack range), and spikes (which you want to avoid). Beware, it is very possible for player to destroy him/herself!
 
 ## Functionality & MVP
 - Start, pause, reset with modals
