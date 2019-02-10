@@ -12,3 +12,13 @@ body {
   align-items: center;
   position: relative;
 }
+
+.bill-board {
+  padding: 0 20px;
+  background-color: #000;
+  font-size: 6em;
+  position: absolute;
+  top: 35%;
+  border-radius: 3px;
+  visibility: hidden;
+}

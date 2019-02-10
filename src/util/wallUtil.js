@@ -76,7 +76,7 @@ export const getRandomBreakableWallPos = () => {
   const allAvailablePos = getAllAvailablePos();
   let breakableWallPos = [];
   let i;
-  while (breakableWallPos.length < 20) {
+  while (breakableWallPos.length < 30) {
     i = Math.floor(Math.random() * allAvailablePos.length);
     const randomPos = (allAvailablePos.splice(i, 1))[0];
     breakableWallPos.push(addToBreakableWalls(randomPos));

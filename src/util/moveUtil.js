@@ -1,5 +1,5 @@
 import { allWallsXToY } from './wallUtil';
-import { player1, player2 } from '../main';
+import { player1, player2 } from '../util/gameUtil';
 
 
 export const getPlayer1Moves = (x, y) => {

@@ -3,7 +3,13 @@ import { powerUp } from '../powerUps/powerUp';
 import moveMap from './moveMap';
 import { shield } from '../powerUps/shield';
 import { getPlayer2Moves } from '../util/moveUtil';
-import { shieldSound, powerUpSound } from '../main';
+import { spikes } from '../traps/spikes';
+import { 
+  shieldSound,
+  powerUpSound, 
+  spikeSound,
+  evaluateWinner 
+} from '../util/gameUtil';
 
 export default class Player2 {
   constructor(props) {
@@ -57,6 +63,10 @@ export default class Player2 {
     } 
     if (this.bombSet || bombUtil.containsBomb(prevX, prevY)) {
       this.bombRender(prevX, prevY);
+    }
+    if (spikes(this.xPos, this.yPos)) {
+      spikeSound.play();
+      evaluateWinner(true, false);
     }
   }
 

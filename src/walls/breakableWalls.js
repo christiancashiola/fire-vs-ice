@@ -5,7 +5,7 @@ export default () => {
   const ctx = canvas.getContext('2d');
   const img = new Image();
   img.src = 'public/gameImages/walls/breakableWall.png';
-
+  
   const breakableWallPos = getRandomBreakableWallPos();
   img.addEventListener('load', () => {
     let pos;
