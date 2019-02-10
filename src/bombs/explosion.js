@@ -20,7 +20,7 @@ export const renderExplosion = (xPos, yPos, ctx, bombPower, id) => {
     const spread = getSpread(xPos, yPos, bombPower);
     spreadAttack(ctx, attackImg, spread);
     checkGameOver(spread, 1);
-    setTimeout(() => coolDown(ctx, spread), 300);
+    setTimeout(() => coolDown(ctx, spread), 2000);
   });
 }
 

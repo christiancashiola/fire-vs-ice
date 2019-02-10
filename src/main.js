@@ -61,5 +61,6 @@ export {
   player2,
   explosionSound,
   shieldSound,
-  powerUpSound
+  powerUpSound, 
+  music
 };
