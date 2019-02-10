@@ -212,6 +212,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _powerUps_powerUp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../powerUps/powerUp */ "./src/powerUps/powerUp.js");
 /* harmony import */ var _powerUps_shield__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../powerUps/shield */ "./src/powerUps/shield.js");
 /* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/gameUtil */ "./src/util/gameUtil.js");
+/* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
+
 
 
 
@@ -274,6 +276,7 @@ const coolDown = (ctx, spread) => {
     ctx.fillRect(pos[0], pos[1], 50, 50);  
     if (_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_2__["powerUpPos"][pos[0]] === pos[1]) Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_2__["renderPowerUp"])(pos[0], pos[1]);
     if (_powerUps_shield__WEBPACK_IMPORTED_MODULE_3__["shieldPos"][pos[0]] === pos[1]) Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_3__["renderShield"])(pos[0], pos[1]);
+    if (_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikePos"][pos[0]] === pos[1]) Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["renderSpikes"])(pos[0], pos[1]);
   }
 };
 
@@ -390,7 +393,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _moveMap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./moveMap */ "./src/characters/moveMap.js");
 /* harmony import */ var _powerUps_shield__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../powerUps/shield */ "./src/powerUps/shield.js");
 /* harmony import */ var _util_moveUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/moveUtil */ "./src/util/moveUtil.js");
-/* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/gameUtil */ "./src/util/gameUtil.js");
+/* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
+/* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/gameUtil */ "./src/util/gameUtil.js");
+
 
 
 
@@ -439,17 +444,21 @@ class Player1 {
 
   checkFooting(prevX, prevY) {
     if (Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["powerUp"])(this.xPos, this.yPos)) {
-      _util_gameUtil__WEBPACK_IMPORTED_MODULE_5__["powerUpSound"].play();
+      _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["powerUpSound"].play();
       this.bombPower += 1;
       this.reRender();
     }
     if (Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_3__["shield"])(this.xPos, this.yPos)) {
-      _util_gameUtil__WEBPACK_IMPORTED_MODULE_5__["shieldSound"].play();
+      _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["shieldSound"].play();
       this.shield = true;
       this.reRender();
     } 
     if (this.bombSet || _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["containsBomb"](prevX, prevY)) {
       this.bombRender(prevX, prevY);
+    }
+    if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
+      _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
+      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
     }
   }
   
@@ -459,7 +468,6 @@ class Player1 {
     this.ctx.fillStyle = "rgba(220, 220, 255, 0.5)";
     this.ctx.fill();
   }
-
 
   bombRender(prevX, prevY) {
     this.ctx.drawImage(this.bombImg, prevX, prevY);
@@ -499,7 +507,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _moveMap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./moveMap */ "./src/characters/moveMap.js");
 /* harmony import */ var _powerUps_shield__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../powerUps/shield */ "./src/powerUps/shield.js");
 /* harmony import */ var _util_moveUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/moveUtil */ "./src/util/moveUtil.js");
-/* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/gameUtil */ "./src/util/gameUtil.js");
+/* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
+/* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/gameUtil */ "./src/util/gameUtil.js");
+
 
 
 
@@ -548,17 +558,21 @@ class Player2 {
 
   checkFooting(prevX, prevY) {
     if (Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["powerUp"])(this.xPos, this.yPos)) {
-      _util_gameUtil__WEBPACK_IMPORTED_MODULE_5__["powerUpSound"].play();
+      _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["powerUpSound"].play();
       this.bombPower += 1;
       this.reRender();
     }
     if (Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_3__["shield"])(this.xPos, this.yPos)) {
-      _util_gameUtil__WEBPACK_IMPORTED_MODULE_5__["shieldSound"].play();
+      _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["shieldSound"].play();
       this.shield = true;
       this.reRender();
     } 
     if (this.bombSet || _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["containsBomb"](prevX, prevY)) {
       this.bombRender(prevX, prevY);
+    }
+    if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
+      _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
+      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(true, false);
     }
   }
 
@@ -744,73 +758,17 @@ const clearShield = (x, y) => {
 
 /***/ }),
 
-/***/ "./src/sounds/explosionSound.js":
-/*!**************************************!*\
-  !*** ./src/sounds/explosionSound.js ***!
-  \**************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ExplosionSound; });
-class ExplosionSound {
-  constructor(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.sound.volume = 0.025;
-  }
-
-  play() {
-    this.sound.play();
-  }
-}
-
-/***/ }),
-
-/***/ "./src/sounds/introSound.js":
-/*!**********************************!*\
-  !*** ./src/sounds/introSound.js ***!
-  \**********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return IntroSound; });
-class IntroSound {
-  constructor(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.sound.volume = 0.025;
-  }
-
-  play() {
-    this.sound.play();
-  }
-}
-
-/***/ }),
-
-/***/ "./src/sounds/music.js":
+/***/ "./src/sounds/sound.js":
 /*!*****************************!*\
-  !*** ./src/sounds/music.js ***!
+  !*** ./src/sounds/sound.js ***!
   \*****************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Music; });
-class Music {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sound; });
+class Sound {
   constructor(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
@@ -833,59 +791,58 @@ class Music {
 
 /***/ }),
 
-/***/ "./src/sounds/powerUpSound.js":
-/*!************************************!*\
-  !*** ./src/sounds/powerUpSound.js ***!
-  \************************************/
-/*! exports provided: default */
+/***/ "./src/traps/spikes.js":
+/*!*****************************!*\
+  !*** ./src/traps/spikes.js ***!
+  \*****************************/
+/*! exports provided: addSpikes, renderSpikes, spikes, spikePos */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PowerUpSound; });
-class PowerUpSound {
-  constructor(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.sound.volume = 0.025;
-  }
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addSpikes", function() { return addSpikes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderSpikes", function() { return renderSpikes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spikes", function() { return spikes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spikePos", function() { return spikePos; });
+/* harmony import */ var _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/wallUtil */ "./src/util/wallUtil.js");
 
-  play() {
-    this.sound.play();
+
+let spikePos = {};
+
+const addSpikes = () => {
+
+  let i = 0;
+  while(i < 4) {
+    const walls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"]);
+    const x = walls[Math.floor(Math.random() * walls.length)];
+    const y = _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x][Math.floor(Math.random() * _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x].length)];
+    if (!spikePos[x]) {
+      spikePos[x] = y;
+      i++;
+    }
   }
+};
+
+const renderSpikes = (x, y) => {
+  const canvas = document.querySelector('#green-backdrop');
+  const ctx = canvas.getContext('2d');
+  const spikes = new Image();
+  spikes.src = 'public/gameImages/traps/spikes.png';
+
+  spikes.addEventListener('load', () => {
+    ctx.fillRect(x, y, 50, 50);
+    ctx.fillStyle = '#3B8314';
+    Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["removeWall"])(x, y);
+
+    ctx.drawImage(spikes, x, y);
+  });
 }
 
-/***/ }),
+const spikes = (x, y) => {
+  return spikePos[x] === y ? true : false;
+};
 
-/***/ "./src/sounds/shieldSound.js":
-/*!***********************************!*\
-  !*** ./src/sounds/shieldSound.js ***!
-  \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ShieldSound; });
-class ShieldSound {
-  constructor(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.sound.volume = 0.025;
-  }
-
-  play() {
-    this.sound.play();
-  }
-}
 
 /***/ }),
 
@@ -958,7 +915,7 @@ const player2State = (ctx) => ({
 /*!******************************!*\
   !*** ./src/util/gameUtil.js ***!
   \******************************/
-/*! exports provided: newGame, loadSounds, addToggleSound, checkGameOver, explosionSound, shieldSound, powerUpSound, music, player1, player2 */
+/*! exports provided: newGame, loadSounds, addToggleSound, checkGameOver, evaluateWinner, explosionSound, shieldSound, powerUpSound, music, player1, player2, spikeSound */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -967,29 +924,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadSounds", function() { return loadSounds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToggleSound", function() { return addToggleSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkGameOver", function() { return checkGameOver; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "evaluateWinner", function() { return evaluateWinner; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "explosionSound", function() { return explosionSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shieldSound", function() { return shieldSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "powerUpSound", function() { return powerUpSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "music", function() { return music; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "player1", function() { return player1; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "player2", function() { return player2; });
-/* harmony import */ var _sounds_explosionSound__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sounds/explosionSound */ "./src/sounds/explosionSound.js");
-/* harmony import */ var _sounds_shieldSound__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../sounds/shieldSound */ "./src/sounds/shieldSound.js");
-/* harmony import */ var _sounds_powerUpSound__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../sounds/powerUpSound */ "./src/sounds/powerUpSound.js");
-/* harmony import */ var _sounds_introSound__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../sounds/introSound */ "./src/sounds/introSound.js");
-/* harmony import */ var _sounds_music__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../sounds/music */ "./src/sounds/music.js");
-/* harmony import */ var _board_greenBackdrop__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../board/greenBackdrop */ "./src/board/greenBackdrop.js");
-/* harmony import */ var _board_jumbotron__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../board/jumbotron */ "./src/board/jumbotron.js");
-/* harmony import */ var _walls_staticWalls__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../walls/staticWalls */ "./src/walls/staticWalls.js");
-/* harmony import */ var _walls_breakableWalls__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../walls/breakableWalls */ "./src/walls/breakableWalls.js");
-/* harmony import */ var _powerUps_powerUp__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../powerUps/powerUp */ "./src/powerUps/powerUp.js");
-/* harmony import */ var _powerUps_shield__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../powerUps/shield */ "./src/powerUps/shield.js");
-/* harmony import */ var _characterUtil__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./characterUtil */ "./src/util/characterUtil.js");
-/* harmony import */ var _characters_player1__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../characters/player1 */ "./src/characters/player1.js");
-/* harmony import */ var _characters_player2__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../characters/player2 */ "./src/characters/player2.js");
-
-
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spikeSound", function() { return spikeSound; });
+/* harmony import */ var _sounds_sound__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sounds/sound */ "./src/sounds/sound.js");
+/* harmony import */ var _board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board/greenBackdrop */ "./src/board/greenBackdrop.js");
+/* harmony import */ var _board_jumbotron__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../board/jumbotron */ "./src/board/jumbotron.js");
+/* harmony import */ var _walls_staticWalls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../walls/staticWalls */ "./src/walls/staticWalls.js");
+/* harmony import */ var _walls_breakableWalls__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../walls/breakableWalls */ "./src/walls/breakableWalls.js");
+/* harmony import */ var _powerUps_powerUp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../powerUps/powerUp */ "./src/powerUps/powerUp.js");
+/* harmony import */ var _powerUps_shield__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../powerUps/shield */ "./src/powerUps/shield.js");
+/* harmony import */ var _characterUtil__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./characterUtil */ "./src/util/characterUtil.js");
+/* harmony import */ var _characters_player1__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../characters/player1 */ "./src/characters/player1.js");
+/* harmony import */ var _characters_player2__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../characters/player2 */ "./src/characters/player2.js");
+/* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
 
 
 
@@ -1006,33 +959,36 @@ let explosionSound,
     shieldSound, 
     player1, 
     player2,
-    powerUpSound, 
+    powerUpSound,
+    spikeSound, 
     introSound, 
+    gameOverSound,
     music;
 
 const newGame = () => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
 
-  Object(_board_greenBackdrop__WEBPACK_IMPORTED_MODULE_5__["default"])();
-  Object(_board_jumbotron__WEBPACK_IMPORTED_MODULE_6__["default"])();
-  Object(_walls_staticWalls__WEBPACK_IMPORTED_MODULE_7__["default"])();
-  Object(_walls_breakableWalls__WEBPACK_IMPORTED_MODULE_8__["default"])();
-  Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_9__["addPowerUp"])(ctx);
-  Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_10__["addShield"])(ctx);
+  Object(_board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_board_jumbotron__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  Object(_walls_staticWalls__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  Object(_walls_breakableWalls__WEBPACK_IMPORTED_MODULE_4__["default"])();
+  Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_5__["addPowerUp"])(ctx);
+  Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_6__["addShield"])(ctx);
+  Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_10__["addSpikes"])(ctx);
 
-  player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_12__["default"](Object(_characterUtil__WEBPACK_IMPORTED_MODULE_11__["player1State"])(ctx));
-  player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_13__["default"](Object(_characterUtil__WEBPACK_IMPORTED_MODULE_11__["player2State"])(ctx));
-  // introSound.play();
-  // setTimeout(() => music.play(), 2500);
+  player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_8__["default"](Object(_characterUtil__WEBPACK_IMPORTED_MODULE_7__["player1State"])(ctx));
+  player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_9__["default"](Object(_characterUtil__WEBPACK_IMPORTED_MODULE_7__["player2State"])(ctx));
+  setTimeout(() => music.play(), 3000);
 }
 
 const loadSounds = () => {
-  explosionSound = new _sounds_explosionSound__WEBPACK_IMPORTED_MODULE_0__["default"]('public/gameSounds/explosion.mp3');
-  shieldSound = new _sounds_shieldSound__WEBPACK_IMPORTED_MODULE_1__["default"]('public/gameSounds/shield.mp3');
-  powerUpSound = new _sounds_powerUpSound__WEBPACK_IMPORTED_MODULE_2__["default"]('public/gameSounds/powerUp.mp3');
-  introSound = new _sounds_introSound__WEBPACK_IMPORTED_MODULE_3__["default"]('public/gameSounds/intro.mp3');
-  music = new _sounds_music__WEBPACK_IMPORTED_MODULE_4__["default"]('public/gameSounds/music.mp3');
+  explosionSound = new _sounds_sound__WEBPACK_IMPORTED_MODULE_0__["default"]('public/gameSounds/explosion.mp3');
+  shieldSound = new _sounds_sound__WEBPACK_IMPORTED_MODULE_0__["default"]('public/gameSounds/shield.mp3');
+  powerUpSound = new _sounds_sound__WEBPACK_IMPORTED_MODULE_0__["default"]('public/gameSounds/powerUp.mp3');
+  spikeSound = new _sounds_sound__WEBPACK_IMPORTED_MODULE_0__["default"]('public/gameSounds/spike.mp3');
+  gameOverSound = new _sounds_sound__WEBPACK_IMPORTED_MODULE_0__["default"]('public/gameSounds/gameOver.mp3');
+  music = new _sounds_sound__WEBPACK_IMPORTED_MODULE_0__["default"]('public/gameSounds/music.mp3');
 }
 
 const addToggleSound = () => {
@@ -1087,10 +1043,11 @@ const evaluateWinner = (p1Win, p2Win) => {
 
   gameOver = p1Win || p2Win ? true : false;
   if (gameOver) {
+    music.stop();
+    gameOverSound.play();
     billBoard.innerText = innerText;
     billBoard.style.color = color;
     billBoard.style.visibility = 'visible';
-    music.stop();
     setTimeout(() => {
       billBoard.style.visibility = 'hidden'; 
       window.location.reload();
@@ -1276,7 +1233,7 @@ const getRandomBreakableWallPos = () => {
   const allAvailablePos = getAllAvailablePos();
   let breakableWallPos = [];
   let i;
-  while (breakableWallPos.length < 20) {
+  while (breakableWallPos.length < 30) {
     i = Math.floor(Math.random() * allAvailablePos.length);
     const randomPos = (allAvailablePos.splice(i, 1))[0];
     breakableWallPos.push(addToBreakableWalls(randomPos));

@@ -1,4 +1,4 @@
-export default class PowerUpSound {
+export default class Sound {
   constructor(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
@@ -7,9 +7,14 @@ export default class PowerUpSound {
     this.sound.style.display = "none";
     document.body.appendChild(this.sound);
     this.sound.volume = 0.025;
+    this.on = true;
   }
 
   play() {
     this.sound.play();
+  }
+
+  stop() {
+    this.sound.pause();
   }
 }

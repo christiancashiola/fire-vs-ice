@@ -3,6 +3,7 @@ import { liveBombs } from './bomb';
 import { powerUpPos, renderPowerUp } from '../powerUps/powerUp';
 import { shieldPos, renderShield } from '../powerUps/shield';
 import { checkGameOver, explosionSound } from '../util/gameUtil';
+import { renderSpikes, spikePos } from '../traps/spikes';
 
 const liveAttack = {};
 
@@ -60,6 +61,7 @@ const coolDown = (ctx, spread) => {
     ctx.fillRect(pos[0], pos[1], 50, 50);  
     if (powerUpPos[pos[0]] === pos[1]) renderPowerUp(pos[0], pos[1]);
     if (shieldPos[pos[0]] === pos[1]) renderShield(pos[0], pos[1]);
+    if (spikePos[pos[0]] === pos[1]) renderSpikes(pos[0], pos[1]);
   }
 };
 

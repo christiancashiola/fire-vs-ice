@@ -1,8 +1,4 @@
-import ExplosionSound from '../sounds/explosionSound';
-import ShieldSound from '../sounds/shieldSound';
-import PowerUpSound from '../sounds/powerUpSound';
-import IntroSound from '../sounds/introSound';
-import Music from '../sounds/music';
+import Sound from '../sounds/sound';
 import setupGreenBackdrop from '../board/greenBackdrop';
 import setupJumbotron from '../board/jumbotron';
 import addStaticWalls from '../walls/staticWalls';
@@ -12,13 +8,16 @@ import { addShield } from '../powerUps/shield';
 import { player1State, player2State } from './characterUtil';
 import Player1 from '../characters/player1';
 import Player2 from '../characters/player2';
+import { addSpikes } from '../traps/spikes';
 
 let explosionSound,
     shieldSound, 
     player1, 
     player2,
-    powerUpSound, 
+    powerUpSound,
+    spikeSound, 
     introSound, 
+    gameOverSound,
     music;
 
 export const newGame = () => {
@@ -31,19 +30,20 @@ export const newGame = () => {
   addBreakableWalls();
   addPowerUp(ctx);
   addShield(ctx);
+  addSpikes(ctx);
 
   player1 = new Player1(player1State(ctx));
   player2 = new Player2(player2State(ctx));
-  // introSound.play();
-  // setTimeout(() => music.play(), 2500);
+  setTimeout(() => music.play(), 3000);
 }
 
 export const loadSounds = () => {
-  explosionSound = new ExplosionSound('public/gameSounds/explosion.mp3');
-  shieldSound = new ShieldSound('public/gameSounds/shield.mp3');
-  powerUpSound = new PowerUpSound('public/gameSounds/powerUp.mp3');
-  introSound = new IntroSound('public/gameSounds/intro.mp3');
-  music = new Music('public/gameSounds/music.mp3');
+  explosionSound = new Sound('public/gameSounds/explosion.mp3');
+  shieldSound = new Sound('public/gameSounds/shield.mp3');
+  powerUpSound = new Sound('public/gameSounds/powerUp.mp3');
+  spikeSound = new Sound('public/gameSounds/spike.mp3');
+  gameOverSound = new Sound('public/gameSounds/gameOver.mp3');
+  music = new Sound('public/gameSounds/music.mp3');
 }
 
 export const addToggleSound = () => {
@@ -81,7 +81,7 @@ export const checkGameOver = (spread, checkNumber) => {
   evaluateWinner(p1Win, p2Win);
 }
 
-const evaluateWinner = (p1Win, p2Win) => {
+export const evaluateWinner = (p1Win, p2Win) => {
   const billBoard = document.querySelector('.bill-board');
   let innerText, color, gameOver;
 
@@ -98,10 +98,11 @@ const evaluateWinner = (p1Win, p2Win) => {
 
   gameOver = p1Win || p2Win ? true : false;
   if (gameOver) {
+    music.stop();
+    gameOverSound.play();
     billBoard.innerText = innerText;
     billBoard.style.color = color;
     billBoard.style.visibility = 'visible';
-    music.stop();
     setTimeout(() => {
       billBoard.style.visibility = 'hidden'; 
       window.location.reload();
@@ -125,5 +126,6 @@ export {
   powerUpSound, 
   music,
   player1,
-  player2
+  player2,
+  spikeSound
 };
