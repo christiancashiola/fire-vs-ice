@@ -676,7 +676,7 @@ const initialSetup = () => {
 
 
 const loadSounds = () => {
-  explosionSound = new _sounds_explosionSound__WEBPACK_IMPORTED_MODULE_9__["default"]('../public/gameSounds/explosion.mp3');
+  explosionSound = new _sounds_explosionSound__WEBPACK_IMPORTED_MODULE_9__["default"]('/public/gameSounds/explosion.mp3');
   shieldSound = new _sounds_shieldSound__WEBPACK_IMPORTED_MODULE_10__["default"]('../public/gameSounds/shield.mp3');
   powerUpSound = new _sounds_powerUpSound__WEBPACK_IMPORTED_MODULE_11__["default"]('../public/gameSounds/powerUp.mp3');
   introSound = new _sounds_introSound__WEBPACK_IMPORTED_MODULE_12__["default"]('../public/gameSounds/intro.mp3');
@@ -978,11 +978,11 @@ const player1back = new Image();
 const player1lSide = new Image();
 const player1rSide = new Image();
 const bombImg = new Image();
-bombImg.src = '../../public/gameImages/bombs/bomb.png';
-player1front.src = '../../public/gameImages/characters/player1front.png';
-player1back.src = '../../public/gameImages/characters/player1back.png';
-player1lSide.src = '../../public/gameImages/characters/player1lSide.png';
-player1rSide.src = '../../public/gameImages/characters/player1rSide.png';
+bombImg.src = '/public/gameImages/bombs/bomb.png';
+player1front.src = 'public/gameImages/characters/player1front.png';
+player1back.src = 'public/gameImages/characters/player1back.png';
+player1lSide.src = 'public/gameImages/characters/player1lSide.png';
+player1rSide.src = 'public/gameImages/characters/player1rSide.png';
 
 const player1State = (ctx) => ({
   id: 1,

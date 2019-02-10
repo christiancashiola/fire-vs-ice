@@ -51,7 +51,7 @@ const initialSetup = () => {
 
 
 const loadSounds = () => {
-  explosionSound = new ExplosionSound('../public/gameSounds/explosion.mp3');
+  explosionSound = new ExplosionSound('/public/gameSounds/explosion.mp3');
   shieldSound = new ShieldSound('../public/gameSounds/shield.mp3');
   powerUpSound = new PowerUpSound('../public/gameSounds/powerUp.mp3');
   introSound = new IntroSound('../public/gameSounds/intro.mp3');
