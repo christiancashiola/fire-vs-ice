@@ -20,8 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
   loadSounds();
   const button = document.querySelector('button');
   initialSetup();
-  setTimeout(() => introSound.play(), 1000);
-  setTimeout(() => music.play(), 3500);
+  setTimeout(() => {
+    introSound.play();
+    setTimeout(() => music.play(), 3500);
+  }, 1000);
   button.addEventListener('click', () => {
     if (music.on) {
       music.stop()
