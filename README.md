@@ -8,9 +8,6 @@ Fire vs Ice e is a retro-styled 2-player action game inspired by the _1983 Bombe
 - Randomly, but carefully generated walls and power up positions
 - Custom artwork (inspired by _Bomberman_)
 
-## Wireframes
-![Wire frame](public/wireFrame.png?raw=true)
-
 ## Technologies
 This project will be utilize the following technologies: 
 + `Javascript` for game logic
