@@ -1,9 +1,8 @@
 import { staticWalls, removeWall } from '../util/wallUtil';
 import { liveBombs } from './bomb';
-import { p1Pos } from '../main';
 import { allEnemies } from '../util/enemyUtil';
 import { fireUpPos, renderFireUp } from '../powerUps/fireUp';
-import { checkLevelComplete } from '../util/gameUtil';
+import { checkGameOver } from '../util/gameUtil';
 
 const liveFire = {};
 
@@ -78,18 +77,15 @@ const destroyCharacters = () => {
 const coolDown = (ctx, spread) => {
   let pos;
   destroyCharacters();
+  checkGameOver(spread);
   for (let i = 0; i < spread.length; i++) {
     pos = spread[i];
-    if (p1Pos[0] === pos[0] &&
-      p1Pos[1] === pos[1]) {
-      alert('GAME OVER.');
-    }
     ctx.fillStyle = '#3B8314';
     ctx.fillRect(pos[0], pos[1], 50, 50);  
     if (fireUpPos[pos[0]] === pos[1]) {
-        renderFireUp(pos[0], pos[1] );
-      }
+      renderFireUp(pos[0], pos[1] );
     }
+  }
     removeFromLiveFire(spread);
 };
 

@@ -9,7 +9,7 @@ backImg.src = '../../public/gameImages/characters/bombermanBack.png';
 leftImg.src = '../../public/gameImages/characters/bombermanLeft.png';
 rightImg.src = '../../public/gameImages/characters/bombermanRight.png';
 
-export const initialCharacterState = (ctx) => ({
+export const player1State = (ctx) => ({
   id: 1,
   xPos: 50,
   yPos: 50,
@@ -22,12 +22,12 @@ export const initialCharacterState = (ctx) => ({
   currentImg: frontImg,
   direction: 'S',
   ctx,
-  possibleMoves: [39, 40]
+  possibleMoves: [83, 68]
 });
 
-export const initialCharacterState2 = (ctx) => ({
+export const player2State = (ctx) => ({
   id: 2,
-  xPos: 950,
+  xPos: 650,
   yPos: 450,
   bombPower: 1,
   bombImg,
@@ -38,15 +38,5 @@ export const initialCharacterState2 = (ctx) => ({
   currentImg: backImg,
   direction: 'N',
   ctx,
-  possibleMoves: [65, 87]
+  possibleMoves: [74, 73]
 });
-
-export const resetCharacterPos = (character) => {
-  character.ctx.fillStyle = '#3B8314';
-  character.ctx.fillRect(character.xPos, character.yPos, 50, 50);
-  character.xPos = 50;
-  character.yPos = 50;
-  character.possibleMoves = [39, 40];
-  character.currentImg = frontImg;
-  character.reRender();
-}

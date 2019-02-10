@@ -1,10 +1,9 @@
 import * as moveUtil from '../util/moveUtil';
 import * as bombUtil from '../bombs/bomb';
 import { fireUp } from '../powerUps/fireUp';
-import { handleKeydown } from './moveMap';
+import moveMap from './moveMap';
 
-
-export default class MainCharacter2 {
+export default class Player1 {
   constructor(props) {
     Object.assign(this, props);
     this.addMovement();
@@ -14,54 +13,25 @@ export default class MainCharacter2 {
   addMovement() {
     this.front.addEventListener('load', () => {
       this.ctx.drawImage(this.front, this.xPos, this.yPos);
-      window.addEventListener("keydown", e => handleKeydown(e, this));
+      window.addEventListener("keydown", e => moveMap(e, this));
     });
   }
 
-  // handleKeydown(e) {
-  //   debugger
-  //   const { left, right, back, front } = this;
-  //   if (e.keyCode === 32) return this.dropBomb();
-  //   if (!this.possibleMoves.includes(e.keyCode)) return;
-
-  //   switch(e.keyCode) {
-  //     case 65:
-  //     alert(1);
-  //       this.render(left, -50, 0);
-  //       this.direction = 'W';
-  //       break;
-  //     case 87:
-  //       this.render(back, 0, -50);
-  //       this.direction = 'N';
-  //       break;
-  //     case 68:
-  //       this.render(right, 50, 0);
-  //       this.direction = 'E';
-  //       break;
-  //     case 83:
-  //       this.render(front, 0, 50);
-  //       this.direction = 'S';
-  //       break;
-  //   } 
-  //   this.getPossibleMoves();
-  // }
-
   getPossibleMoves() {
-    this.possibleMoves = moveUtil.getPossibleMoves2(this.xPos, this.yPos);
+    this.possibleMoves = moveUtil.getPlayer1Moves(this.xPos, this.yPos);
   }
 
-  render(image, dX, dY) {
+  readyRender(image, dX, dY) {
     const prevX = this.xPos, prevY = this.yPos;
     this.ctx.fillStyle = '#3B8314';
     this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
+
     if (this.currentImg === image) {
       this.xPos += dX;
       this.yPos += dY;
     } else {
       this.currentImg = image;
     }
-
-    // TODO: refactor
 
     if (fireUp(this.xPos, this.yPos)) {
       this.bombPower += 1;
@@ -71,9 +41,15 @@ export default class MainCharacter2 {
     if (this.bombSet || bombUtil.containsBomb(prevX, prevY)) {
       this.bombRender(prevX, prevY);
     }
-    moveUtil.updateBoardPos(this.xPos, this.yPos)
-    this.ctx.drawImage(image, this.xPos, this.yPos);
+
+    this.render();
   }
+
+  render() {
+    moveUtil.updateP1Pos(this.xPos, this.yPos)
+    this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
+  }
+
 
   bombRender(prevX, prevY) {
     this.ctx.drawImage(this.bombImg, prevX, prevY);

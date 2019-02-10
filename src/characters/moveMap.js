@@ -1,42 +1,43 @@
-export const handleKeydown = (e, player) => {
+export default (e, player) => {
+  debugger
   const { left, right, back, front } = player;
-  if (e.keyCode === 32 && player.id === 1) return player.dropBomb();
-  if (e.keyCode === 81 && player.id === 2) return player.dropBomb();
+  if (e.keyCode === 81 && player.id === 1) return player.dropBomb();
+  if (e.keyCode === 79 && player.id === 2) return player.dropBomb();
   if (!player.possibleMoves.includes(e.keyCode)) return;
-
   switch(e.keyCode) {
     case 65:
-      player.render(left, -50, 0);
+      player.readyRender(left, -50, 0);
       player.direction = 'W';
       break;
     case 87:
-      player.render(back, 0, -50);
+      player.readyRender(back, 0, -50);
       player.direction = 'N';
       break;
     case 68:
-      player.render(right, 50, 0);
+      player.readyRender(right, 50, 0);
       player.direction = 'E';
       break;
     case 83:
-      player.render(front, 0, 50);
+      player.readyRender(front, 0, 50);
       player.direction = 'S';
       break;
-    case 37:
-      player.render(left, -50, 0);
+    case 74:
+      player.readyRender(left, -50, 0);
       player.direction = 'W';
       break;
-    case 38:
-      player.render(back, 0, -50);
+    case 73:
+      player.readyRender(back, 0, -50);
       player.direction = 'N';
       break;
-    case 39:
-      player.render(right, 50, 0);
+    case 76:
+      player.readyRender(right, 50, 0);
       player.direction = 'E';
       break;
-    case 40:
-      player.render(front, 0, 50);
+    case 75:
+      player.readyRender(front, 0, 50);
       player.direction = 'S';
       break;
   } 
+
   player.getPossibleMoves();
 }

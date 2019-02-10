@@ -114,8 +114,5 @@ export const getImposedEnemyPos = () => {
   return imposedPos;
 };
 
-export const enemyCount = () => {
-  return Object.values(allEnemies).length;
-}
 
 export { allEnemies };

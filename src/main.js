@@ -2,40 +2,19 @@ import setupGreenBackdrop from './board/greenBackdrop';
 import setupJumbotron from './board/jumbotron';
 import addStaticWalls from './walls/staticWalls';
 import addBreakableWalls from './walls/breakableWalls';
-import { addFireUp, clearFireUp } from './powerUps/fireUp';
-import MainCharacter from './characters/mainCharacter';
-import MainCharacter2 from './characters/mainCharacter2';
-import { initialCharacterState, initialCharacterState2, resetCharacterPos } from './util/characterUtil';
-import { generateEnemies, enemyCount } from './util/enemyUtil';
-import { clearBreakableWalls, resetAllWalls } from './util/wallUtil';
-import { gameOver } from './util/gameUtil';
+import { addFireUp } from './powerUps/fireUp';
+import Player1 from './characters/player1';
+import Player2 from './characters/player2';
+import { player1State, player2State } from './util/characterUtil';
+import { generateEnemies } from './util/enemyUtil';
 
-let level = 0;
 const p1Pos = [50, 50];
-const p2Pos = [950, 450];
+const p2Pos = [650, 450];
 document.addEventListener('DOMContentLoaded', () => {
-  const canvas = document.querySelector('#green-backdrop');
-  const ctx = canvas.getContext('2d');
-  // c.ctx = ctx;
-  // initialSetup(ctx);
   initialSetup();
-  // setupNewLevel();
 });
 
-// const gameLoop = ctx => {
-//   initialSetup(ctx);
-//   setupNewLevel();
-
-  // let level = 1;
-  // while (true) {
-  //   if (!enemyCount()) {
-  //     setupNewLevel(character, ++level);
-  //   }
-  // }  
-// }
-
 const initialSetup = () => {
-  // resetAllWalls();
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
 
@@ -43,28 +22,9 @@ const initialSetup = () => {
   setupJumbotron();
   addStaticWalls();
   addBreakableWalls();
-  // clearFireUp();
   addFireUp(ctx);
-  new MainCharacter(initialCharacterState(ctx));
-  new MainCharacter2(initialCharacterState2(ctx));
-  // resetCharacterPos(c);
+  new Player1(player1State(ctx));
+  new Player2(player2State(ctx));
 }
 
-// export const setupNewLevel = () => {
-//   // const canvas = document.querySelector('#green-backdrop');
-//   // const ctx = canvas.getContext('2d');
-//   // initialSetup(ctx);
-//   // level++;
-//   const types = ['x', 'y'];
-//   let id = 3;
-//   // setInterval(() => {
-
-//   //   generateEnemies(
-//   //     Math.floor(types[Math.random() * 2])
-//   //   , 1, id++);
-//   // }, 10000)
-//   // generateEnemies('x' , 5, 1);
-//   // generateEnemies('y', 5, 2);
-// }
-
-export { p1Pos };
+export { p1Pos, p2Pos };
