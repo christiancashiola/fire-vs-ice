@@ -1,4 +1,63 @@
-import { player1, player2, music } from '../main';
+import ExplosionSound from '../sounds/explosionSound';
+import ShieldSound from '../sounds/shieldSound';
+import PowerUpSound from '../sounds/powerUpSound';
+import IntroSound from '../sounds/introSound';
+import Music from '../sounds/music';
+import setupGreenBackdrop from '../board/greenBackdrop';
+import setupJumbotron from '../board/jumbotron';
+import addStaticWalls from '../walls/staticWalls';
+import addBreakableWalls from '../walls/breakableWalls';
+import { addPowerUp } from '../powerUps/powerUp';
+import { addShield } from '../powerUps/shield';
+import { player1State, player2State } from './characterUtil';
+import Player1 from '../characters/player1';
+import Player2 from '../characters/player2';
+
+let explosionSound,
+    shieldSound, 
+    player1, 
+    player2,
+    powerUpSound, 
+    introSound, 
+    music;
+
+export const newGame = () => {
+  const canvas = document.querySelector('#green-backdrop');
+  const ctx = canvas.getContext('2d');
+
+  setupGreenBackdrop();
+  setupJumbotron();
+  addStaticWalls();
+  addBreakableWalls();
+  addPowerUp(ctx);
+  addShield(ctx);
+
+  player1 = new Player1(player1State(ctx));
+  player2 = new Player2(player2State(ctx));
+  // introSound.play();
+  // setTimeout(() => music.play(), 2500);
+}
+
+export const loadSounds = () => {
+  explosionSound = new ExplosionSound('public/gameSounds/explosion.mp3');
+  shieldSound = new ShieldSound('public/gameSounds/shield.mp3');
+  powerUpSound = new PowerUpSound('public/gameSounds/powerUp.mp3');
+  introSound = new IntroSound('public/gameSounds/intro.mp3');
+  music = new Music('public/gameSounds/music.mp3');
+}
+
+export const addToggleSound = () => {
+  const button = document.querySelector('button');
+  button.addEventListener('click', () => {
+    if (music.on) {
+      music.stop()
+      music.on = false;
+    } else {
+      music.play();
+      music.on = true;
+    }
+  });
+}
 
 export const checkGameOver = (spread, checkNumber) => {
   let p1Win = false, p2Win = false, pos;
@@ -19,16 +78,35 @@ export const checkGameOver = (spread, checkNumber) => {
     }
   }
 
+  evaluateWinner(p1Win, p2Win);
+}
+
+const evaluateWinner = (p1Win, p2Win) => {
+  const billBoard = document.querySelector('.bill-board');
+  let innerText, color, gameOver;
+
   if (p1Win && p2Win) {
-    alert('TIE!');
-    music.stop();
+    innerText = 'TIE!';
+    color = 'white';
   } else if (p1Win) {
-    alert('PLAYER 1 WINS!');
-    music.stop();
+    innerText = 'FIRE WINS!';
+    color = '#fc8200';
   } else if (p2Win) {
-    alert('PLAYER 2 WINS!');
-    music.stop();
+    innerText = 'ICE WINS!';
+    color = '#8feafc';
   } 
+
+  gameOver = p1Win || p2Win ? true : false;
+  if (gameOver) {
+    billBoard.innerText = innerText;
+    billBoard.style.color = color;
+    billBoard.style.visibility = 'visible';
+    music.stop();
+    setTimeout(() => {
+      billBoard.style.visibility = 'hidden'; 
+      window.location.reload();
+    }, 3000);
+  }
 }
 
 const checkShield = player => {
@@ -40,3 +118,12 @@ const checkShield = player => {
   }
   return false;
 }
+
+export {
+  explosionSound,
+  shieldSound,
+  powerUpSound, 
+  music,
+  player1,
+  player2
+};

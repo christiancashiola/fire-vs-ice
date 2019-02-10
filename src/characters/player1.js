@@ -3,7 +3,7 @@ import { powerUp } from '../powerUps/powerUp';
 import moveMap from './moveMap';
 import { shield } from '../powerUps/shield';
 import { getPlayer1Moves } from '../util/moveUtil';
-import { shieldSound, powerUpSound } from '../main';
+import { shieldSound, powerUpSound } from '../util/gameUtil';
 
 export default class Player1 {
   constructor(props) {

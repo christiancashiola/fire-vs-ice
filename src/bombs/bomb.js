@@ -1,5 +1,5 @@
 import { renderExplosion } from './explosion';
-import { player1, player2 } from '../main';
+import { player1, player2 } from '../util/gameUtil';
 
 const liveBombs = {};
 

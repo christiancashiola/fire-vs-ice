@@ -2,8 +2,7 @@ import { staticWalls, removeWall } from '../util/wallUtil';
 import { liveBombs } from './bomb';
 import { powerUpPos, renderPowerUp } from '../powerUps/powerUp';
 import { shieldPos, renderShield } from '../powerUps/shield';
-import { checkGameOver } from '../util/gameUtil';
-import { explosionSound } from '../main';
+import { checkGameOver, explosionSound } from '../util/gameUtil';
 
 const liveAttack = {};
 
