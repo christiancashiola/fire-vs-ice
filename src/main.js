@@ -2,11 +2,10 @@ import setupGreenBackdrop from './board/greenBackdrop';
 import setupJumbotron from './board/jumbotron';
 import addStaticWalls from './walls/staticWalls';
 import addBreakableWalls from './walls/breakableWalls';
-import { addFireUp } from './powerUps/fireUp';
+import { addPowerUp } from './powerUps/powerUp';
 import Player1 from './characters/player1';
 import Player2 from './characters/player2';
 import { player1State, player2State } from './util/characterUtil';
-import { generateEnemies } from './util/enemyUtil';
 
 const p1Pos = [50, 50];
 const p2Pos = [650, 450];
@@ -17,12 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
 const initialSetup = () => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
-
   setupGreenBackdrop();
   setupJumbotron();
   addStaticWalls();
   addBreakableWalls();
-  addFireUp(ctx);
+  addPowerUp(ctx);
   new Player1(player1State(ctx));
   new Player2(player2State(ctx));
 }

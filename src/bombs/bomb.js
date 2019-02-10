@@ -2,10 +2,10 @@ import { renderExplosion } from './explosion';
 
 const liveBombs = {};
 
-export const dropBomb = ({ bombImg, bombPower, x, y, ctx }) => {
+export const dropBomb = ({ bombImg, bombPower, x, y, ctx, id }) => {
   liveBombs[x] ? liveBombs[x].push(y) : liveBombs[x] = [y];
   ctx.drawImage(bombImg, x, y);
-  setTimeout(() => renderExplosion(x, y, ctx, bombPower), 1250);
+  setTimeout(() => renderExplosion(x, y, ctx, bombPower, id), 1500);
 }
 
 export const containsBomb = (x, y) => {

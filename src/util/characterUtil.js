@@ -1,13 +1,13 @@
-const frontImg = new Image();
-const backImg = new Image();
-const leftImg = new Image();
-const rightImg = new Image();
+const player1front = new Image();
+const player1back = new Image();
+const player1lSide = new Image();
+const player1rSide = new Image();
 const bombImg = new Image();
 bombImg.src = '../../public/gameImages/bombs/bomb.png';
-frontImg.src = '../../public/gameImages/characters/bombermanFront.png';
-backImg.src = '../../public/gameImages/characters/bombermanBack.png';
-leftImg.src = '../../public/gameImages/characters/bombermanLeft.png';
-rightImg.src = '../../public/gameImages/characters/bombermanRight.png';
+player1front.src = '../../public/gameImages/characters/player1front.png';
+player1back.src = '../../public/gameImages/characters/player1back.png';
+player1lSide.src = '../../public/gameImages/characters/player1lSide.png';
+player1rSide.src = '../../public/gameImages/characters/player1rSide.png';
 
 export const player1State = (ctx) => ({
   id: 1,
@@ -15,15 +15,24 @@ export const player1State = (ctx) => ({
   yPos: 50,
   bombPower: 1,
   bombImg,
-  front: frontImg,
-  back: backImg,
-  left: leftImg,
-  right: rightImg,
-  currentImg: frontImg,
+  front: player1front,
+  back: player1back,
+  left: player1lSide,
+  right: player1rSide,
+  currentImg: player1front,
   direction: 'S',
   ctx,
   possibleMoves: [83, 68]
 });
+
+const player2front = new Image();
+const player2back = new Image();
+const player2lSide = new Image();
+const player2rSide = new Image();
+player2front.src = '../../public/gameImages/characters/player2front.png';
+player2back.src = '../../public/gameImages/characters/player2back.png';
+player2lSide.src = '../../public/gameImages/characters/player2lSide.png';
+player2rSide.src = '../../public/gameImages/characters/player2rSide.png';
 
 export const player2State = (ctx) => ({
   id: 2,
@@ -31,11 +40,11 @@ export const player2State = (ctx) => ({
   yPos: 450,
   bombPower: 1,
   bombImg,
-  front: frontImg,
-  back: backImg,
-  left: leftImg,
-  right: rightImg,
-  currentImg: backImg,
+  front: player2front,
+  back: player2back,
+  left: player2lSide,
+  right: player2rSide,
+  currentImg: player2back,
   direction: 'N',
   ctx,
   possibleMoves: [74, 73]

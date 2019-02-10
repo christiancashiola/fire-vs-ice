@@ -1,6 +1,6 @@
 import * as moveUtil from '../util/moveUtil';
 import * as bombUtil from '../bombs/bomb';
-import { fireUp } from '../powerUps/fireUp';
+import { powerUp } from '../powerUps/powerUp';
 import moveMap from './moveMap';
 
 export default class Player1 {
@@ -33,7 +33,7 @@ export default class Player1 {
       this.currentImg = image;
     }
 
-    if (fireUp(this.xPos, this.yPos)) {
+    if (powerUp(this.xPos, this.yPos)) {
       this.bombPower += 1;
       this.reRender();
     }
@@ -70,7 +70,8 @@ export default class Player1 {
       bombPower: this.bombPower,
       x: this.xPos,
       y: this.yPos,
-      ctx: this.ctx
+      ctx: this.ctx,
+      id: this.id
     }
 
     bombUtil.dropBomb(props);
