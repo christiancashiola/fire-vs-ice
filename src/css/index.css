@@ -100,7 +100,7 @@ button {
   font-family: 'Press Start 2P', cursive;
   background-color: #3B8314;
   width: 200px;
-  height: 100px;
+  height: 50px;
   border: 1px solid #183708;
   border-bottom: 3px solid #0f2405;
   text-shadow: 0 2px #000;
@@ -112,8 +112,8 @@ button {
   font-size: 16px;
   font-family: 'Press Start 2P', cursive;
   background-color: #9E9E9E;
-  width: 250px;
-  height: 300px;
+  width: 225px;
+  height: 50px;
   border: 1px solid rgb(94, 94, 94);
   border-bottom: 3px solid rgb(0, 0, 0);
   text-shadow: 0 2px #000;
