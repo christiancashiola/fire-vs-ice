@@ -1,11 +1,9 @@
 import Sound from '../sounds/sound';
 import setupGreenBackdrop from '../board/greenBackdrop';
-import setupJumbotron from '../board/jumbotron';
 import addStaticWalls from '../walls/staticWalls';
 import addBreakableWalls from '../walls/breakableWalls';
 import { addPowerUp } from '../powerUps/powerUp';
 import { addShield } from '../powerUps/shield';
-import { player1State, player2State } from './characterUtil';
 import Player1 from '../characters/player1';
 import Player2 from '../characters/player2';
 import { addSpikes } from '../traps/spikes';
@@ -16,25 +14,24 @@ let explosionSound,
     player2,
     powerUpSound,
     spikeSound, 
-    introSound, 
     gameOverSound,
     music;
 
-export const newGame = () => {
+export const newGame = ({player1State, player2State}) => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
 
   setupGreenBackdrop();
-  setupJumbotron();
   addStaticWalls();
   addBreakableWalls();
   addPowerUp(ctx);
   addShield(ctx);
   addSpikes(ctx);
 
-  player1 = new Player1(player1State(ctx));
-  player2 = new Player2(player2State(ctx));
-  setTimeout(() => music.play(), 3000);
+  player1 = new Player1(player1State);
+  player2 = new Player2(player2State);
+  music.raiseVolume();
+  music.play();
 }
 
 export const loadSounds = () => {
@@ -47,7 +44,7 @@ export const loadSounds = () => {
 }
 
 export const addToggleSound = () => {
-  const button = document.querySelector('button');
+  const button = document.querySelector('#toggle-sound');
   button.addEventListener('click', () => {
     if (music.on) {
       music.stop()
