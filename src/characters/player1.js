@@ -27,13 +27,9 @@ export default class Player1 {
     const prevX = this.xPos, prevY = this.yPos;
     this.ctx.fillStyle = '#3B8314';
     this.ctx.fillRect(this.xPos, this.yPos, 50, 50);
-
-    if (this.currentImg === image) {
-      this.xPos += dX;
-      this.yPos += dY;
-    } else {
-      this.currentImg = image;
-    }
+    this.xPos += dX;
+    this.yPos += dY;
+    this.currentImg = image;
 
     this.checkFooting(prevX, prevY);
     this.render();
