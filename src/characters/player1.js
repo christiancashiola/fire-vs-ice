@@ -14,15 +14,9 @@ import {
 export default class Player1 {
   constructor(props) {
     Object.assign(this, props);
-    this.addMovement();
+    this.ctx.drawImage(this.front, this.xPos, this.yPos);
+    window.addEventListener("keydown", e => moveMap(e, this));
     this.bombSet = false;
-  }
-
-  addMovement() {
-    this.front.addEventListener('load', () => {
-      this.ctx.drawImage(this.front, this.xPos, this.yPos);
-      window.addEventListener("keydown", e => moveMap(e, this));
-    });
   }
 
   getPossibleMoves() {
@@ -65,8 +59,12 @@ export default class Player1 {
       this.bombRender(prevX, prevY);
     }
     if (spikes(this.xPos, this.yPos)) {
-      spikeSound.play();
-      evaluateWinner(false, true);
+      if (this.shield) {
+        deactivateShield();
+      } else {
+        spikeSound.play();
+        evaluateWinner(false, true);
+      }
     }
   }
   
@@ -75,6 +73,11 @@ export default class Player1 {
     this.ctx.arc(this.xPos + 25, this.yPos + 25, 25, 0, 2 * Math.PI);
     this.ctx.fillStyle = "rgba(220, 220, 255, 0.5)";
     this.ctx.fill();
+  }
+
+  deactivateShield() {
+    this.shield = false;
+    this.reRender();
   }
 
   bombRender(prevX, prevY) {

@@ -1,3 +1,12 @@
+export const loadCharacters = () => {
+  const canvas = document.querySelector('#green-backdrop');
+  const ctx = canvas.getContext('2d');
+  const player1State = player1(ctx);
+  const player2State = player2(ctx);
+
+  return { player1State, player2State };
+}
+
 const player1front = new Image();
 const player1back = new Image();
 const player1lSide = new Image();
@@ -9,7 +18,7 @@ player1back.src = 'public/gameImages/characters/player1back.png';
 player1lSide.src = 'public/gameImages/characters/player1lSide.png';
 player1rSide.src = 'public/gameImages/characters/player1rSide.png';
 
-export const player1State = (ctx) => ({
+const player1 = ctx => ({
   id: 1,
   xPos: 50,
   yPos: 50,
@@ -34,7 +43,7 @@ player2back.src = 'public/gameImages/characters/player2back.png';
 player2lSide.src = 'public/gameImages/characters/player2lSide.png';
 player2rSide.src = 'public/gameImages/characters/player2rSide.png';
 
-export const player2State = (ctx) => ({
+const player2 = ctx => ({
   id: 2,
   xPos: 650,
   yPos: 450,

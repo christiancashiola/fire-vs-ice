@@ -17,4 +17,8 @@ export default class Sound {
   stop() {
     this.sound.pause();
   }
+
+  raiseVolume() {
+    this.sound.volume = 0.1;
+  }
 }

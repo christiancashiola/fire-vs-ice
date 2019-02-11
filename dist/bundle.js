@@ -97,38 +97,20 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (() => {
   const canvas = document.querySelector('#green-backdrop');
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#3B8314';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-});
-
-
-
-/***/ }),
-
-/***/ "./src/board/jumbotron.js":
-/*!********************************!*\
-  !*** ./src/board/jumbotron.js ***!
-  \********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (() => {
-  const canvas = document.querySelector('#jumbotron');
   if (canvas.getContext) {
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#DDD';
+    ctx.fillStyle = '#3B8314';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   } else {
-    // one time alert in case browser does not support canvas
+  // one time alert in case browser does not support canvas
     alert(
       'Sorry. This games only operates' +
       'on browsers that support HTML canvas.'
     );
   }
 });
+
+
 
 /***/ }),
 
@@ -406,15 +388,9 @@ __webpack_require__.r(__webpack_exports__);
 class Player1 {
   constructor(props) {
     Object.assign(this, props);
-    this.addMovement();
+    this.ctx.drawImage(this.front, this.xPos, this.yPos);
+    window.addEventListener("keydown", e => Object(_moveMap__WEBPACK_IMPORTED_MODULE_2__["default"])(e, this));
     this.bombSet = false;
-  }
-
-  addMovement() {
-    this.front.addEventListener('load', () => {
-      this.ctx.drawImage(this.front, this.xPos, this.yPos);
-      window.addEventListener("keydown", e => Object(_moveMap__WEBPACK_IMPORTED_MODULE_2__["default"])(e, this));
-    });
   }
 
   getPossibleMoves() {
@@ -457,8 +433,12 @@ class Player1 {
       this.bombRender(prevX, prevY);
     }
     if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
-      _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
-      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
+      if (this.shield) {
+        deactivateShield();
+      } else {
+        _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
+        Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
+      }
     }
   }
   
@@ -467,6 +447,11 @@ class Player1 {
     this.ctx.arc(this.xPos + 25, this.yPos + 25, 25, 0, 2 * Math.PI);
     this.ctx.fillStyle = "rgba(220, 220, 255, 0.5)";
     this.ctx.fill();
+  }
+
+  deactivateShield() {
+    this.shield = false;
+    this.reRender();
   }
 
   bombRender(prevX, prevY) {
@@ -520,15 +505,9 @@ __webpack_require__.r(__webpack_exports__);
 class Player2 {
   constructor(props) {
     Object.assign(this, props);
-    this.addMovement();
+    this.ctx.drawImage(this.front, this.xPos, this.yPos);
+    window.addEventListener("keydown", e => Object(_moveMap__WEBPACK_IMPORTED_MODULE_2__["default"])(e, this));
     this.bombSet = false;
-  }
-
-  addMovement() {
-    this.front.addEventListener('load', () => {
-      this.ctx.drawImage(this.front, this.xPos, this.yPos);
-      window.addEventListener("keydown", e => Object(_moveMap__WEBPACK_IMPORTED_MODULE_2__["default"])(e, this));
-    });
   }
 
   getPossibleMoves() {
@@ -572,7 +551,11 @@ class Player2 {
     }
     if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
       _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
-      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(true, false);
+      if (this.shield) {
+        deactivateShield();
+      } else {
+        Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(true, false);
+      }
     }
   }
 
@@ -581,6 +564,11 @@ class Player2 {
     this.ctx.arc(this.xPos + 25, this.yPos + 25, 25, 0, 2 * Math.PI);
     this.ctx.fillStyle = "rgba(220, 220, 255, 0.5)";
     this.ctx.fill();
+  }
+
+  deactivateShield() {
+    this.shield = false;
+    this.reRender();
   }
 
   bombRender(prevX, prevY) {
@@ -616,15 +604,32 @@ class Player2 {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util/gameUtil */ "./src/util/gameUtil.js");
+/* harmony import */ var _util_characterUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util/characterUtil */ "./src/util/characterUtil.js");
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  // let the games begin.
+  const characters = Object(_util_characterUtil__WEBPACK_IMPORTED_MODULE_1__["loadCharacters"])();
   Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["loadSounds"])();
-  Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["addToggleSound"])();
-  Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newGame"])();
-});
+  
+  if (window.innerWidth < 1200) {
+    alert('This game is best enjoyed on a full screen computer screen');
+  }
+  
+  const startBtn = document.querySelector('#start');
+  const instructions = document.querySelector('#instructions-container');
+  const toggleSound = document.querySelector('#toggle-sound');
 
+  startBtn.addEventListener('click', () => {
+    startBtn.style.display = 'none';
+    instructions.style.visibility = 'hidden';
+    toggleSound.style.display = 'block';
+
+    // let the games begin.
+    Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["addToggleSound"])();
+    Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newGame"])(characters);
+  })
+});
 
 /***/ }),
 
@@ -787,6 +792,10 @@ class Sound {
   stop() {
     this.sound.pause();
   }
+
+  raiseVolume() {
+    this.sound.volume = 0.1;
+  }
 }
 
 /***/ }),
@@ -850,13 +859,21 @@ const spikes = (x, y) => {
 /*!***********************************!*\
   !*** ./src/util/characterUtil.js ***!
   \***********************************/
-/*! exports provided: player1State, player2State */
+/*! exports provided: loadCharacters */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "player1State", function() { return player1State; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "player2State", function() { return player2State; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadCharacters", function() { return loadCharacters; });
+const loadCharacters = () => {
+  const canvas = document.querySelector('#green-backdrop');
+  const ctx = canvas.getContext('2d');
+  const player1State = player1(ctx);
+  const player2State = player2(ctx);
+
+  return { player1State, player2State };
+}
+
 const player1front = new Image();
 const player1back = new Image();
 const player1lSide = new Image();
@@ -868,7 +885,7 @@ player1back.src = 'public/gameImages/characters/player1back.png';
 player1lSide.src = 'public/gameImages/characters/player1lSide.png';
 player1rSide.src = 'public/gameImages/characters/player1rSide.png';
 
-const player1State = (ctx) => ({
+const player1 = ctx => ({
   id: 1,
   xPos: 50,
   yPos: 50,
@@ -893,7 +910,7 @@ player2back.src = 'public/gameImages/characters/player2back.png';
 player2lSide.src = 'public/gameImages/characters/player2lSide.png';
 player2rSide.src = 'public/gameImages/characters/player2rSide.png';
 
-const player2State = (ctx) => ({
+const player2 = ctx => ({
   id: 2,
   xPos: 650,
   yPos: 450,
@@ -934,17 +951,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spikeSound", function() { return spikeSound; });
 /* harmony import */ var _sounds_sound__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sounds/sound */ "./src/sounds/sound.js");
 /* harmony import */ var _board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board/greenBackdrop */ "./src/board/greenBackdrop.js");
-/* harmony import */ var _board_jumbotron__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../board/jumbotron */ "./src/board/jumbotron.js");
-/* harmony import */ var _walls_staticWalls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../walls/staticWalls */ "./src/walls/staticWalls.js");
-/* harmony import */ var _walls_breakableWalls__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../walls/breakableWalls */ "./src/walls/breakableWalls.js");
-/* harmony import */ var _powerUps_powerUp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../powerUps/powerUp */ "./src/powerUps/powerUp.js");
-/* harmony import */ var _powerUps_shield__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../powerUps/shield */ "./src/powerUps/shield.js");
-/* harmony import */ var _characterUtil__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./characterUtil */ "./src/util/characterUtil.js");
-/* harmony import */ var _characters_player1__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../characters/player1 */ "./src/characters/player1.js");
-/* harmony import */ var _characters_player2__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../characters/player2 */ "./src/characters/player2.js");
-/* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
-
-
+/* harmony import */ var _walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../walls/staticWalls */ "./src/walls/staticWalls.js");
+/* harmony import */ var _walls_breakableWalls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../walls/breakableWalls */ "./src/walls/breakableWalls.js");
+/* harmony import */ var _powerUps_powerUp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../powerUps/powerUp */ "./src/powerUps/powerUp.js");
+/* harmony import */ var _powerUps_shield__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../powerUps/shield */ "./src/powerUps/shield.js");
+/* harmony import */ var _characters_player1__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../characters/player1 */ "./src/characters/player1.js");
+/* harmony import */ var _characters_player2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../characters/player2 */ "./src/characters/player2.js");
+/* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
 
 
 
@@ -961,25 +974,24 @@ let explosionSound,
     player2,
     powerUpSound,
     spikeSound, 
-    introSound, 
     gameOverSound,
     music;
 
-const newGame = () => {
+const newGame = ({player1State, player2State}) => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
 
   Object(_board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__["default"])();
-  Object(_board_jumbotron__WEBPACK_IMPORTED_MODULE_2__["default"])();
-  Object(_walls_staticWalls__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  Object(_walls_breakableWalls__WEBPACK_IMPORTED_MODULE_4__["default"])();
-  Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_5__["addPowerUp"])(ctx);
-  Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_6__["addShield"])(ctx);
-  Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_10__["addSpikes"])(ctx);
+  Object(_walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  Object(_walls_breakableWalls__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_4__["addPowerUp"])(ctx);
+  Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_5__["addShield"])(ctx);
+  Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_8__["addSpikes"])(ctx);
 
-  player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_8__["default"](Object(_characterUtil__WEBPACK_IMPORTED_MODULE_7__["player1State"])(ctx));
-  player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_9__["default"](Object(_characterUtil__WEBPACK_IMPORTED_MODULE_7__["player2State"])(ctx));
-  setTimeout(() => music.play(), 3000);
+  player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_6__["default"](player1State);
+  player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_7__["default"](player2State);
+  music.raiseVolume();
+  music.play();
 }
 
 const loadSounds = () => {
@@ -992,7 +1004,7 @@ const loadSounds = () => {
 }
 
 const addToggleSound = () => {
-  const button = document.querySelector('button');
+  const button = document.querySelector('#toggle-sound');
   button.addEventListener('click', () => {
     if (music.on) {
       music.stop()

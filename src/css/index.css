@@ -1,3 +1,9 @@
+/* GENERAL */
+
+html { 
+  background-color: #333;
+}
+
 body {
   height: calc(100vh - 40px);
   margin: 0;
@@ -5,12 +11,34 @@ body {
   font-family: "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  background-color: #444;
   display: flex;
   flex-flow: column;
-  justify-content: center;
   align-items: center;
   position: relative;
+  font-size: 1.1em;
+}
+
+/* HEADER */
+
+header {
+  color: #fff;
+  text-shadow: 0 3px #000;
+  font-size: 50px;
+  position: absolute;
+  top: 20px;
+  font-family: 'Press Start 2P', cursive;
+}
+
+#fire {
+  color: #fc8200;
+}
+
+#ice {
+  color: #8feafc;
+}
+
+#green-backdrop {
+  margin-top: 80px;
 }
 
 .bill-board {
@@ -21,4 +49,87 @@ body {
   top: 35%;
   border-radius: 3px;
   visibility: hidden;
+}
+
+/* INSTRUCTIONS */
+
+#instructions-container {
+  color: #fff;
+  position: absolute;
+  top: 120px;
+  width: 800px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+#instructions-wrapper {
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+}
+
+#controls-container {
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+}
+
+h3 {
+  text-align: center;
+}
+
+#controls {
+  padding-left: 40px;
+}
+
+#goal {
+  grid-column: 2;
+  text-align: center;
+}
+
+/* BUTTONS */
+
+button {
+  outline: none;
+}
+
+#start {
+  color: #fff;
+  font-size: 20px;
+  font-family: 'Press Start 2P', cursive;
+  background-color: #3B8314;
+  width: 200px;
+  height: 100px;
+  border: 1px solid #183708;
+  border-bottom: 3px solid #0f2405;
+  text-shadow: 0 2px #000;
+}
+
+#toggle-sound {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 16px;
+  font-family: 'Press Start 2P', cursive;
+  background-color: #9E9E9E;
+  width: 250px;
+  height: 300px;
+  border: 1px solid rgb(94, 94, 94);
+  border-bottom: 3px solid rgb(0, 0, 0);
+  text-shadow: 0 2px #000;
+  display: none;
+}
+
+/* LINKS */
+
+#links-wrapper {
+  font-size: 32px;
+  position: absolute;
+  top: 20px;
+  right: 40px;
+}
+
+a {
+  color: #ddd;
+  margin-left: 5px;
 }
