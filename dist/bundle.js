@@ -586,7 +586,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const handleSinglePlayerClick = () => {
   const singlePlayerBtn = document.querySelector('#single-player');
+  const goal = document.querySelector('#two-player-goal');
+  
   singlePlayerBtn.addEventListener('click', () => {
+    goal.style.display = 'none';
     document.querySelector('.selection-section').style.display = 'none';
     const character1 = document.querySelector('#character-1');
     character1.addEventListener('click', () => {
@@ -604,7 +607,10 @@ const handleSinglePlayerClick = () => {
 
 const handleTwoPlayerClick = () => {
   const twoPlayerBtn = document.querySelector('#two-player');
+  const goal = document.querySelector('#single-player-goal');
+
   twoPlayerBtn.addEventListener('click', () => {
+    goal.style.display = 'none';
     document.querySelector('.selection-section').style.display = 'none';
     players = characters;
 
