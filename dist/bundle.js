@@ -147,12 +147,10 @@ class Bomb {
     ctx.drawImage(bombImg, x, y);
     this.explode = this.explode.bind(this);
     setTimeout(this.explode, 1500);
-
-    if (liveBombs[x]) {
-      liveBombs[x][y] = this;
-    } else {
-      liveBombs[x] = { [y]: this };
-    }
+    
+    liveBombs[x] ? 
+    liveBombs[x][y] = true :
+    liveBombs[x] = { [y]: true };
   }
 
   explode() {
@@ -171,7 +169,7 @@ class Bomb {
 
     for (let i = 0; i < attack.length; i++) {
       [x, y] = attack[i];
-      if (this.checkAttack(x, y)) {
+      if (_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x] && !_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x][y]) {
         Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["removeWall"])(x, y);
         spread.push([x, y]);
       } else {
@@ -227,17 +225,11 @@ class Bomb {
     return attack;
   };
   
-  checkAttack(x, y) {
-    return (_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x] && _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x].indexOf(y) === -1);
-  }
-  
   addToLiveAttack(pos) {
     let [x, y] = pos;
-    if (liveAttack[x]) {
-      liveAttack[x][y] = true;
-    } else {
-      liveAttack[x] = { [y]: true };
-    }
+    liveAttack[x] ? 
+    liveAttack[x][y] = true :
+    liveAttack[x] = { [y]: true };
   };
   
   removeFromLiveAttack(spread) {
@@ -1090,9 +1082,9 @@ const updatePossibleMoves = () => {
 const getPlayer1Moves = (x, y) => {
   const possibleMoves = [65, 87, 68, 83];
   let dX = x - 50, dY = y;
-
+  
   const checkCollision = (move) => {
-    if (_wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX] && _wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX].indexOf(dY) !== -1 ||
+    if ((_wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX] && _wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX][dY]) ||
       (_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].xPos === dX && _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
@@ -1116,7 +1108,7 @@ const getPlayer2Moves = (x, y) => {
   let dX = x - 50, dY = y;
   
   const checkCollision = (move) => {
-    if (_wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX] && _wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX].indexOf(dY) !== -1 ||
+    if ((_wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX] && !_wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX][dY]) ||
       (_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].xPos === dX && _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
@@ -1141,7 +1133,7 @@ const getPlayer2Moves = (x, y) => {
 /*!******************************!*\
   !*** ./src/util/wallUtil.js ***!
   \******************************/
-/*! exports provided: getHorizontalOuterWallPos, getVerticalOuterWallPos, getInnerWallPos, getRandomBreakableWallPos, getAllAvailablePos, removeWall, allWallsXToY, allWallsYToX, breakableWalls, staticWalls */
+/*! exports provided: getHorizontalOuterWallPos, getVerticalOuterWallPos, getInnerWallPos, getRandomBreakableWallPos, getAllAvailablePos, removeWall, allWallsXToY, breakableWalls, staticWalls */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1153,38 +1145,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllAvailablePos", function() { return getAllAvailablePos; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeWall", function() { return removeWall; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "allWallsXToY", function() { return allWallsXToY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "allWallsYToX", function() { return allWallsYToX; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "breakableWalls", function() { return breakableWalls; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticWalls", function() { return staticWalls; });
 const allWallsXToY = {}, 
-      allWallsYToX = {},
       breakableWalls = {}, 
       staticWalls = {};
 
 const addToAllWalls = (pos) => {
-  allWallsXToY[pos[0]] ? 
-  allWallsXToY[pos[0]].push(pos[1]) :
-  allWallsXToY[pos[0]] = [pos[1]];
-
-  allWallsYToX[pos[1]] ? 
-  allWallsYToX[pos[1]].push(pos[0]) :
-  allWallsYToX[pos[1]] = [pos[0]];
+  let [x, y] = pos;
+  allWallsXToY[x] ? 
+  allWallsXToY[x][y] = true :
+  allWallsXToY[x] = { [y]: true };
 
   return pos;
 }
   
 const addToBreakableWalls = pos => {
-  breakableWalls[pos[0]] ? 
-  breakableWalls[pos[0]].push(pos[1]) :
-  breakableWalls[pos[0]] = [pos[1]];
+  let [x, y] = pos;
+  breakableWalls[x] ? 
+  breakableWalls[x][y] = true :
+  breakableWalls[x] = { [y]: true };
 
   return addToAllWalls(pos);
 }
 
 const addToStaticWalls = pos => {
-  staticWalls[pos[0]] ? 
-  staticWalls[pos[0]].push(pos[1]) :
-  staticWalls[pos[0]] = [pos[1]];
+  let [x, y] = pos;
+  staticWalls[x] ? 
+  staticWalls[x][y] = true :
+  staticWalls[x] = { [y]: true };
 
   return addToAllWalls(pos);
 }
@@ -1279,14 +1268,14 @@ const removeWall = (x, y) => {
 
   for (let i = 0; i < wallGroup.length; i++) {
     let yIdx;
+    if (wallGroup[i][x] && wallGroup[i][x][y]) {
+      wallGroup[i][x][y] = false;
+    }
 
-    if (wallGroup[i][x]) yIdx = wallGroup[i][x].indexOf(y);
-    if (yIdx && yIdx !== -1) wallGroup[i][x].splice(yIdx, 1);
+    // if (wallGroup[i][x]) yIdx = wallGroup[i][x].indexOf(y);
+    // if (yIdx && yIdx !== -1) wallGroup[i][x].splice(yIdx, 1);
   }
 
-  let xIdx;
-  if (allWallsYToX[y]) xIdx = allWallsYToX[y].indexOf(x);
-  if (xIdx && xIdx !== -1) allWallsYToX[y].splice(xIdx, 1);
 };
 
 const zipXtoY = (yPos, x) => {

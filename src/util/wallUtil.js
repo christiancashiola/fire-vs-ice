@@ -1,32 +1,30 @@
 const allWallsXToY = {}, 
-      allWallsYToX = {},
       breakableWalls = {}, 
       staticWalls = {};
 
 const addToAllWalls = (pos) => {
-  allWallsXToY[pos[0]] ? 
-  allWallsXToY[pos[0]].push(pos[1]) :
-  allWallsXToY[pos[0]] = [pos[1]];
-
-  allWallsYToX[pos[1]] ? 
-  allWallsYToX[pos[1]].push(pos[0]) :
-  allWallsYToX[pos[1]] = [pos[0]];
+  let [x, y] = pos;
+  allWallsXToY[x] ? 
+  allWallsXToY[x][y] = true :
+  allWallsXToY[x] = { [y]: true };
 
   return pos;
 }
   
 const addToBreakableWalls = pos => {
-  breakableWalls[pos[0]] ? 
-  breakableWalls[pos[0]].push(pos[1]) :
-  breakableWalls[pos[0]] = [pos[1]];
+  let [x, y] = pos;
+  breakableWalls[x] ? 
+  breakableWalls[x][y] = true :
+  breakableWalls[x] = { [y]: true };
 
   return addToAllWalls(pos);
 }
 
 const addToStaticWalls = pos => {
-  staticWalls[pos[0]] ? 
-  staticWalls[pos[0]].push(pos[1]) :
-  staticWalls[pos[0]] = [pos[1]];
+  let [x, y] = pos;
+  staticWalls[x] ? 
+  staticWalls[x][y] = true :
+  staticWalls[x] = { [y]: true };
 
   return addToAllWalls(pos);
 }
@@ -121,14 +119,14 @@ export const removeWall = (x, y) => {
 
   for (let i = 0; i < wallGroup.length; i++) {
     let yIdx;
+    if (wallGroup[i][x] && wallGroup[i][x][y]) {
+      wallGroup[i][x][y] = false;
+    }
 
-    if (wallGroup[i][x]) yIdx = wallGroup[i][x].indexOf(y);
-    if (yIdx && yIdx !== -1) wallGroup[i][x].splice(yIdx, 1);
+    // if (wallGroup[i][x]) yIdx = wallGroup[i][x].indexOf(y);
+    // if (yIdx && yIdx !== -1) wallGroup[i][x].splice(yIdx, 1);
   }
 
-  let xIdx;
-  if (allWallsYToX[y]) xIdx = allWallsYToX[y].indexOf(x);
-  if (xIdx && xIdx !== -1) allWallsYToX[y].splice(xIdx, 1);
 };
 
 const zipXtoY = (yPos, x) => {
@@ -142,7 +140,6 @@ const zipXtoY = (yPos, x) => {
 
 export { 
   allWallsXToY,
-  allWallsYToX,
   breakableWalls, 
   staticWalls 
 };

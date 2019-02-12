@@ -10,9 +10,9 @@ export const updatePossibleMoves = () => {
 export const getPlayer1Moves = (x, y) => {
   const possibleMoves = [65, 87, 68, 83];
   let dX = x - 50, dY = y;
-
+  
   const checkCollision = (move) => {
-    if (allWallsXToY[dX] && allWallsXToY[dX].indexOf(dY) !== -1 ||
+    if ((allWallsXToY[dX] && allWallsXToY[dX][dY]) ||
       (player2.xPos === dX && player2.yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
@@ -36,7 +36,7 @@ export const getPlayer2Moves = (x, y) => {
   let dX = x - 50, dY = y;
   
   const checkCollision = (move) => {
-    if (allWallsXToY[dX] && allWallsXToY[dX].indexOf(dY) !== -1 ||
+    if ((allWallsXToY[dX] && !allWallsXToY[dX][dY]) ||
       (player1.xPos === dX && player1.yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }

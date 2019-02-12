@@ -14,12 +14,10 @@ export class Bomb {
     ctx.drawImage(bombImg, x, y);
     this.explode = this.explode.bind(this);
     setTimeout(this.explode, 1500);
-
-    if (liveBombs[x]) {
-      liveBombs[x][y] = this;
-    } else {
-      liveBombs[x] = { [y]: this };
-    }
+    
+    liveBombs[x] ? 
+    liveBombs[x][y] = true :
+    liveBombs[x] = { [y]: true };
   }
 
   explode() {
@@ -38,7 +36,7 @@ export class Bomb {
 
     for (let i = 0; i < attack.length; i++) {
       [x, y] = attack[i];
-      if (this.checkAttack(x, y)) {
+      if (staticWalls[x] && !staticWalls[x][y]) {
         removeWall(x, y);
         spread.push([x, y]);
       } else {
@@ -94,17 +92,11 @@ export class Bomb {
     return attack;
   };
   
-  checkAttack(x, y) {
-    return (staticWalls[x] && staticWalls[x].indexOf(y) === -1);
-  }
-  
   addToLiveAttack(pos) {
     let [x, y] = pos;
-    if (liveAttack[x]) {
-      liveAttack[x][y] = true;
-    } else {
-      liveAttack[x] = { [y]: true };
-    }
+    liveAttack[x] ? 
+    liveAttack[x][y] = true :
+    liveAttack[x] = { [y]: true };
   };
   
   removeFromLiveAttack(spread) {
