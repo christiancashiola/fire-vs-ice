@@ -160,9 +160,7 @@ class Bomb {
     _util_gameUtil__WEBPACK_IMPORTED_MODULE_3__["explosionSound"].play();
     this.spreadAttack(spread);
     Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_3__["checkGameOver"])(spread);
-    let coolTime;
-    coolTime = initialBomb ? 300 : 300;
-    setTimeout(() => this.coolDown(spread), coolTime);
+    setTimeout(() => this.coolDown(spread), 300);
   }
   
   getSpread() {
@@ -1032,6 +1030,7 @@ const checkGameOver = (spread ) => {
 
 const evaluateWinner = (p1Win, p2Win) => {
   const billBoard = document.querySelector('.bill-board');
+  const modal = document.querySelector('#modal');
   let innerText, color, gameOver;
 
   if (p1Win && p2Win) {
@@ -1054,12 +1053,14 @@ const evaluateWinner = (p1Win, p2Win) => {
     billBoard.innerText = innerText;
     billBoard.style.color = color;
     billBoard.style.visibility = 'visible';
+    modal.style.display = 'block';
     setTimeout(() => {
       billBoard.style.visibility = 'hidden'; 
       window.location.reload();
     }, 3000);
   }
 }
+
 
 const checkShield = player => {
   if (player.shield) {

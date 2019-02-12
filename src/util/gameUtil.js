@@ -77,6 +77,7 @@ export const checkGameOver = (spread ) => {
 
 export const evaluateWinner = (p1Win, p2Win) => {
   const billBoard = document.querySelector('.bill-board');
+  const modal = document.querySelector('#modal');
   let innerText, color, gameOver;
 
   if (p1Win && p2Win) {
@@ -99,12 +100,14 @@ export const evaluateWinner = (p1Win, p2Win) => {
     billBoard.innerText = innerText;
     billBoard.style.color = color;
     billBoard.style.visibility = 'visible';
+    modal.style.display = 'block';
     setTimeout(() => {
       billBoard.style.visibility = 'hidden'; 
       window.location.reload();
     }, 3000);
   }
 }
+
 
 const checkShield = player => {
   if (player.shield) {

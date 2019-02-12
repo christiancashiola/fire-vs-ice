@@ -27,9 +27,7 @@ export class Bomb {
     explosionSound.play();
     this.spreadAttack(spread);
     checkGameOver(spread);
-    let coolTime;
-    coolTime = initialBomb ? 300 : 300;
-    setTimeout(() => this.coolDown(spread), coolTime);
+    setTimeout(() => this.coolDown(spread), 300);
   }
   
   getSpread() {
