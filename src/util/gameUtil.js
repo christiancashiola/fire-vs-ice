@@ -17,19 +17,48 @@ let explosionSound,
     gameOverSound,
     music;
 
-export const newGame = ({player1State, player2State}) => {
+export const newGameSinglePlayer = playerState => {
+  initialSetup();
+  if (playerState.id === 1) {
+    player1 = new Player1(playerState);
+    player1.singlePlayer = true;
+    player2 = {};
+  } else {
+    player2 = new Player2(playerStates);
+    player2.singlePlayer = true;
+    player1 = {};
+  }
+}
+    
+
+export const newGame = playerStates => {
+  // const canvas = document.querySelector('#green-backdrop');
+  // const ctx = canvas.getContext('2d');
+  initialSetup();
+
+  // setupGreenBackdrop();
+  // addStaticWalls();
+  // addBreakableWalls();
+  // addPowerUp(ctx);
+  // addShield(ctx);
+  // addSpikes(ctx);
+
+  player1 = new Player1(playerStates[0]);
+  player2 = new Player2(playerStates[1]);
+
+  // music.raiseVolume();
+  // music.play();
+}
+
+const initialSetup = () => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
-
   setupGreenBackdrop();
   addStaticWalls();
   addBreakableWalls();
   addPowerUp(ctx);
   addShield(ctx);
   addSpikes(ctx);
-
-  player1 = new Player1(player1State);
-  player2 = new Player2(player2State);
   music.raiseVolume();
   music.play();
 }
@@ -73,6 +102,10 @@ export const checkGameOver = (spread ) => {
   }
 
   evaluateWinner(p1Win, p2Win);
+}
+
+export const checkTimeTrialEnd = () => {
+  if (player1.singlePlayer) evaluateWinner(true, false);
 }
 
 export const evaluateWinner = (p1Win, p2Win) => {

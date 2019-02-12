@@ -1,4 +1,4 @@
-import { loadSounds, addToggleSound, newGame } from './util/gameUtil';
+import { loadSounds, addToggleSound, newGame, newGameSinglePlayer } from './util/gameUtil';
 import { loadCharacters } from './util/characterUtil';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // let the games begin.
     addToggleSound();
-    newGame(characters);
+    // newGame(characters);
+    newGameSinglePlayer(characters[0]);
+    // newGame(characters, true);
   })
 });

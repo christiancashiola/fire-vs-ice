@@ -4,7 +4,7 @@ export const loadCharacters = () => {
   const player1State = player1(ctx);
   const player2State = player2(ctx);
 
-  return { player1State, player2State };
+  return [player1State, player2State];
 }
 
 const player1front = new Image();

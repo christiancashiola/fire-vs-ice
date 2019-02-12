@@ -60,11 +60,7 @@ export default class Player2 {
     }
     if (spikes(this.xPos, this.yPos)) {
       spikeSound.play();
-      if (this.shield) {
-        deactivateShield();
-      } else {
-        evaluateWinner(true, false);
-      }
+      evaluateWinner(true, false);
     }
   }
 

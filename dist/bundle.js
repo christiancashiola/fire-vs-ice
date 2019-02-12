@@ -389,12 +389,8 @@ class Player1 {
     }
     
     if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
-      if (this.shield) {
-        deactivateShield();
-      } else {
-        _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
-        Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
-      }
+      _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
+      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
     }
   }
   
@@ -516,11 +512,7 @@ class Player2 {
     }
     if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
       _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
-      if (this.shield) {
-        deactivateShield();
-      } else {
-        Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(true, false);
-      }
+      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(true, false);
     }
   }
 
@@ -601,7 +593,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // let the games begin.
     Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["addToggleSound"])();
-    Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newGame"])(characters);
+    // newGame(characters);
+    Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newGameSinglePlayer"])(characters[0]);
+    // newGame(characters, true);
   })
 });
 
@@ -858,7 +852,7 @@ const loadCharacters = () => {
   const player1State = player1(ctx);
   const player2State = player2(ctx);
 
-  return { player1State, player2State };
+  return [player1State, player2State];
 }
 
 const player1front = new Image();
@@ -925,15 +919,17 @@ const player2 = ctx => ({
 /*!******************************!*\
   !*** ./src/util/gameUtil.js ***!
   \******************************/
-/*! exports provided: newGame, loadSounds, addToggleSound, checkGameOver, evaluateWinner, explosionSound, shieldSound, powerUpSound, music, player1, player2, spikeSound */
+/*! exports provided: newGameSinglePlayer, newGame, loadSounds, addToggleSound, checkGameOver, checkTimeTrialEnd, evaluateWinner, explosionSound, shieldSound, powerUpSound, music, player1, player2, spikeSound */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newGameSinglePlayer", function() { return newGameSinglePlayer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newGame", function() { return newGame; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadSounds", function() { return loadSounds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToggleSound", function() { return addToggleSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkGameOver", function() { return checkGameOver; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkTimeTrialEnd", function() { return checkTimeTrialEnd; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "evaluateWinner", function() { return evaluateWinner; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "explosionSound", function() { return explosionSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shieldSound", function() { return shieldSound; });
@@ -970,19 +966,48 @@ let explosionSound,
     gameOverSound,
     music;
 
-const newGame = ({player1State, player2State}) => {
+const newGameSinglePlayer = playerState => {
+  initialSetup();
+  if (playerState.id === 1) {
+    player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_6__["default"](playerState);
+    player1.singlePlayer = true;
+    player2 = {};
+  } else {
+    player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_7__["default"](playerStates);
+    player2.singlePlayer = true;
+    player1 = {};
+  }
+}
+    
+
+const newGame = playerStates => {
+  // const canvas = document.querySelector('#green-backdrop');
+  // const ctx = canvas.getContext('2d');
+  initialSetup();
+
+  // setupGreenBackdrop();
+  // addStaticWalls();
+  // addBreakableWalls();
+  // addPowerUp(ctx);
+  // addShield(ctx);
+  // addSpikes(ctx);
+
+  player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_6__["default"](playerStates[0]);
+  player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_7__["default"](playerStates[1]);
+
+  // music.raiseVolume();
+  // music.play();
+}
+
+const initialSetup = () => {
   const canvas = document.querySelector('#green-backdrop');
   const ctx = canvas.getContext('2d');
-
   Object(_board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_walls_breakableWalls__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_4__["addPowerUp"])(ctx);
   Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_5__["addShield"])(ctx);
   Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_8__["addSpikes"])(ctx);
-
-  player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_6__["default"](player1State);
-  player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_7__["default"](player2State);
   music.raiseVolume();
   music.play();
 }
@@ -1026,6 +1051,10 @@ const checkGameOver = (spread ) => {
   }
 
   evaluateWinner(p1Win, p2Win);
+}
+
+const checkTimeTrialEnd = () => {
+  if (player1.singlePlayer) evaluateWinner(true, false);
 }
 
 const evaluateWinner = (p1Win, p2Win) => {
@@ -1095,8 +1124,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const updatePossibleMoves = () => {
-  getPlayer1Moves(_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].xPos, _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].yPos);
-  getPlayer2Moves(_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].xPos, _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].yPos);
+  if (_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"]) getPlayer1Moves(_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].xPos, _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].yPos);
+  if (_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"]) getPlayer2Moves(_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].xPos, _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].yPos);
 }
 
 const getPlayer1Moves = (x, y) => {
@@ -1129,7 +1158,7 @@ const getPlayer2Moves = (x, y) => {
   
   const checkCollision = (move) => {
     if ((_wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX] && _wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX][dY]) ||
-      (_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].xPos === dX && _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].yPos === dY)) {
+      (_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"] && _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].xPos === dX && _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
   }
@@ -1167,9 +1196,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "allWallsXToY", function() { return allWallsXToY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "breakableWalls", function() { return breakableWalls; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticWalls", function() { return staticWalls; });
+/* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/gameUtil */ "./src/util/gameUtil.js");
+
+
 const allWallsXToY = {}, 
       breakableWalls = {}, 
       staticWalls = {};
+let remainingBreakableWalls = 30;
+
 
 const addToAllWalls = (pos) => {
   let [x, y] = pos;
@@ -1284,18 +1318,15 @@ const getAllAvailablePos = () => {
 };
 
 const removeWall = (x, y) => {
-  const wallGroup = [allWallsXToY, breakableWalls, staticWalls];
+  const wallGroup = [allWallsXToY, breakableWalls];
 
   for (let i = 0; i < wallGroup.length; i++) {
-    let yIdx;
     if (wallGroup[i][x] && wallGroup[i][x][y]) {
       wallGroup[i][x][y] = false;
+      if (i === 1) remainingBreakableWalls--;
+      if (!remainingBreakableWalls) Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["checkTimeTrialEnd"])();
     }
-
-    // if (wallGroup[i][x]) yIdx = wallGroup[i][x].indexOf(y);
-    // if (yIdx && yIdx !== -1) wallGroup[i][x].splice(yIdx, 1);
   }
-
 };
 
 const zipXtoY = (yPos, x) => {

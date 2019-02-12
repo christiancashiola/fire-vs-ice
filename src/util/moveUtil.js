@@ -3,8 +3,8 @@ import { player1, player2 } from '../util/gameUtil';
 
 
 export const updatePossibleMoves = () => {
-  getPlayer1Moves(player1.xPos, player1.yPos);
-  getPlayer2Moves(player2.xPos, player2.yPos);
+  if (player1) getPlayer1Moves(player1.xPos, player1.yPos);
+  if (player2) getPlayer2Moves(player2.xPos, player2.yPos);
 }
 
 export const getPlayer1Moves = (x, y) => {
@@ -37,7 +37,7 @@ export const getPlayer2Moves = (x, y) => {
   
   const checkCollision = (move) => {
     if ((allWallsXToY[dX] && allWallsXToY[dX][dY]) ||
-      (player1.xPos === dX && player1.yPos === dY)) {
+      (player1 && player1.xPos === dX && player1.yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }
   }

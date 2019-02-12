@@ -1,6 +1,10 @@
+import { checkTimeTrialEnd } from '../util/gameUtil';
+
 const allWallsXToY = {}, 
       breakableWalls = {}, 
       staticWalls = {};
+let remainingBreakableWalls = 30;
+
 
 const addToAllWalls = (pos) => {
   let [x, y] = pos;
@@ -115,18 +119,15 @@ export const getAllAvailablePos = () => {
 };
 
 export const removeWall = (x, y) => {
-  const wallGroup = [allWallsXToY, breakableWalls, staticWalls];
+  const wallGroup = [allWallsXToY, breakableWalls];
 
   for (let i = 0; i < wallGroup.length; i++) {
-    let yIdx;
     if (wallGroup[i][x] && wallGroup[i][x][y]) {
       wallGroup[i][x][y] = false;
+      if (i === 1) remainingBreakableWalls--;
+      if (!remainingBreakableWalls) checkTimeTrialEnd();
     }
-
-    // if (wallGroup[i][x]) yIdx = wallGroup[i][x].indexOf(y);
-    // if (yIdx && yIdx !== -1) wallGroup[i][x].splice(yIdx, 1);
   }
-
 };
 
 const zipXtoY = (yPos, x) => {
