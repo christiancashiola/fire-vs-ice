@@ -161,7 +161,7 @@ class Bomb {
     this.spreadAttack(spread);
     Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_3__["checkGameOver"])(spread);
     let coolTime;
-    coolTime = initialBomb ? 300 : 100;
+    coolTime = initialBomb ? 300 : 300;
     setTimeout(() => this.coolDown(spread), coolTime);
   }
   
@@ -169,7 +169,6 @@ class Bomb {
     const attack = this.getAttack();
     const spread = [];
     let x, y;
-
     for (let i = 0; i < attack.length; i++) {
       [x, y] = attack[i];
       if (_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x] && !_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x][y]) {
@@ -201,7 +200,6 @@ class Bomb {
       pos = spread[i];
       this.ctx.fillStyle = '#3B8314';
       this.ctx.fillRect(pos[0], pos[1], 50, 50);
-      debugger  
       if (_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["powerUpPos"][pos[0]] == pos[1]) Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["renderPowerUp"])(pos[0], pos[1]);
       if (_powerUps_shield__WEBPACK_IMPORTED_MODULE_2__["shieldPos"][pos[0]] == pos[1]) Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_2__["renderShield"])(pos[0], pos[1]);
       if (_traps_spikes__WEBPACK_IMPORTED_MODULE_4__["spikePos"][pos[0]] == pos[1]) Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_4__["renderSpikes"])(pos[0], pos[1]);
@@ -245,12 +243,13 @@ class Bomb {
   };
 
   detonateProximalBombs(spread) {
-    let x, y;
+    let x, y, bomb;
     for (let i = 0; i < spread.length; i++) {
       [x, y] = spread[i];
       if (liveBombs[x] && liveBombs[x][y]) {
-        clearInterval(liveBombs[x][y].bombIntervalId)
-        liveBombs[x][y].explode(false);
+        bomb = liveBombs[x][y]
+        clearInterval(bomb.bombIntervalId)
+        bomb.explode(false);
       }
     }
   }

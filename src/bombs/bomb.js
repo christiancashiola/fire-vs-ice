@@ -28,7 +28,7 @@ export class Bomb {
     this.spreadAttack(spread);
     checkGameOver(spread);
     let coolTime;
-    coolTime = initialBomb ? 300 : 100;
+    coolTime = initialBomb ? 300 : 300;
     setTimeout(() => this.coolDown(spread), coolTime);
   }
   
@@ -36,7 +36,6 @@ export class Bomb {
     const attack = this.getAttack();
     const spread = [];
     let x, y;
-
     for (let i = 0; i < attack.length; i++) {
       [x, y] = attack[i];
       if (staticWalls[x] && !staticWalls[x][y]) {
@@ -68,7 +67,6 @@ export class Bomb {
       pos = spread[i];
       this.ctx.fillStyle = '#3B8314';
       this.ctx.fillRect(pos[0], pos[1], 50, 50);
-      debugger  
       if (powerUpPos[pos[0]] == pos[1]) renderPowerUp(pos[0], pos[1]);
       if (shieldPos[pos[0]] == pos[1]) renderShield(pos[0], pos[1]);
       if (spikePos[pos[0]] == pos[1]) renderSpikes(pos[0], pos[1]);
@@ -112,12 +110,13 @@ export class Bomb {
   };
 
   detonateProximalBombs(spread) {
-    let x, y;
+    let x, y, bomb;
     for (let i = 0; i < spread.length; i++) {
       [x, y] = spread[i];
       if (liveBombs[x] && liveBombs[x][y]) {
-        clearInterval(liveBombs[x][y].bombIntervalId)
-        liveBombs[x][y].explode(false);
+        bomb = liveBombs[x][y]
+        clearInterval(bomb.bombIntervalId)
+        bomb.explode(false);
       }
     }
   }
