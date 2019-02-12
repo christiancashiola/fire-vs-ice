@@ -16,7 +16,6 @@ export const addShield = () => {
       i++;
     }
   }
-  console.log(shieldPos)
 };
 
 export const renderShield = (x, y) => {

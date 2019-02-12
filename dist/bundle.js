@@ -748,7 +748,6 @@ const addShield = () => {
       i++;
     }
   }
-  console.log(shieldPos)
 };
 
 const renderShield = (x, y) => {
