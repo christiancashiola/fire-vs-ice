@@ -118,191 +118,138 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************!*\
   !*** ./src/bombs/bomb.js ***!
   \***************************/
-/*! exports provided: dropBomb, containsBomb, getBombYVals, getBombXVals, liveBombs */
+/*! exports provided: Bomb, liveBombs, liveAttack */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dropBomb", function() { return dropBomb; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "containsBomb", function() { return containsBomb; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBombYVals", function() { return getBombYVals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBombXVals", function() { return getBombXVals; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Bomb", function() { return Bomb; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "liveBombs", function() { return liveBombs; });
-/* harmony import */ var _explosion__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./explosion */ "./src/bombs/explosion.js");
-/* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/gameUtil */ "./src/util/gameUtil.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "liveAttack", function() { return liveAttack; });
+/* harmony import */ var _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/wallUtil */ "./src/util/wallUtil.js");
+/* harmony import */ var _powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../powerUps/powerUp */ "./src/powerUps/powerUp.js");
+/* harmony import */ var _powerUps_shield__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../powerUps/shield */ "./src/powerUps/shield.js");
+/* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/gameUtil */ "./src/util/gameUtil.js");
+/* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
+
+
+
 
 
 
 const liveBombs = {};
+const liveAttack = {};
 
-const dropBomb = id => {
-  let player;
-  player = id === 1 ? _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"] : _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"];
-  const { xPos, yPos, ctx, bombImg, bombPower } = player;
+class Bomb {
+  constructor(props) {
+    Object.assign(this, props);
+    const { ctx, bombImg, x, y, } = this;
+    ctx.drawImage(bombImg, x, y);
+    this.explode = this.explode.bind(this);
+    setTimeout(this.explode, 1500);
 
-  liveBombs[xPos] ? liveBombs[xPos].push(yPos) : liveBombs[xPos] = [yPos];
-  ctx.drawImage(bombImg, xPos, yPos);
-  setTimeout(() => Object(_explosion__WEBPACK_IMPORTED_MODULE_0__["renderExplosion"])(xPos, yPos, ctx, bombPower, id), 1500);
-}
-
-const containsBomb = (x, y) => {
-  if (liveBombs[x] && liveBombs[x].indexOf(y) !== -1) {
-    return true;
-  }
-  return false;
-};
-
-const getBombYVals = (x) => {
-  return liveBombs[x];
-}
-
-const getBombXVals = (y) => {
-  const xVals = Object.keys(liveBombs);
-  const bombXVals = [];
-  
-  let xVal, yVals;
-  for (let i = 0; i < xVals.length; i++) {
-    xVal = xVals[i];
-    yVals = liveBombs[xVal];
-    
-    for (let j = 0; j < yVals.length; j++) {
-      if (yVals[i] === y) {
-        bombXVals.push(xVal);
-      }
+    if (liveBombs[x]) {
+      liveBombs[x][y] = this;
+    } else {
+      liveBombs[x] = { [y]: this };
     }
   }
-  return bombXVals;
+
+  explode() {
+    _util_gameUtil__WEBPACK_IMPORTED_MODULE_3__["explosionSound"].play();
+    delete liveBombs[this.x][this.y]
+    const spread = this.getSpread();
+    this.spreadAttack(spread);
+    Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_3__["checkGameOver"])(spread);
+    setTimeout(() => this.coolDown(spread), 300);
+  }
+  
+  getSpread() {
+    const attack = this.getAttack();
+    const spread = [];
+    let x, y;
+
+    for (let i = 0; i < attack.length; i++) {
+      [x, y] = attack[i];
+      if (this.checkAttack(x, y)) {
+        Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["removeWall"])(x, y);
+        spread.push([x, y]);
+      } else {
+        // skip all attack going direction blocked by static wall
+        if ((i + 1) % (attack.length / 4) !== 0) i++;
+      }
+    }
+
+    spread.push([this.x, this.y]);
+    return spread;
+  }
+  
+  spreadAttack(spread) {
+    let pos;
+    for (let i = 0; i < spread.length; i++) {
+      pos = spread[i];
+      this.addToLiveAttack(pos);
+      this.ctx.drawImage(this.attackImg, pos[0], pos[1]);    
+    }
+  }
+  
+  coolDown(spread) {
+    let pos;
+    this.removeFromLiveAttack(spread);
+    for (let i = 0; i < spread.length; i++) {
+      pos = spread[i];
+      this.ctx.fillStyle = '#3B8314';
+      this.ctx.fillRect(pos[0], pos[1], 50, 50);  
+      if (_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["powerUpPos"][pos[0]] === pos[1]) Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["renderPowerUp"])(pos[0], pos[1]);
+      if (_powerUps_shield__WEBPACK_IMPORTED_MODULE_2__["shieldPos"][pos[0]] === pos[1]) Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_2__["renderShield"])(pos[0], pos[1]);
+      if (_traps_spikes__WEBPACK_IMPORTED_MODULE_4__["spikePos"][pos[0]] === pos[1]) Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_4__["renderSpikes"])(pos[0], pos[1]);
+    }
+  };
+  
+  getAttack() {
+    const {x, y, bombPower} = this;
+    let attack = [];
+  
+    // intentional so array is sorted based off of direction of attack
+    for (let i = 1; i < bombPower + 1; i++) {
+      attack.push([x - (50 * i), y]); 
+    }
+    for (let i = 1; i < bombPower + 1; i++) {
+      attack.push([x + (50 * i), y]);
+    }
+    for (let i = 1; i < bombPower + 1; i++) {
+      attack.push([x, y - (50 * i)]);
+    }
+    for (let i = 1; i < bombPower + 1; i++) {
+      attack.push([x, y + (50 * i)]);
+    }
+  
+    return attack;
+  };
+  
+  checkAttack(x, y) {
+    return (_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x] && _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x].indexOf(y) === -1);
+  }
+  
+  addToLiveAttack(pos) {
+    let [x, y] = pos;
+    if (liveAttack[x]) {
+      liveAttack[x][y] = true;
+    } else {
+      liveAttack[x] = { [y]: true };
+    }
+  };
+  
+  removeFromLiveAttack(spread) {
+    let x, y;
+    for (let i = 0; i < spread.length; i++) {
+      [x, y] = [spread[i][0], spread[i][1]];
+      liveAttack[x][y] = false;
+    }
+  };
 }
 
  
-
-/***/ }),
-
-/***/ "./src/bombs/explosion.js":
-/*!********************************!*\
-  !*** ./src/bombs/explosion.js ***!
-  \********************************/
-/*! exports provided: renderExplosion, liveAttack */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderExplosion", function() { return renderExplosion; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "liveAttack", function() { return liveAttack; });
-/* harmony import */ var _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/wallUtil */ "./src/util/wallUtil.js");
-/* harmony import */ var _bomb__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bomb */ "./src/bombs/bomb.js");
-/* harmony import */ var _powerUps_powerUp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../powerUps/powerUp */ "./src/powerUps/powerUp.js");
-/* harmony import */ var _powerUps_shield__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../powerUps/shield */ "./src/powerUps/shield.js");
-/* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/gameUtil */ "./src/util/gameUtil.js");
-/* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
-
-
-
-
-
-
-
-const liveAttack = {};
-
-const renderExplosion = (xPos, yPos, ctx, bombPower, id) => {
-  const attackImg = new Image();
-  if (id === 1) {
-    attackImg.src = 'public/gameImages/bombs/fire.png';
-  } else {
-    attackImg.src = 'public/gameImages/bombs/ice.png';
-  }
-  attackImg.addEventListener('load', () => {
-    _util_gameUtil__WEBPACK_IMPORTED_MODULE_4__["explosionSound"].play();
-    _bomb__WEBPACK_IMPORTED_MODULE_1__["liveBombs"][xPos].splice(_bomb__WEBPACK_IMPORTED_MODULE_1__["liveBombs"][xPos].indexOf(yPos), 1);
-    const spread = getSpread(xPos, yPos, bombPower);
-    spreadAttack(ctx, attackImg, spread);
-    Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_4__["checkGameOver"])(spread, 1);
-    setTimeout(() => coolDown(ctx, spread), 300);
-  });
-}
-
-const getSpread = (x, y, bombPower) => {
-  const attack = getAttack(x, y, bombPower);
-  const spread = [];
-
-  let xPos, yPos;
-  for (let i = 0; i < attack.length; i++) {
-    [xPos, yPos] = attack[i];
-    if (checkAttack(xPos, yPos)) {
-      Object(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["removeWall"])(xPos, yPos);
-      spread.push([xPos, yPos]);
-    } else {
-      // skip all attack going direction blocked by static wall
-      if ((i + 1) % (attack.length / 4) !== 0) i++;
-    }
-  }
-  spread.push([x, y]);
-  return spread;
-}
-
-const spreadAttack = (ctx, attackImg, spread) => {
-  let pos;
-  for (let i = 0; i < spread.length; i++) {
-    pos = spread[i];
-    addToLiveAttack(pos);
-    ctx.drawImage(attackImg, pos[0], pos[1]);    
-  }
-  Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_4__["checkGameOver"])(liveAttack);
-}
-
-const coolDown = (ctx, spread) => {
-  let pos;
-  for (let i = 0; i < spread.length; i++) {
-    pos = spread[i];
-    ctx.fillStyle = '#3B8314';
-    ctx.fillRect(pos[0], pos[1], 50, 50);  
-    if (_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_2__["powerUpPos"][pos[0]] === pos[1]) Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_2__["renderPowerUp"])(pos[0], pos[1]);
-    if (_powerUps_shield__WEBPACK_IMPORTED_MODULE_3__["shieldPos"][pos[0]] === pos[1]) Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_3__["renderShield"])(pos[0], pos[1]);
-    if (_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikePos"][pos[0]] === pos[1]) Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["renderSpikes"])(pos[0], pos[1]);
-  }
-};
-
-const getAttack = (x, y, bombPower) => {
-  let attack = [];
-
-  // intentional so array is sorted based off of direction of attack
-  for (let i = 1; i < bombPower + 1; i++) {
-    attack.push([x - (50 * i), y]); 
-  }
-  for (let i = 1; i < bombPower + 1; i++) {
-    attack.push([x + (50 * i), y]);
-  }
-  for (let i = 1; i < bombPower + 1; i++) {
-    attack.push([x, y - (50 * i)]);
-  }
-  for (let i = 1; i < bombPower + 1; i++) {
-    attack.push([x, y + (50 * i)]);
-  }
-
-  return attack;
-};
-
-const checkAttack  = (x, y) => {
-  return (_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x] && _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["staticWalls"][x].indexOf(y) === -1);
-}
-
-const addToLiveAttack = (pos) => {
-  let [x, y] = pos;
-  liveAttack[x] ? 
-  liveAttack[x].push(y) :
-  liveAttack[x] = [y];
-};
-
-const removeFromLiveAttack = spread => {
-  let x, y;
-  for (let i = 0; i < spread.length; i++) {
-    [x, y] = [spread[i][0], spread[i][0]];
-    liveAttack[x].splice(liveAttack[x].indexOf(y), 1);
-  }
-};
-
-
-
 
 /***/ }),
 
@@ -323,7 +270,6 @@ __webpack_require__.r(__webpack_exports__);
   if (e.keyCode === 81 && player.id === 1) return player.dropBomb();
   if (e.keyCode === 79 && player.id === 2) return player.dropBomb();
   if (!player.possibleMoves.includes(e.keyCode)) return;
-  debugger
   switch(e.keyCode) {
     case 65:
       player.readyRender(left, -50, 0);
@@ -431,9 +377,13 @@ class Player1 {
       this.shield = true;
       this.reRender();
     } 
-    if (this.bombSet || _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["containsBomb"](prevX, prevY)) {
+    if (this.bombSet || _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveBombs"][prevX] && _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveBombs"][prevX][prevY]) {
       this.bombRender(prevX, prevY);
     }
+    if (_bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveAttack"][this.xPos] && _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveAttack"][this.xPos][this.yPos]) {
+      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
+    }
+    
     if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
       if (this.shield) {
         deactivateShield();
@@ -470,11 +420,19 @@ class Player1 {
   }
 
   dropBomb() {
-    _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["dropBomb"](this.id);
+    const bombProps = {
+      playerId: this.playerId,
+      x: this.xPos,
+      y: this.yPos,
+      bombImg: this.bombImg,
+      bombPower: this.bombPower,
+      ctx: this.ctx,
+      attackImg: this.fire
+    }
+    new _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["Bomb"](bombProps);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     this.bombSet = true;
     Object(_util_moveUtil__WEBPACK_IMPORTED_MODULE_4__["updatePossibleMoves"])();
-    // this.getPossibleMoves();
   }  
 }
 
@@ -531,7 +489,6 @@ class Player2 {
 
   render() {
     Object(_util_moveUtil__WEBPACK_IMPORTED_MODULE_4__["updatePossibleMoves"])();
-    // this.getPossibleMoves();
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     if (this.shield) this.activateShield();
   }
@@ -547,8 +504,11 @@ class Player2 {
       this.shield = true;
       this.reRender();
     } 
-    if (this.bombSet || _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["containsBomb"](prevX, prevY)) {
+    if (this.bombSet || _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveBombs"][prevX] && _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveBombs"][prevX][prevY]) {
       this.bombRender(prevX, prevY);
+    }
+    if (_bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveAttack"][this.xPos] && _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveAttack"][this.xPos][this.yPos]) {
+      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
     }
     if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
       _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
@@ -586,11 +546,19 @@ class Player2 {
   }
 
   dropBomb() {
-    _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["dropBomb"](this.id);
+    const bombProps = {
+      playerId: this.playerId,
+      x: this.xPos,
+      y: this.yPos,
+      bombImg: this.bombImg,
+      bombPower: this.bombPower,
+      ctx: this.ctx,
+      attackImg: this.fire
+    }
+    new _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["Bomb"](bombProps);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     this.bombSet = true;
     Object(_util_moveUtil__WEBPACK_IMPORTED_MODULE_4__["updatePossibleMoves"])();
-    // this.getPossibleMoves();
   }  
 }
 
@@ -889,6 +857,8 @@ const player1back = new Image();
 const player1lSide = new Image();
 const player1rSide = new Image();
 const bombImg = new Image();
+const fire = new Image();
+fire.src = 'public/gameImages/bombs/fire.png';
 bombImg.src = 'public/gameImages/bombs/bomb.png';
 player1front.src = 'public/gameImages/characters/player1front.png';
 player1back.src = 'public/gameImages/characters/player1back.png';
@@ -900,6 +870,7 @@ const player1 = ctx => ({
   xPos: 50,
   yPos: 50,
   bombPower: 1,
+  fire,
   bombImg,
   front: player1front,
   back: player1back,
@@ -915,6 +886,8 @@ const player2front = new Image();
 const player2back = new Image();
 const player2lSide = new Image();
 const player2rSide = new Image();
+const ice = new Image();
+ice.src = 'public/gameImages/bombs/ice.png';
 player2front.src = 'public/gameImages/characters/player2front.png';
 player2back.src = 'public/gameImages/characters/player2back.png';
 player2lSide.src = 'public/gameImages/characters/player2lSide.png';
@@ -925,6 +898,7 @@ const player2 = ctx => ({
   xPos: 650,
   yPos: 450,
   bombPower: 1,
+  ice,
   bombImg,
   front: player2front,
   back: player2back,
@@ -1026,12 +1000,9 @@ const addToggleSound = () => {
   });
 }
 
-const checkGameOver = (spread, checkNumber) => {
+const checkGameOver = (spread ) => {
   let p1Win = false, p2Win = false, pos;
 
-  if (checkNumber <= 6) {
-    setTimeout(() => checkGameOver(spread, ++checkNumber), 50)
-  }
   for (let i = 0; i < spread.length; i++) {
     pos = spread[i];
 
@@ -1117,8 +1088,6 @@ const updatePossibleMoves = () => {
 }
 
 const getPlayer1Moves = (x, y) => {
-  debugger
-
   const possibleMoves = [65, 87, 68, 83];
   let dX = x - 50, dY = y;
 

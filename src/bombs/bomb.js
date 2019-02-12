@@ -1,45 +1,119 @@
-import { renderExplosion } from './explosion';
-import { player1, player2 } from '../util/gameUtil';
+import { staticWalls, removeWall } from '../util/wallUtil';
+import { powerUpPos, renderPowerUp } from '../powerUps/powerUp';
+import { shieldPos, renderShield } from '../powerUps/shield';
+import { checkGameOver, explosionSound } from '../util/gameUtil';
+import { renderSpikes, spikePos } from '../traps/spikes';
 
 const liveBombs = {};
+const liveAttack = {};
 
-export const dropBomb = id => {
-  let player;
-  player = id === 1 ? player1 : player2;
-  const { xPos, yPos, ctx, bombImg, bombPower } = player;
+export class Bomb {
+  constructor(props) {
+    Object.assign(this, props);
+    const { ctx, bombImg, x, y, } = this;
+    ctx.drawImage(bombImg, x, y);
+    this.explode = this.explode.bind(this);
+    setTimeout(this.explode, 1500);
 
-  liveBombs[xPos] ? liveBombs[xPos].push(yPos) : liveBombs[xPos] = [yPos];
-  ctx.drawImage(bombImg, xPos, yPos);
-  setTimeout(() => renderExplosion(xPos, yPos, ctx, bombPower, id), 1500);
-}
-
-export const containsBomb = (x, y) => {
-  if (liveBombs[x] && liveBombs[x].indexOf(y) !== -1) {
-    return true;
-  }
-  return false;
-};
-
-export const getBombYVals = (x) => {
-  return liveBombs[x];
-}
-
-export const getBombXVals = (y) => {
-  const xVals = Object.keys(liveBombs);
-  const bombXVals = [];
-  
-  let xVal, yVals;
-  for (let i = 0; i < xVals.length; i++) {
-    xVal = xVals[i];
-    yVals = liveBombs[xVal];
-    
-    for (let j = 0; j < yVals.length; j++) {
-      if (yVals[i] === y) {
-        bombXVals.push(xVal);
-      }
+    if (liveBombs[x]) {
+      liveBombs[x][y] = this;
+    } else {
+      liveBombs[x] = { [y]: this };
     }
   }
-  return bombXVals;
+
+  explode() {
+    explosionSound.play();
+    delete liveBombs[this.x][this.y]
+    const spread = this.getSpread();
+    this.spreadAttack(spread);
+    checkGameOver(spread);
+    setTimeout(() => this.coolDown(spread), 300);
+  }
+  
+  getSpread() {
+    const attack = this.getAttack();
+    const spread = [];
+    let x, y;
+
+    for (let i = 0; i < attack.length; i++) {
+      [x, y] = attack[i];
+      if (this.checkAttack(x, y)) {
+        removeWall(x, y);
+        spread.push([x, y]);
+      } else {
+        // skip all attack going direction blocked by static wall
+        if ((i + 1) % (attack.length / 4) !== 0) i++;
+      }
+    }
+
+    spread.push([this.x, this.y]);
+    return spread;
+  }
+  
+  spreadAttack(spread) {
+    let pos;
+    for (let i = 0; i < spread.length; i++) {
+      pos = spread[i];
+      this.addToLiveAttack(pos);
+      this.ctx.drawImage(this.attackImg, pos[0], pos[1]);    
+    }
+  }
+  
+  coolDown(spread) {
+    let pos;
+    this.removeFromLiveAttack(spread);
+    for (let i = 0; i < spread.length; i++) {
+      pos = spread[i];
+      this.ctx.fillStyle = '#3B8314';
+      this.ctx.fillRect(pos[0], pos[1], 50, 50);  
+      if (powerUpPos[pos[0]] === pos[1]) renderPowerUp(pos[0], pos[1]);
+      if (shieldPos[pos[0]] === pos[1]) renderShield(pos[0], pos[1]);
+      if (spikePos[pos[0]] === pos[1]) renderSpikes(pos[0], pos[1]);
+    }
+  };
+  
+  getAttack() {
+    const {x, y, bombPower} = this;
+    let attack = [];
+  
+    // intentional so array is sorted based off of direction of attack
+    for (let i = 1; i < bombPower + 1; i++) {
+      attack.push([x - (50 * i), y]); 
+    }
+    for (let i = 1; i < bombPower + 1; i++) {
+      attack.push([x + (50 * i), y]);
+    }
+    for (let i = 1; i < bombPower + 1; i++) {
+      attack.push([x, y - (50 * i)]);
+    }
+    for (let i = 1; i < bombPower + 1; i++) {
+      attack.push([x, y + (50 * i)]);
+    }
+  
+    return attack;
+  };
+  
+  checkAttack(x, y) {
+    return (staticWalls[x] && staticWalls[x].indexOf(y) === -1);
+  }
+  
+  addToLiveAttack(pos) {
+    let [x, y] = pos;
+    if (liveAttack[x]) {
+      liveAttack[x][y] = true;
+    } else {
+      liveAttack[x] = { [y]: true };
+    }
+  };
+  
+  removeFromLiveAttack(spread) {
+    let x, y;
+    for (let i = 0; i < spread.length; i++) {
+      [x, y] = [spread[i][0], spread[i][1]];
+      liveAttack[x][y] = false;
+    }
+  };
 }
 
-export { liveBombs }; 
+export { liveBombs, liveAttack }; 

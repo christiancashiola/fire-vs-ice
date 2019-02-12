@@ -8,8 +8,6 @@ export const updatePossibleMoves = () => {
 }
 
 export const getPlayer1Moves = (x, y) => {
-  debugger
-
   const possibleMoves = [65, 87, 68, 83];
   let dX = x - 50, dY = y;
 

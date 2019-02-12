@@ -1,4 +1,4 @@
-import * as bombUtil from '../bombs/bomb';
+import { Bomb, liveBombs, liveAttack } from '../bombs/bomb';
 import { powerUp } from '../powerUps/powerUp';
 import moveMap from './moveMap';
 import { shield } from '../powerUps/shield';
@@ -37,7 +37,6 @@ export default class Player2 {
 
   render() {
     updatePossibleMoves();
-    // this.getPossibleMoves();
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     if (this.shield) this.activateShield();
   }
@@ -53,8 +52,11 @@ export default class Player2 {
       this.shield = true;
       this.reRender();
     } 
-    if (this.bombSet || bombUtil.containsBomb(prevX, prevY)) {
+    if (this.bombSet || liveBombs[prevX] && liveBombs[prevX][prevY]) {
       this.bombRender(prevX, prevY);
+    }
+    if (liveAttack[this.xPos] && liveAttack[this.xPos][this.yPos]) {
+      evaluateWinner(false, true);
     }
     if (spikes(this.xPos, this.yPos)) {
       spikeSound.play();
@@ -92,10 +94,18 @@ export default class Player2 {
   }
 
   dropBomb() {
-    bombUtil.dropBomb(this.id);
+    const bombProps = {
+      playerId: this.playerId,
+      x: this.xPos,
+      y: this.yPos,
+      bombImg: this.bombImg,
+      bombPower: this.bombPower,
+      ctx: this.ctx,
+      attackImg: this.fire
+    }
+    new Bomb(bombProps);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     this.bombSet = true;
     updatePossibleMoves();
-    // this.getPossibleMoves();
   }  
 }

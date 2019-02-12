@@ -12,6 +12,8 @@ const player1back = new Image();
 const player1lSide = new Image();
 const player1rSide = new Image();
 const bombImg = new Image();
+const fire = new Image();
+fire.src = 'public/gameImages/bombs/fire.png';
 bombImg.src = 'public/gameImages/bombs/bomb.png';
 player1front.src = 'public/gameImages/characters/player1front.png';
 player1back.src = 'public/gameImages/characters/player1back.png';
@@ -23,6 +25,7 @@ const player1 = ctx => ({
   xPos: 50,
   yPos: 50,
   bombPower: 1,
+  fire,
   bombImg,
   front: player1front,
   back: player1back,
@@ -38,6 +41,8 @@ const player2front = new Image();
 const player2back = new Image();
 const player2lSide = new Image();
 const player2rSide = new Image();
+const ice = new Image();
+ice.src = 'public/gameImages/bombs/ice.png';
 player2front.src = 'public/gameImages/characters/player2front.png';
 player2back.src = 'public/gameImages/characters/player2back.png';
 player2lSide.src = 'public/gameImages/characters/player2lSide.png';
@@ -48,6 +53,7 @@ const player2 = ctx => ({
   xPos: 650,
   yPos: 450,
   bombPower: 1,
+  ice,
   bombImg,
   front: player2front,
   back: player2back,

@@ -56,12 +56,9 @@ export const addToggleSound = () => {
   });
 }
 
-export const checkGameOver = (spread, checkNumber) => {
+export const checkGameOver = (spread ) => {
   let p1Win = false, p2Win = false, pos;
 
-  if (checkNumber <= 6) {
-    setTimeout(() => checkGameOver(spread, ++checkNumber), 50)
-  }
   for (let i = 0; i < spread.length; i++) {
     pos = spread[i];
 
