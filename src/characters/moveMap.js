@@ -39,6 +39,4 @@ export default (e, player) => {
       player.direction = 'S';
       break;
   } 
-
-  // updatePossibleMoves();
 }

@@ -7,6 +7,7 @@ import { addShield } from '../powerUps/shield';
 import Player1 from '../characters/player1';
 import Player2 from '../characters/player2';
 import { addSpikes } from '../traps/spikes';
+import { startTimer, getTimerScore, stopTimer } from './timerUtil';
 
 let explosionSound,
     shieldSound, 
@@ -28,26 +29,13 @@ export const newSinglePlayerGame = playerState => {
     player2.singlePlayer = true;
     player1 = {};
   }
-}
-    
+  startTimer();
+}  
 
 export const newTwoPlayerGame = playerStates => {
-  // const canvas = document.querySelector('#green-backdrop');
-  // const ctx = canvas.getContext('2d');
   initialSetup();
-
-  // setupGreenBackdrop();
-  // addStaticWalls();
-  // addBreakableWalls();
-  // addPowerUp(ctx);
-  // addShield(ctx);
-  // addSpikes(ctx);
-
   player1 = new Player1(playerStates[0]);
   player2 = new Player2(playerStates[1]);
-
-  // music.raiseVolume();
-  // music.play();
 }
 
 const initialSetup = () => {
@@ -106,15 +94,22 @@ export const checkGameOver = (spread ) => {
 }
 
 export const checkTimeTrialEnd = () => {
-  if (player1.singlePlayer) evaluateWinner(true, false);
+  if (player1.singlePlayer || player2.singlePlayer) {
+    let score = getTimerScore();
+    let innerText = `SCORE ${score}`;
+    let color = 'white';
+    gameOverMessage(innerText, color)
+  }
 }
 
 export const evaluateWinner = (p1Win, p2Win) => {
-  const billBoard = document.querySelector('.bill-board');
-  const modal = document.querySelector('#modal');
   let innerText, color, gameOver;
 
-  if (p1Win && p2Win) {
+  if ((p1Win || p2Win) && (player1.singlePlayer || player2.singlePlayer)) {
+    stopTimer();
+    innerText = `GAME OVER.`;
+    color = 'white';
+  } else if (p1Win && p2Win) {
     innerText = 'TIE!';
     color = 'white';
   } else if (p1Win) {
@@ -127,21 +122,28 @@ export const evaluateWinner = (p1Win, p2Win) => {
 
   gameOver = p1Win || p2Win ? true : false;
   if (gameOver) {
-    player1.possibleMoves = [];
-    player2.possibleMoves = [];
-    music.stop();
-    gameOverSound.play();
-    billBoard.innerText = innerText;
-    billBoard.style.color = color;
-    billBoard.style.visibility = 'visible';
-    modal.style.display = 'block';
-    setTimeout(() => {
-      billBoard.style.visibility = 'hidden'; 
-      window.location.reload();
-    }, 3000);
+    gameOverMessage(innerText, color);
   }
 }
 
+const gameOverMessage = (text, color) => {
+  const billBoard = document.querySelector('.bill-board');
+  const modal = document.querySelector('#modal');
+  const playAgain = document.querySelector('#play-again');
+
+  player1.possibleMoves = [];
+  player2.possibleMoves = [];
+  music.stop();
+  gameOverSound.play();
+  billBoard.innerText = text;
+  billBoard.style.color = color;
+  billBoard.style.visibility = 'visible';
+  playAgain.style.visibility = 'visible';
+  modal.style.display = 'block';
+  window.addEventListener('keyup', e => {
+    if (e.keyCode === 32) window.location.reload();
+  });
+}
 
 const checkShield = player => {
   if (player.shield) {

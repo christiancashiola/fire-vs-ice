@@ -1,42 +1,39 @@
 import { loadSounds, addToggleSound, newTwoPlayerGame, newSinglePlayerGame } from './util/gameUtil';
 import { loadCharacters } from './util/characterUtil';
 
+let players, mode, characters;
 document.addEventListener('DOMContentLoaded', () => {
-  const characters = loadCharacters();
-  loadSounds();
-  
+  characters = loadCharacters();
   if (window.innerWidth < 1200) {
     alert('This game is best enjoyed on a full screen computer screen');
   }
- 
+  
+  loadSounds();
+  handleSinglePlayerClick();
+  handleTwoPlayerClick();
+  handleStartClick();
+});
 
+const handleSinglePlayerClick = () => {
   const singlePlayerBtn = document.querySelector('#single-player');
-  const twoPlayerBtn = document.querySelector('#two-player');
-  const startBtn = document.querySelector('#start');
-  const instructions = document.querySelector('#instructions-container');
-  const toggleSound = document.querySelector('#toggle-sound');
-
-  let players, mode;
   singlePlayerBtn.addEventListener('click', () => {
     document.querySelector('.selection-section').style.display = 'none';
-    document.querySelector('#character-1').addEventListener('click', () => {
+    const character1 = document.querySelector('#character-1');
+    character1.addEventListener('click', () => {
       players = characters[0];
-      mode = newSinglePlayerGame;
-
-      document.querySelector('#selection-2').style.display = 'none';
-
+      setupSinglePlayerMode();
     });
-    document.querySelector('#character-2').addEventListener('click', () => {
+
+    const character2 = document.querySelector('#character-2');
+    character2.addEventListener('click', () => {
       players = characters[1];
-      mode = newSinglePlayerGame;
-
-      document.querySelector('#selection-2').style.display = 'none';
-
+      setupSinglePlayerMode();
     });
-
-    // document.querySelector
   });
+}
 
+const handleTwoPlayerClick = () => {
+  const twoPlayerBtn = document.querySelector('#two-player');
   twoPlayerBtn.addEventListener('click', () => {
     document.querySelector('.selection-section').style.display = 'none';
     players = characters;
@@ -44,16 +41,22 @@ document.addEventListener('DOMContentLoaded', () => {
     mode = newTwoPlayerGame;
     document.querySelector('#selection-2').style.display = 'none';
   });
+}
 
-  startBtn.addEventListener('click', () => {
+const setupSinglePlayerMode = () => {
+  mode = newSinglePlayerGame;
+  document.querySelector('#selection-2').style.display = 'none';
+}
+
+const handleStartClick = () => {
+    document.querySelector('#start').addEventListener('click', () => {
+    const instructions = document.querySelector('#instructions-container');  
     document.querySelector('#instruction-section').style.display = 'none';
-    startBtn.style.display = 'none';
+    document.querySelector('#toggle-sound').style.display = 'block';
+    document.querySelector('#start').style.display = 'none';
     instructions.style.visibility = 'hidden';
-    toggleSound.style.display = 'block';
-    // let the games begin.
+
     addToggleSound();
-    // newGame(characters);
     mode(players);
-    // newGame(characters, true);
   })
-});
+}

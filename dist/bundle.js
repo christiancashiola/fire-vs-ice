@@ -308,8 +308,6 @@ __webpack_require__.r(__webpack_exports__);
       player.direction = 'S';
       break;
   } 
-
-  // updatePossibleMoves();
 });
 
 /***/ }),
@@ -365,7 +363,6 @@ class Player1 {
 
   render() {
     Object(_util_moveUtil__WEBPACK_IMPORTED_MODULE_4__["updatePossibleMoves"])();
-    // this.getPossibleMoves();
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     if (this.shield) this.activateShield();
   }
@@ -574,42 +571,39 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+let players, mode, characters;
 document.addEventListener('DOMContentLoaded', () => {
-  const characters = Object(_util_characterUtil__WEBPACK_IMPORTED_MODULE_1__["loadCharacters"])();
-  Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["loadSounds"])();
-  
+  characters = Object(_util_characterUtil__WEBPACK_IMPORTED_MODULE_1__["loadCharacters"])();
   if (window.innerWidth < 1200) {
     alert('This game is best enjoyed on a full screen computer screen');
   }
- 
+  
+  Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["loadSounds"])();
+  handleSinglePlayerClick();
+  handleTwoPlayerClick();
+  handleStartClick();
+});
 
+const handleSinglePlayerClick = () => {
   const singlePlayerBtn = document.querySelector('#single-player');
-  const twoPlayerBtn = document.querySelector('#two-player');
-  const startBtn = document.querySelector('#start');
-  const instructions = document.querySelector('#instructions-container');
-  const toggleSound = document.querySelector('#toggle-sound');
-
-  let players, mode;
   singlePlayerBtn.addEventListener('click', () => {
     document.querySelector('.selection-section').style.display = 'none';
-    document.querySelector('#character-1').addEventListener('click', () => {
+    const character1 = document.querySelector('#character-1');
+    character1.addEventListener('click', () => {
       players = characters[0];
-      mode = _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newSinglePlayerGame"];
-
-      document.querySelector('#selection-2').style.display = 'none';
-
+      setupSinglePlayerMode();
     });
-    document.querySelector('#character-2').addEventListener('click', () => {
+
+    const character2 = document.querySelector('#character-2');
+    character2.addEventListener('click', () => {
       players = characters[1];
-      mode = _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newSinglePlayerGame"];
-
-      document.querySelector('#selection-2').style.display = 'none';
-
+      setupSinglePlayerMode();
     });
-
-    // document.querySelector
   });
+}
 
+const handleTwoPlayerClick = () => {
+  const twoPlayerBtn = document.querySelector('#two-player');
   twoPlayerBtn.addEventListener('click', () => {
     document.querySelector('.selection-section').style.display = 'none';
     players = characters;
@@ -617,19 +611,25 @@ document.addEventListener('DOMContentLoaded', () => {
     mode = _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newTwoPlayerGame"];
     document.querySelector('#selection-2').style.display = 'none';
   });
+}
 
-  startBtn.addEventListener('click', () => {
+const setupSinglePlayerMode = () => {
+  mode = _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newSinglePlayerGame"];
+  document.querySelector('#selection-2').style.display = 'none';
+}
+
+const handleStartClick = () => {
+    document.querySelector('#start').addEventListener('click', () => {
+    const instructions = document.querySelector('#instructions-container');  
     document.querySelector('#instruction-section').style.display = 'none';
-    startBtn.style.display = 'none';
+    document.querySelector('#toggle-sound').style.display = 'block';
+    document.querySelector('#start').style.display = 'none';
     instructions.style.visibility = 'hidden';
-    toggleSound.style.display = 'block';
-    // let the games begin.
+
     Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["addToggleSound"])();
-    // newGame(characters);
     mode(players);
-    // newGame(characters, true);
   })
-});
+}
 
 /***/ }),
 
@@ -979,6 +979,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _characters_player1__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../characters/player1 */ "./src/characters/player1.js");
 /* harmony import */ var _characters_player2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../characters/player2 */ "./src/characters/player2.js");
 /* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
+/* harmony import */ var _timerUtil__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./timerUtil */ "./src/util/timerUtil.js");
+
 
 
 
@@ -1009,26 +1011,13 @@ const newSinglePlayerGame = playerState => {
     player2.singlePlayer = true;
     player1 = {};
   }
-}
-    
+  Object(_timerUtil__WEBPACK_IMPORTED_MODULE_9__["startTimer"])();
+}  
 
 const newTwoPlayerGame = playerStates => {
-  // const canvas = document.querySelector('#green-backdrop');
-  // const ctx = canvas.getContext('2d');
   initialSetup();
-
-  // setupGreenBackdrop();
-  // addStaticWalls();
-  // addBreakableWalls();
-  // addPowerUp(ctx);
-  // addShield(ctx);
-  // addSpikes(ctx);
-
   player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_6__["default"](playerStates[0]);
   player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_7__["default"](playerStates[1]);
-
-  // music.raiseVolume();
-  // music.play();
 }
 
 const initialSetup = () => {
@@ -1087,15 +1076,22 @@ const checkGameOver = (spread ) => {
 }
 
 const checkTimeTrialEnd = () => {
-  if (player1.singlePlayer) evaluateWinner(true, false);
+  if (player1.singlePlayer || player2.singlePlayer) {
+    let score = Object(_timerUtil__WEBPACK_IMPORTED_MODULE_9__["getTimerScore"])();
+    let innerText = `SCORE ${score}`;
+    let color = 'white';
+    gameOverMessage(innerText, color)
+  }
 }
 
 const evaluateWinner = (p1Win, p2Win) => {
-  const billBoard = document.querySelector('.bill-board');
-  const modal = document.querySelector('#modal');
   let innerText, color, gameOver;
 
-  if (p1Win && p2Win) {
+  if ((p1Win || p2Win) && (player1.singlePlayer || player2.singlePlayer)) {
+    Object(_timerUtil__WEBPACK_IMPORTED_MODULE_9__["stopTimer"])();
+    innerText = `GAME OVER.`;
+    color = 'white';
+  } else if (p1Win && p2Win) {
     innerText = 'TIE!';
     color = 'white';
   } else if (p1Win) {
@@ -1108,21 +1104,28 @@ const evaluateWinner = (p1Win, p2Win) => {
 
   gameOver = p1Win || p2Win ? true : false;
   if (gameOver) {
-    player1.possibleMoves = [];
-    player2.possibleMoves = [];
-    music.stop();
-    gameOverSound.play();
-    billBoard.innerText = innerText;
-    billBoard.style.color = color;
-    billBoard.style.visibility = 'visible';
-    modal.style.display = 'block';
-    setTimeout(() => {
-      billBoard.style.visibility = 'hidden'; 
-      window.location.reload();
-    }, 3000);
+    gameOverMessage(innerText, color);
   }
 }
 
+const gameOverMessage = (text, color) => {
+  const billBoard = document.querySelector('.bill-board');
+  const modal = document.querySelector('#modal');
+  const playAgain = document.querySelector('#play-again');
+
+  player1.possibleMoves = [];
+  player2.possibleMoves = [];
+  music.stop();
+  gameOverSound.play();
+  billBoard.innerText = text;
+  billBoard.style.color = color;
+  billBoard.style.visibility = 'visible';
+  playAgain.style.visibility = 'visible';
+  modal.style.display = 'block';
+  window.addEventListener('keyup', e => {
+    if (e.keyCode === 32) window.location.reload();
+  });
+}
 
 const checkShield = player => {
   if (player.shield) {
@@ -1207,6 +1210,51 @@ const getPlayer2Moves = (x, y) => {
   dY += 50;
   checkCollision(75);
   _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].possibleMoves = possibleMoves;
+}
+
+/***/ }),
+
+/***/ "./src/util/timerUtil.js":
+/*!*******************************!*\
+  !*** ./src/util/timerUtil.js ***!
+  \*******************************/
+/*! exports provided: startTimer, getTimerScore, stopTimer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startTimer", function() { return startTimer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTimerScore", function() { return getTimerScore; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "stopTimer", function() { return stopTimer; });
+let count = 0;
+let timerId;
+const startTimer = () => {
+  document.querySelector('#timer').style.visibility = 'visible';
+  timerId = setInterval(() => tick(++count), 1000);
+}
+
+const getTimerScore = () => {
+  stopTimer();
+  return Math.ceil(100000 * Math.pow(0.95, count));
+}
+
+const stopTimer = () => {
+  clearInterval(timerId);
+}
+
+const tick = count => {
+  let time = parseTime(count);
+  document.querySelector('#timer').innerHTML = time;
+}
+
+const parseTime = count => {
+  let minutes = Math.floor(count / 60);
+  let seconds = count % 60;
+
+  let leadingMinuteZero, leadingSecondZero;
+  leadingMinuteZero = minutes < 10 ? 0 : '';
+  leadingSecondZero = seconds < 10 ? 0 : '';
+  return `${leadingMinuteZero}${minutes}:${leadingSecondZero}${seconds}`;
 }
 
 /***/ }),

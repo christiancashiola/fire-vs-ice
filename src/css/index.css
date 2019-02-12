@@ -27,8 +27,6 @@ body {
 }
 
 canvas {
-  /* position: absolute;
-  top: 120px; */
   display: none;
 }
 
@@ -56,11 +54,13 @@ header {
 }
 
 .bill-board {
-  padding: 0 20px;
+  margin: 0;
+  padding: 20px;
   background-color: #000;
-  font-size: 6em;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 4em;
   position: absolute;
-  top: 30%;
+  top: 250px;
   border-radius: 3px;
   visibility: hidden;
   z-index: 3;
@@ -225,4 +225,36 @@ a {
   height: 100%;
   z-index: 2;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* TIMER */
+
+#timer {
+  visibility: hidden;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  font-size: 32px;
+  position: absolute;
+  top: 20px;
+  left: 40px;
+}
+
+/* GAME OVER */
+
+#play-again {
+  visibility: hidden;
+  margin: 0;
+  background-color: #000;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  font-size: 32px;
+  position: absolute;
+  top: 450px;
+  padding: 20px 10px;
+  z-index: 3;
+}
+
+#space {
+  background-color: #fff;
+  color: #000;
 }

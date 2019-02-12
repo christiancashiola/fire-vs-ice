@@ -37,7 +37,6 @@ export default class Player1 {
 
   render() {
     updatePossibleMoves();
-    // this.getPossibleMoves();
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     if (this.shield) this.activateShield();
   }
