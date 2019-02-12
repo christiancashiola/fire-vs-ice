@@ -6,14 +6,17 @@ export const addPowerUp = () => {
 
   let i = 0;
   while(i < 4) {
-    const walls = Object.keys(breakableWalls);
-    const x = walls[Math.floor(Math.random() * walls.length)];
-    const y = breakableWalls[x][Math.floor(Math.random() * breakableWalls[x].length)];
+    const xWalls = Object.keys(breakableWalls);
+    const x = xWalls[Math.floor(Math.random() * xWalls.length)];
+    const yWalls = Object.keys(breakableWalls[x]);
+    const y = yWalls[Math.floor(Math.random() * yWalls.length)];
     if (!powerUpPos[x]) {
       powerUpPos[x] = y;
       i++;
     }
   }
+
+  console.log(powerUpPos)
 };
 
 export const renderPowerUp = (x, y) => {
@@ -32,7 +35,7 @@ export const renderPowerUp = (x, y) => {
 }
 
 export const powerUp = (x, y) => {
-  if (powerUpPos[x] === y) {
+  if (powerUpPos[x] == y) {
     clearPowerUp(x, y);
     return true;
   }

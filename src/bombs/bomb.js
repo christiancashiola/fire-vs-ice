@@ -13,20 +13,23 @@ export class Bomb {
     const { ctx, bombImg, x, y, } = this;
     ctx.drawImage(bombImg, x, y);
     this.explode = this.explode.bind(this);
-    setTimeout(this.explode, 1500);
+    this.bombIntervalId = setTimeout(() => this.explode(true), 1500);
     
     liveBombs[x] ? 
-    liveBombs[x][y] = true :
-    liveBombs[x] = { [y]: true };
+    liveBombs[x][y] = this :
+    liveBombs[x] = { [y]: this };
   }
 
-  explode() {
-    explosionSound.play();
+  explode(initialBomb) {
     delete liveBombs[this.x][this.y]
     const spread = this.getSpread();
+    this.detonateProximalBombs(spread);
+    explosionSound.play();
     this.spreadAttack(spread);
     checkGameOver(spread);
-    setTimeout(() => this.coolDown(spread), 300);
+    let coolTime;
+    coolTime = initialBomb ? 300 : 100;
+    setTimeout(() => this.coolDown(spread), coolTime);
   }
   
   getSpread() {
@@ -64,10 +67,11 @@ export class Bomb {
     for (let i = 0; i < spread.length; i++) {
       pos = spread[i];
       this.ctx.fillStyle = '#3B8314';
-      this.ctx.fillRect(pos[0], pos[1], 50, 50);  
-      if (powerUpPos[pos[0]] === pos[1]) renderPowerUp(pos[0], pos[1]);
-      if (shieldPos[pos[0]] === pos[1]) renderShield(pos[0], pos[1]);
-      if (spikePos[pos[0]] === pos[1]) renderSpikes(pos[0], pos[1]);
+      this.ctx.fillRect(pos[0], pos[1], 50, 50);
+      debugger  
+      if (powerUpPos[pos[0]] == pos[1]) renderPowerUp(pos[0], pos[1]);
+      if (shieldPos[pos[0]] == pos[1]) renderShield(pos[0], pos[1]);
+      if (spikePos[pos[0]] == pos[1]) renderSpikes(pos[0], pos[1]);
     }
   };
   
@@ -106,6 +110,17 @@ export class Bomb {
       liveAttack[x][y] = false;
     }
   };
+
+  detonateProximalBombs(spread) {
+    let x, y;
+    for (let i = 0; i < spread.length; i++) {
+      [x, y] = spread[i];
+      if (liveBombs[x] && liveBombs[x][y]) {
+        clearInterval(liveBombs[x][y].bombIntervalId)
+        liveBombs[x][y].explode(false);
+      }
+    }
+  }
 }
 
 export { liveBombs, liveAttack }; 

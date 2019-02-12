@@ -36,7 +36,7 @@ export const getPlayer2Moves = (x, y) => {
   let dX = x - 50, dY = y;
   
   const checkCollision = (move) => {
-    if ((allWallsXToY[dX] && !allWallsXToY[dX][dY]) ||
+    if ((allWallsXToY[dX] && allWallsXToY[dX][dY]) ||
       (player1.xPos === dX && player1.yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }

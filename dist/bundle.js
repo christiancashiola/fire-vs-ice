@@ -146,20 +146,23 @@ class Bomb {
     const { ctx, bombImg, x, y, } = this;
     ctx.drawImage(bombImg, x, y);
     this.explode = this.explode.bind(this);
-    setTimeout(this.explode, 1500);
+    this.bombIntervalId = setTimeout(() => this.explode(true), 1500);
     
     liveBombs[x] ? 
-    liveBombs[x][y] = true :
-    liveBombs[x] = { [y]: true };
+    liveBombs[x][y] = this :
+    liveBombs[x] = { [y]: this };
   }
 
-  explode() {
-    _util_gameUtil__WEBPACK_IMPORTED_MODULE_3__["explosionSound"].play();
+  explode(initialBomb) {
     delete liveBombs[this.x][this.y]
     const spread = this.getSpread();
+    this.detonateProximalBombs(spread);
+    _util_gameUtil__WEBPACK_IMPORTED_MODULE_3__["explosionSound"].play();
     this.spreadAttack(spread);
     Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_3__["checkGameOver"])(spread);
-    setTimeout(() => this.coolDown(spread), 300);
+    let coolTime;
+    coolTime = initialBomb ? 300 : 100;
+    setTimeout(() => this.coolDown(spread), coolTime);
   }
   
   getSpread() {
@@ -197,10 +200,11 @@ class Bomb {
     for (let i = 0; i < spread.length; i++) {
       pos = spread[i];
       this.ctx.fillStyle = '#3B8314';
-      this.ctx.fillRect(pos[0], pos[1], 50, 50);  
-      if (_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["powerUpPos"][pos[0]] === pos[1]) Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["renderPowerUp"])(pos[0], pos[1]);
-      if (_powerUps_shield__WEBPACK_IMPORTED_MODULE_2__["shieldPos"][pos[0]] === pos[1]) Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_2__["renderShield"])(pos[0], pos[1]);
-      if (_traps_spikes__WEBPACK_IMPORTED_MODULE_4__["spikePos"][pos[0]] === pos[1]) Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_4__["renderSpikes"])(pos[0], pos[1]);
+      this.ctx.fillRect(pos[0], pos[1], 50, 50);
+      debugger  
+      if (_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["powerUpPos"][pos[0]] == pos[1]) Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_1__["renderPowerUp"])(pos[0], pos[1]);
+      if (_powerUps_shield__WEBPACK_IMPORTED_MODULE_2__["shieldPos"][pos[0]] == pos[1]) Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_2__["renderShield"])(pos[0], pos[1]);
+      if (_traps_spikes__WEBPACK_IMPORTED_MODULE_4__["spikePos"][pos[0]] == pos[1]) Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_4__["renderSpikes"])(pos[0], pos[1]);
     }
   };
   
@@ -239,6 +243,17 @@ class Bomb {
       liveAttack[x][y] = false;
     }
   };
+
+  detonateProximalBombs(spread) {
+    let x, y;
+    for (let i = 0; i < spread.length; i++) {
+      [x, y] = spread[i];
+      if (liveBombs[x] && liveBombs[x][y]) {
+        clearInterval(liveBombs[x][y].bombIntervalId)
+        liveBombs[x][y].explode(false);
+      }
+    }
+  }
 }
 
  
@@ -545,7 +560,7 @@ class Player2 {
       bombImg: this.bombImg,
       bombPower: this.bombPower,
       ctx: this.ctx,
-      attackImg: this.fire
+      attackImg: this.ice
     }
     new _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["Bomb"](bombProps);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
@@ -618,14 +633,17 @@ const addPowerUp = () => {
 
   let i = 0;
   while(i < 4) {
-    const walls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"]);
-    const x = walls[Math.floor(Math.random() * walls.length)];
-    const y = _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x][Math.floor(Math.random() * _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x].length)];
+    const xWalls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"]);
+    const x = xWalls[Math.floor(Math.random() * xWalls.length)];
+    const yWalls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x]);
+    const y = yWalls[Math.floor(Math.random() * yWalls.length)];
     if (!powerUpPos[x]) {
       powerUpPos[x] = y;
       i++;
     }
   }
+
+  console.log(powerUpPos)
 };
 
 const renderPowerUp = (x, y) => {
@@ -644,7 +662,7 @@ const renderPowerUp = (x, y) => {
 }
 
 const powerUp = (x, y) => {
-  if (powerUpPos[x] === y) {
+  if (powerUpPos[x] == y) {
     clearPowerUp(x, y);
     return true;
   }
@@ -683,9 +701,10 @@ const addShield = () => {
 
   let i = 0;
   while(i < 2) {
-    const walls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"]);
-    const x = walls[Math.floor(Math.random() * walls.length)];
-    const y = _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x][Math.floor(Math.random() * _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x].length)];
+    const xWalls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"]);
+    const x = xWalls[Math.floor(Math.random() * xWalls.length)];
+    const yWalls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x]);
+    const y = yWalls[Math.floor(Math.random() * yWalls.length)];
     if (!shieldPos[x]) {
       shieldPos[x] = y;
       i++;
@@ -709,7 +728,7 @@ const renderShield = (x, y) => {
 }
 
 const shield = (x, y) => {
-  if (shieldPos[x] === y) {
+  if (shieldPos[x] == y) {
     clearShield(x, y);
     return true;
   }
@@ -784,9 +803,10 @@ const addSpikes = () => {
 
   let i = 0;
   while(i < 4) {
-    const walls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"]);
-    const x = walls[Math.floor(Math.random() * walls.length)];
-    const y = _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x][Math.floor(Math.random() * _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x].length)];
+    const xWalls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"]);
+    const x = xWalls[Math.floor(Math.random() * xWalls.length)];
+    const yWalls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x]);
+    const y = yWalls[Math.floor(Math.random() * yWalls.length)];
     if (!spikePos[x] && doesNotBlockPlayerSpawn(x, y)) {
       spikePos[x] = y;
       i++;
@@ -818,7 +838,7 @@ const renderSpikes = (x, y) => {
 }
 
 const spikes = (x, y) => {
-  return spikePos[x] === y ? true : false;
+  return spikePos[x] == y ? true : false;
 };
 
 
@@ -1108,7 +1128,7 @@ const getPlayer2Moves = (x, y) => {
   let dX = x - 50, dY = y;
   
   const checkCollision = (move) => {
-    if ((_wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX] && !_wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX][dY]) ||
+    if ((_wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX] && _wallUtil__WEBPACK_IMPORTED_MODULE_0__["allWallsXToY"][dX][dY]) ||
       (_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].xPos === dX && _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].yPos === dY)) {
       possibleMoves.splice(possibleMoves.indexOf(move), 1);
     }

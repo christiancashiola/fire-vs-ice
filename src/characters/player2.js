@@ -101,7 +101,7 @@ export default class Player2 {
       bombImg: this.bombImg,
       bombPower: this.bombPower,
       ctx: this.ctx,
-      attackImg: this.fire
+      attackImg: this.ice
     }
     new Bomb(bombProps);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
