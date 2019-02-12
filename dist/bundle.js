@@ -680,7 +680,6 @@ const addPowerUp = () => {
     }
   }
 
-  console.log(powerUpPos)
 };
 
 const renderPowerUp = (x, y) => {
@@ -730,6 +729,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearShield", function() { return clearShield; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shieldPos", function() { return shieldPos; });
 /* harmony import */ var _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/wallUtil */ "./src/util/wallUtil.js");
+/* harmony import */ var _traps_spikes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../traps/spikes */ "./src/traps/spikes.js");
+
 
 
 let shieldPos = {};
@@ -742,11 +743,12 @@ const addShield = () => {
     const x = xWalls[Math.floor(Math.random() * xWalls.length)];
     const yWalls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x]);
     const y = yWalls[Math.floor(Math.random() * yWalls.length)];
-    if (!shieldPos[x]) {
+    if (!shieldPos[x] && !(_traps_spikes__WEBPACK_IMPORTED_MODULE_1__["spikePos"][x] && _traps_spikes__WEBPACK_IMPORTED_MODULE_1__["spikePos"][x][y])) {
       shieldPos[x] = y;
       i++;
     }
   }
+  console.log(shieldPos)
 };
 
 const renderShield = (x, y) => {
@@ -1042,8 +1044,8 @@ const initialSetup = () => {
   Object(_walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_walls_breakableWalls__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_powerUps_powerUp__WEBPACK_IMPORTED_MODULE_4__["addPowerUp"])(ctx);
-  Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_5__["addShield"])(ctx);
   Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_8__["addSpikes"])(ctx);
+  Object(_powerUps_shield__WEBPACK_IMPORTED_MODULE_5__["addShield"])(ctx);
   music.raiseVolume();
   music.play();
 }

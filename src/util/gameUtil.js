@@ -46,8 +46,8 @@ const initialSetup = () => {
   addStaticWalls();
   addBreakableWalls();
   addPowerUp(ctx);
-  addShield(ctx);
   addSpikes(ctx);
+  addShield(ctx);
   music.raiseVolume();
   music.play();
 }

@@ -16,7 +16,6 @@ export const addPowerUp = () => {
     }
   }
 
-  console.log(powerUpPos)
 };
 
 export const renderPowerUp = (x, y) => {

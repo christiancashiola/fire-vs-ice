@@ -1,4 +1,5 @@
 import { breakableWalls, removeWall } from '../util/wallUtil';
+import { spikePos } from '../traps/spikes';
 
 let shieldPos = {};
 
@@ -10,11 +11,12 @@ export const addShield = () => {
     const x = xWalls[Math.floor(Math.random() * xWalls.length)];
     const yWalls = Object.keys(breakableWalls[x]);
     const y = yWalls[Math.floor(Math.random() * yWalls.length)];
-    if (!shieldPos[x]) {
+    if (!shieldPos[x] && !(spikePos[x] && spikePos[x][y])) {
       shieldPos[x] = y;
       i++;
     }
   }
+  console.log(shieldPos)
 };
 
 export const renderShield = (x, y) => {
