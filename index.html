@@ -14,17 +14,36 @@
 <body> 
   <header><span id="fire">FIRE</span>vs<span id="ice">ICE</span></header>
 
-  <section id="mode-selection">
-    <h3 id="mode-header">Select mode to play</h3>
-    <div id="buttons-wrapper">
+  <section class="selection-section">
+    <h3 class="mode-header">Select mode to play</h3>
+    <div class="selection-wrapper">
       <button class="mode-buttons" id="two-player">2-Player<br/>Battle Mode</button>
       <button class="mode-buttons" id="single-player">1-Player<br/>Time Trial Mode</button>
     </div>
   </section>
+
+  <section class="selection-section" id="selection-2">
+      <h3 class="mode-header">Select character</h3>
+      <div id="character-wrapper">
+        <div class="character" id="character-1">
+          <img src="public/gameImages/characters/player1front.png" alt="fire man">
+          <p class="instructions">
+            Fire-Man<br/>( left-hand controls )
+          </p>
+        </div>
+
+        <div class="character" id="character-2">
+          <img src="public/gameImages/characters/player2front.png" alt="ice man">
+          <p class="instructions">
+            Ice-Man<br/>( right-hand controls )
+          </p>
+        </div>
+      </div>
+  </section>
   
   <canvas id="green-backdrop" width="750" height="550"></canvas>
   <h2 class="bill-board"></h2>
-  <section id="intro-section">
+  <section id="instruction-section">
     <article id="instructions-container">
       <div id="instructions-wrapper">
         <img src="public/gameImages/characters/player1front.png" alt="fire man">

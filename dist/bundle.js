@@ -589,24 +589,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const instructions = document.querySelector('#instructions-container');
   const toggleSound = document.querySelector('#toggle-sound');
 
+  let players, mode;
   singlePlayerBtn.addEventListener('click', () => {
-    document.querySelector('#mode-selection').style.display = 'none';
+    document.querySelector('.selection-section').style.display = 'none';
+    document.querySelector('#character-1').addEventListener('click', () => {
+      players = characters[0];
+      mode = _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newSinglePlayerGame"];
+
+      document.querySelector('#selection-2').style.display = 'none';
+
+    });
+    document.querySelector('#character-2').addEventListener('click', () => {
+      players = characters[1];
+      mode = _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newSinglePlayerGame"];
+
+      document.querySelector('#selection-2').style.display = 'none';
+
+    });
+
     // document.querySelector
   });
 
   twoPlayerBtn.addEventListener('click', () => {
-    document.querySelector('#mode-selection').style.display = 'none';
+    document.querySelector('.selection-section').style.display = 'none';
+    players = characters;
+
+    mode = _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newTwoPlayerGame"];
+    document.querySelector('#selection-2').style.display = 'none';
   });
 
   startBtn.addEventListener('click', () => {
-    document.querySelector('#intro-section').style.display = 'none';
+    document.querySelector('#instruction-section').style.display = 'none';
     startBtn.style.display = 'none';
     instructions.style.visibility = 'hidden';
     toggleSound.style.display = 'block';
     // let the games begin.
     Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["addToggleSound"])();
     // newGame(characters);
-    Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newGameSinglePlayer"])(characters[0]);
+    mode(players);
     // newGame(characters, true);
   })
 });
@@ -931,13 +951,13 @@ const player2 = ctx => ({
 /*!******************************!*\
   !*** ./src/util/gameUtil.js ***!
   \******************************/
-/*! exports provided: newGameSinglePlayer, newGame, loadSounds, addToggleSound, checkGameOver, checkTimeTrialEnd, evaluateWinner, explosionSound, shieldSound, powerUpSound, music, player1, player2, spikeSound */
+/*! exports provided: newSinglePlayerGame, newTwoPlayerGame, loadSounds, addToggleSound, checkGameOver, checkTimeTrialEnd, evaluateWinner, explosionSound, shieldSound, powerUpSound, music, player1, player2, spikeSound */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newGameSinglePlayer", function() { return newGameSinglePlayer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newGame", function() { return newGame; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newSinglePlayerGame", function() { return newSinglePlayerGame; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newTwoPlayerGame", function() { return newTwoPlayerGame; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadSounds", function() { return loadSounds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToggleSound", function() { return addToggleSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkGameOver", function() { return checkGameOver; });
@@ -978,21 +998,21 @@ let explosionSound,
     gameOverSound,
     music;
 
-const newGameSinglePlayer = playerState => {
+const newSinglePlayerGame = playerState => {
   initialSetup();
   if (playerState.id === 1) {
     player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_6__["default"](playerState);
     player1.singlePlayer = true;
     player2 = {};
   } else {
-    player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_7__["default"](playerStates);
+    player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_7__["default"](playerState);
     player2.singlePlayer = true;
     player1 = {};
   }
 }
     
 
-const newGame = playerStates => {
+const newTwoPlayerGame = playerStates => {
   // const canvas = document.querySelector('#green-backdrop');
   // const ctx = canvas.getContext('2d');
   initialSetup();

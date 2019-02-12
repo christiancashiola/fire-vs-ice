@@ -1,4 +1,4 @@
-import { loadSounds, addToggleSound, newGame, newGameSinglePlayer } from './util/gameUtil';
+import { loadSounds, addToggleSound, newTwoPlayerGame, newSinglePlayerGame } from './util/gameUtil';
 import { loadCharacters } from './util/characterUtil';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,24 +16,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const instructions = document.querySelector('#instructions-container');
   const toggleSound = document.querySelector('#toggle-sound');
 
+  let players, mode;
   singlePlayerBtn.addEventListener('click', () => {
-    document.querySelector('#mode-selection').style.display = 'none';
+    document.querySelector('.selection-section').style.display = 'none';
+    document.querySelector('#character-1').addEventListener('click', () => {
+      players = characters[0];
+      mode = newSinglePlayerGame;
+
+      document.querySelector('#selection-2').style.display = 'none';
+
+    });
+    document.querySelector('#character-2').addEventListener('click', () => {
+      players = characters[1];
+      mode = newSinglePlayerGame;
+
+      document.querySelector('#selection-2').style.display = 'none';
+
+    });
+
     // document.querySelector
   });
 
   twoPlayerBtn.addEventListener('click', () => {
-    document.querySelector('#mode-selection').style.display = 'none';
+    document.querySelector('.selection-section').style.display = 'none';
+    players = characters;
+
+    mode = newTwoPlayerGame;
+    document.querySelector('#selection-2').style.display = 'none';
   });
 
   startBtn.addEventListener('click', () => {
-    document.querySelector('#intro-section').style.display = 'none';
+    document.querySelector('#instruction-section').style.display = 'none';
     startBtn.style.display = 'none';
     instructions.style.visibility = 'hidden';
     toggleSound.style.display = 'block';
     // let the games begin.
     addToggleSound();
     // newGame(characters);
-    newGameSinglePlayer(characters[0]);
+    mode(players);
     // newGame(characters, true);
   })
 });

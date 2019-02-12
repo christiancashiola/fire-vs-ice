@@ -18,7 +18,7 @@ body {
   font-size: 1.2em;
 }
 
-#intro-section {
+#instruction-section {
   margin-top: 120px;
   display: flex;
   flex-flow: column;
@@ -68,7 +68,7 @@ header {
 
 /* MODE SELECTION */
 
-#mode-selection {
+.selection-section {
   position: fixed;
   top: 70px;
   left: 0;
@@ -81,7 +81,7 @@ header {
   align-items: center;
 }
 
-#mode-header {
+.mode-header {
   font-size: 24px;
   color: #fff;
   margin: 100px 0 40px;
@@ -107,6 +107,27 @@ header {
   border: 2px solid #944e02;
   border-bottom: 4px solid #552d01;
 }
+
+#selection-2 {
+  z-index: 2;
+}
+
+#character-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.character {
+  text-align: center;
+  margin: 0 40px;
+  color: #fff;
+}
+
+.character img {
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
 /* INSTRUCTIONS */
 
 #instructions-container {

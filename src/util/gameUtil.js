@@ -17,21 +17,21 @@ let explosionSound,
     gameOverSound,
     music;
 
-export const newGameSinglePlayer = playerState => {
+export const newSinglePlayerGame = playerState => {
   initialSetup();
   if (playerState.id === 1) {
     player1 = new Player1(playerState);
     player1.singlePlayer = true;
     player2 = {};
   } else {
-    player2 = new Player2(playerStates);
+    player2 = new Player2(playerState);
     player2.singlePlayer = true;
     player1 = {};
   }
 }
     
 
-export const newGame = playerStates => {
+export const newTwoPlayerGame = playerStates => {
   // const canvas = document.querySelector('#green-backdrop');
   // const ctx = canvas.getContext('2d');
   initialSetup();
