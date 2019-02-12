@@ -56,7 +56,11 @@ export default class Player2 {
       this.bombRender(prevX, prevY);
     }
     if (liveAttack[this.xPos] && liveAttack[this.xPos][this.yPos]) {
-      evaluateWinner(false, true);
+      if(this.shield) {
+        this.deactivateShield();
+      } else {
+        evaluateWinner(false, true);
+      }
     }
     if (spikes(this.xPos, this.yPos)) {
       spikeSound.play();

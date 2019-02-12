@@ -382,7 +382,11 @@ class Player1 {
       this.bombRender(prevX, prevY);
     }
     if (_bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveAttack"][this.xPos] && _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveAttack"][this.xPos][this.yPos]) {
-      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
+      if(this.shield) {
+        this.deactivateShield();
+      } else {
+        Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
+      }
     }
     
     if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
@@ -505,7 +509,11 @@ class Player2 {
       this.bombRender(prevX, prevY);
     }
     if (_bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveAttack"][this.xPos] && _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["liveAttack"][this.xPos][this.yPos]) {
-      Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
+      if(this.shield) {
+        this.deactivateShield();
+      } else {
+        Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["evaluateWinner"])(false, true);
+      }
     }
     if (Object(_traps_spikes__WEBPACK_IMPORTED_MODULE_5__["spikes"])(this.xPos, this.yPos)) {
       _util_gameUtil__WEBPACK_IMPORTED_MODULE_6__["spikeSound"].play();
