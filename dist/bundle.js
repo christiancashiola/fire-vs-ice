@@ -827,11 +827,19 @@ const addSpikes = () => {
     const walls = Object.keys(_util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"]);
     const x = walls[Math.floor(Math.random() * walls.length)];
     const y = _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x][Math.floor(Math.random() * _util_wallUtil__WEBPACK_IMPORTED_MODULE_0__["breakableWalls"][x].length)];
-    if (!spikePos[x]) {
+    if (!spikePos[x] && doesNotBlockPlayerSpawn(x, y)) {
       spikePos[x] = y;
       i++;
     }
   }
+};
+
+const doesNotBlockPlayerSpawn = (x, y) => {
+  return (
+    (x <= 200 && y <= 300) ||
+    (x >= 500 && y >= 200) ?
+    false : true
+  );
 };
 
 const renderSpikes = (x, y) => {
