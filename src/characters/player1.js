@@ -2,7 +2,7 @@ import * as bombUtil from '../bombs/bomb';
 import { powerUp } from '../powerUps/powerUp';
 import moveMap from './moveMap';
 import { shield } from '../powerUps/shield';
-import { getPlayer1Moves } from '../util/moveUtil';
+import { getPlayer1Moves, updatePossibleMoves } from '../util/moveUtil';
 import { spikes } from '../traps/spikes';
 import { 
   shieldSound,
@@ -36,6 +36,8 @@ export default class Player1 {
   }
 
   render() {
+    updatePossibleMoves();
+    // this.getPossibleMoves();
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     if (this.shield) this.activateShield();
   }
@@ -93,6 +95,7 @@ export default class Player1 {
     bombUtil.dropBomb(this.id);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     this.bombSet = true;
-    this.getPossibleMoves();
+    updatePossibleMoves();
+    // this.getPossibleMoves();
   }  
 }

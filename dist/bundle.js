@@ -315,11 +315,15 @@ const removeFromLiveAttack = spread => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_moveUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/moveUtil */ "./src/util/moveUtil.js");
+
+
 /* harmony default export */ __webpack_exports__["default"] = ((e, player) => {
   const { left, right, back, front } = player;
   if (e.keyCode === 81 && player.id === 1) return player.dropBomb();
   if (e.keyCode === 79 && player.id === 2) return player.dropBomb();
   if (!player.possibleMoves.includes(e.keyCode)) return;
+  debugger
   switch(e.keyCode) {
     case 65:
       player.readyRender(left, -50, 0);
@@ -355,7 +359,7 @@ __webpack_require__.r(__webpack_exports__);
       break;
   } 
 
-  player.getPossibleMoves();
+  // updatePossibleMoves();
 });
 
 /***/ }),
@@ -410,6 +414,8 @@ class Player1 {
   }
 
   render() {
+    Object(_util_moveUtil__WEBPACK_IMPORTED_MODULE_4__["updatePossibleMoves"])();
+    // this.getPossibleMoves();
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     if (this.shield) this.activateShield();
   }
@@ -467,7 +473,8 @@ class Player1 {
     _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["dropBomb"](this.id);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     this.bombSet = true;
-    this.getPossibleMoves();
+    Object(_util_moveUtil__WEBPACK_IMPORTED_MODULE_4__["updatePossibleMoves"])();
+    // this.getPossibleMoves();
   }  
 }
 
@@ -523,6 +530,8 @@ class Player2 {
   }
 
   render() {
+    Object(_util_moveUtil__WEBPACK_IMPORTED_MODULE_4__["updatePossibleMoves"])();
+    // this.getPossibleMoves();
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     if (this.shield) this.activateShield();
   }
@@ -580,7 +589,8 @@ class Player2 {
     _bombs_bomb__WEBPACK_IMPORTED_MODULE_0__["dropBomb"](this.id);
     this.ctx.drawImage(this.currentImg, this.xPos, this.yPos);
     this.bombSet = true;
-    this.getPossibleMoves();
+    Object(_util_moveUtil__WEBPACK_IMPORTED_MODULE_4__["updatePossibleMoves"])();
+    // this.getPossibleMoves();
   }  
 }
 
@@ -1077,11 +1087,12 @@ const checkShield = player => {
 /*!******************************!*\
   !*** ./src/util/moveUtil.js ***!
   \******************************/
-/*! exports provided: getPlayer1Moves, getPlayer2Moves */
+/*! exports provided: updatePossibleMoves, getPlayer1Moves, getPlayer2Moves */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updatePossibleMoves", function() { return updatePossibleMoves; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPlayer1Moves", function() { return getPlayer1Moves; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPlayer2Moves", function() { return getPlayer2Moves; });
 /* harmony import */ var _wallUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wallUtil */ "./src/util/wallUtil.js");
@@ -1090,7 +1101,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const updatePossibleMoves = () => {
+  getPlayer1Moves(_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].xPos, _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].yPos);
+  getPlayer2Moves(_util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].xPos, _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].yPos);
+}
+
 const getPlayer1Moves = (x, y) => {
+  debugger
+
   const possibleMoves = [65, 87, 68, 83];
   let dX = x - 50, dY = y;
 
@@ -1111,7 +1129,7 @@ const getPlayer1Moves = (x, y) => {
   dX -= 50;
   dY += 50;
   checkCollision(83);
-  return possibleMoves;
+  _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player1"].possibleMoves = possibleMoves;
 }
 
 const getPlayer2Moves = (x, y) => {
@@ -1135,7 +1153,7 @@ const getPlayer2Moves = (x, y) => {
   dX -= 50;
   dY += 50;
   checkCollision(75);
-  return possibleMoves;
+  _util_gameUtil__WEBPACK_IMPORTED_MODULE_1__["player2"].possibleMoves = possibleMoves;
 }
 
 /***/ }),

@@ -2,7 +2,14 @@ import { allWallsXToY } from './wallUtil';
 import { player1, player2 } from '../util/gameUtil';
 
 
+export const updatePossibleMoves = () => {
+  getPlayer1Moves(player1.xPos, player1.yPos);
+  getPlayer2Moves(player2.xPos, player2.yPos);
+}
+
 export const getPlayer1Moves = (x, y) => {
+  debugger
+
   const possibleMoves = [65, 87, 68, 83];
   let dX = x - 50, dY = y;
 
@@ -23,7 +30,7 @@ export const getPlayer1Moves = (x, y) => {
   dX -= 50;
   dY += 50;
   checkCollision(83);
-  return possibleMoves;
+  player1.possibleMoves = possibleMoves;
 }
 
 export const getPlayer2Moves = (x, y) => {
@@ -47,5 +54,5 @@ export const getPlayer2Moves = (x, y) => {
   dX -= 50;
   dY += 50;
   checkCollision(75);
-  return possibleMoves;
+  player2.possibleMoves = possibleMoves;
 }

@@ -92,6 +92,7 @@ h3 {
 
 button {
   outline: none;
+  cursor: pointer;
 }
 
 #start {

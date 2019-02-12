@@ -1,8 +1,11 @@
+import { updatePossibleMoves } from "../util/moveUtil";
+
 export default (e, player) => {
   const { left, right, back, front } = player;
   if (e.keyCode === 81 && player.id === 1) return player.dropBomb();
   if (e.keyCode === 79 && player.id === 2) return player.dropBomb();
   if (!player.possibleMoves.includes(e.keyCode)) return;
+  debugger
   switch(e.keyCode) {
     case 65:
       player.readyRender(left, -50, 0);
@@ -38,5 +41,5 @@ export default (e, player) => {
       break;
   } 
 
-  player.getPossibleMoves();
+  // updatePossibleMoves();
 }
