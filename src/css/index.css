@@ -1,11 +1,11 @@
 /* GENERAL */
-
 html { 
   background-color: #333;
+  height: 100vh;
 }
 
 body {
-  height: calc(100vh - 40px);
+  height: 100%;
   margin: 0;
   padding: 0;
   font-family: "Segoe UI", "Roboto", "Oxygen",
@@ -15,7 +15,21 @@ body {
   flex-flow: column;
   align-items: center;
   position: relative;
-  font-size: 1.1em;
+  font-size: 1.2em;
+}
+
+#intro-section {
+  margin-top: 120px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+canvas {
+  /* position: absolute;
+  top: 120px; */
+  display: none;
 }
 
 /* HEADER */
@@ -24,7 +38,7 @@ header {
   color: #fff;
   text-shadow: 0 3px #000;
   font-size: 50px;
-  position: absolute;
+  position: fixed;
   top: 20px;
   font-family: 'Press Start 2P', cursive;
 }
@@ -41,17 +55,6 @@ header {
   margin-top: 80px;
 }
 
-#modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
 .bill-board {
   padding: 0 20px;
   background-color: #000;
@@ -63,12 +66,51 @@ header {
   z-index: 3;
 }
 
+/* MODE SELECTION */
+
+#mode-selection {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  background-color: #333;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+#mode-header {
+  font-size: 24px;
+  color: #fff;
+  margin: 100px 0 40px;
+}
+
+.mode-buttons {
+  color: #fff;
+  text-shadow: 0 2px #333;
+  font-size: inherit;
+  height: 75px;
+  width: 350px;
+  margin: 0 10px;
+}
+
+#two-player {
+  background-color: #62a1ae;
+  border: 2px solid #5c95a0;
+  border-bottom: 4px solid #2c474d;
+}
+
+#single-player {
+  background-color: #ce6b00;
+  border: 2px solid #944e02;
+  border-bottom: 4px solid #552d01;
+}
 /* INSTRUCTIONS */
 
 #instructions-container {
   color: #fff;
-  position: absolute;
-  top: 120px;
   width: 800px;
   margin: auto;
   display: grid;
@@ -82,6 +124,7 @@ header {
 }
 
 .instructions {
+  margin-bottom: 0;
   text-align: center;
 }
 
@@ -96,12 +139,13 @@ h3 {
 }
 
 #controls {
-  padding-left: 40px;
+  padding-left: 30px;
 }
 
-#goal {
-  grid-column: 2;
+.goal {
+  color: #fff;
   text-align: center;
+  margin-top: 0;
 }
 
 /* BUTTONS */
@@ -109,12 +153,12 @@ h3 {
 button {
   outline: none;
   cursor: pointer;
+  font-family: 'Press Start 2P', cursive;
 }
 
 #start {
   color: #fff;
   font-size: 20px;
-  font-family: 'Press Start 2P', cursive;
   background-color: #3B8314;
   width: 200px;
   height: 50px;
@@ -127,7 +171,6 @@ button {
   margin-top: 20px;
   color: #fff;
   font-size: 16px;
-  font-family: 'Press Start 2P', cursive;
   background-color: #9E9E9E;
   width: 225px;
   height: 50px;
@@ -149,4 +192,16 @@ button {
 a {
   color: #ddd;
   margin-left: 5px;
+}
+
+/* MODAL */
+#modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
 }

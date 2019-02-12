@@ -52,6 +52,7 @@ export const newGame = playerStates => {
 
 const initialSetup = () => {
   const canvas = document.querySelector('#green-backdrop');
+  canvas.style.display = "block";
   const ctx = canvas.getContext('2d');
   setupGreenBackdrop();
   addStaticWalls();

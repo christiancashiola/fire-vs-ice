@@ -13,74 +13,85 @@
 </head>
 <body> 
   <header><span id="fire">FIRE</span>vs<span id="ice">ICE</span></header>
-  <canvas id="green-backdrop" width="750" height="550"></canvas>
-  <h2 class="bill-board">Player 1 wins!</h2>
 
-  <article id="instructions-container">
-    <div id="instructions-wrapper">
-      <img src="public/gameImages/characters/player1front.png" alt="fire man">
-      <p class="instructions">
-        Fire-Man
-      </p>
+  <section id="mode-selection">
+    <h3 id="mode-header">Select mode to play</h3>
+    <div id="buttons-wrapper">
+      <button class="mode-buttons" id="two-player">2-Player<br/>Battle Mode</button>
+      <button class="mode-buttons" id="single-player">1-Player<br/>Time Trial Mode</button>
     </div>
-    <div id="instructions-wrapper">
-        <img src="public/gameImages/characters/player2front.png" alt="ice man">
+  </section>
+  
+  <canvas id="green-backdrop" width="750" height="550"></canvas>
+  <h2 class="bill-board"></h2>
+  <section id="intro-section">
+    <article id="instructions-container">
+      <div id="instructions-wrapper">
+        <img src="public/gameImages/characters/player1front.png" alt="fire man">
         <p class="instructions">
-          Ice-Man
-        </p>
-    </div>
-    <div id="instructions-wrapper">
-        <img src="public/gameImages/walls/breakableWall.png" alt="breakable wall">
-        <p class="instructions">
-          Break these walls<br/>to find power ups
-        </p>
-    </div>
-    <div id="instructions-wrapper">
-        <img src="public/gameImages/powerUps/powerUp.png" alt="power up">
-        <p class="instructions">
-          Increase attack range 
-        </p>
-    </div>
-    <div id="instructions-wrapper">
-        <img src="public/gameImages/powerUps/shield.png" alt="shield">
-        <p class="instructions">
-          Activates shield
-        </p>
-    </div>
-    <div id="instructions-wrapper">
-        <img src="public/gameImages/traps/spikes.png" alt="spikes">
-        <p class="instructions">
-          Avoid spikes<br/>(One hit KO, even with shield)
-        </p>
-    </div>
-    <div id="controls-container">
-      <div class="controls-wrapper">
-        <h3>Player 1 controls</h3>
-        <p id="controls">
-          A = left<br/>
-          W = up<br/>
-          D = right<br/>
-          S = down<br/>
-          Q = attack
+          Fire-Man
         </p>
       </div>
-      <div id="controls-wrapper">
-        <h3>Player 2 controls</h3>
-        <p id="controls">
-            J = left<br/>
-            I = up<br/>
-            L = right<br/>
-            K = down<br/>
-            O = attack
-        </p>
+      <div id="instructions-wrapper">
+          <img src="public/gameImages/characters/player2front.png" alt="ice man">
+          <p class="instructions">
+            Ice-Man
+          </p>
+      </div>
+      <div id="instructions-wrapper">
+          <img src="public/gameImages/walls/breakableWall.png" alt="breakable wall">
+          <p class="instructions">
+            Break these walls<br/>to find power ups
+          </p>
+      </div>
+      <div id="instructions-wrapper">
+          <img src="public/gameImages/powerUps/powerUp.png" alt="power up">
+          <p class="instructions">
+            Increase attack range 
+          </p>
+      </div>
+      <div id="instructions-wrapper">
+          <img src="public/gameImages/powerUps/shield.png" alt="shield">
+          <p class="instructions">
+            Activates shield
+          </p>
+      </div>
+      <div id="instructions-wrapper">
+          <img src="public/gameImages/traps/spikes.png" alt="spikes">
+          <p class="instructions">
+            Avoid spikes<br/>(One hit KO, even with shield)
+          </p>
+      </div>
+      <div id="controls-container">
+        <div class="controls-wrapper">
+          <h3>Fire-Man controls</h3>
+          <p id="controls">
+            A = left<br/>
+            W = up<br/>
+            D = right<br/>
+            S = down<br/>
+            Q = attack
+          </p>
         </div>
-    </div>
-    <p id="goal">Destroy the other player to win!</p>
-  </article>
+        <div class="controls-wrapper">
+          <h3>Ice-Man controls</h3>
+          <p id="controls">
+              J = left<br/>
+              I = up<br/>
+              L = right<br/>
+              K = down<br/>
+              O = attack
+          </p>
+          </div>
+      </div>
+    </article>
+    
+    <p class="goal" id="single-player-goal">Destroy all the breakable walls as fast a possible</p>
+    <!-- <p class="goal" id="two-player-goal">Destroy the other player to win!</p> -->
+    <button id="start">START</button>
+  </section>
   
-  <button id="start">START</button>
   <button id="toggle-sound">Toggle Music</button>
-
   <aside id="links-wrapper">
     <a href="https://github.com/christiancashiola"><i class="fab fa-github"></i></a>
     <a href="https://angel.co/christian-cashiola"><i class="fab fa-angellist"></i></a>

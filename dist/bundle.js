@@ -581,16 +581,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.innerWidth < 1200) {
     alert('This game is best enjoyed on a full screen computer screen');
   }
-  
+ 
+
+  const singlePlayerBtn = document.querySelector('#single-player');
+  const twoPlayerBtn = document.querySelector('#two-player');
   const startBtn = document.querySelector('#start');
   const instructions = document.querySelector('#instructions-container');
   const toggleSound = document.querySelector('#toggle-sound');
 
+  singlePlayerBtn.addEventListener('click', () => {
+    document.querySelector('#mode-selection').style.display = 'none';
+    // document.querySelector
+  });
+
+  twoPlayerBtn.addEventListener('click', () => {
+    document.querySelector('#mode-selection').style.display = 'none';
+  });
+
   startBtn.addEventListener('click', () => {
+    document.querySelector('#intro-section').style.display = 'none';
     startBtn.style.display = 'none';
     instructions.style.visibility = 'hidden';
     toggleSound.style.display = 'block';
-
     // let the games begin.
     Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["addToggleSound"])();
     // newGame(characters);
@@ -1001,6 +1013,7 @@ const newGame = playerStates => {
 
 const initialSetup = () => {
   const canvas = document.querySelector('#green-backdrop');
+  canvas.style.display = "block";
   const ctx = canvas.getContext('2d');
   Object(_board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__["default"])();
