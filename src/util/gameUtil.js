@@ -95,6 +95,8 @@ export const evaluateWinner = (p1Win, p2Win) => {
 
   gameOver = p1Win || p2Win ? true : false;
   if (gameOver) {
+    player1.possibleMoves = [];
+    player2.possibleMoves = [];
     music.stop();
     gameOverSound.play();
     billBoard.innerText = innerText;
