@@ -30,6 +30,16 @@ canvas {
   display: none;
 }
 
+#name {
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  font-size: 12px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 3;
+}
+
 /* HEADER */
 
 header {
@@ -208,6 +218,7 @@ button {
   position: absolute;
   top: 20px;
   right: 40px;
+  z-index: 3;
 }
 
 a {
@@ -216,6 +227,7 @@ a {
 }
 
 /* MODAL */
+
 #modal {
   display: none;
   position: fixed;
