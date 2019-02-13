@@ -8,6 +8,7 @@ import Player1 from '../characters/player1';
 import Player2 from '../characters/player2';
 import { addSpikes } from '../traps/spikes';
 import { startTimer, getTimerScore, stopTimer } from './timerUtil';
+import { enterInitials } from './scoreUtil';
 
 let explosionSound,
     shieldSound, 
@@ -98,18 +99,14 @@ export const checkTimeTrialEnd = () => {
     let score = getTimerScore();
     let innerText = `SCORE ${score}`;
     let color = 'white';
-    gameOverMessage(innerText, color)
+    enterInitials(score);
   }
 }
 
 export const evaluateWinner = (p1Win, p2Win) => {
   let innerText, color, gameOver;
 
-  if ((p1Win || p2Win) && (player1.singlePlayer || player2.singlePlayer)) {
-    stopTimer();
-    innerText = `GAME OVER.`;
-    color = 'white';
-  } else if (p1Win && p2Win) {
+  if (p1Win && p2Win) {
     innerText = 'TIE!';
     color = 'white';
   } else if (p1Win) {
@@ -129,7 +126,6 @@ export const evaluateWinner = (p1Win, p2Win) => {
 const gameOverMessage = (text, color) => {
   const billBoard = document.querySelector('.bill-board');
   const modal = document.querySelector('#modal');
-  const playAgain = document.querySelector('#play-again');
 
   player1.possibleMoves = [];
   player2.possibleMoves = [];
@@ -138,11 +134,8 @@ const gameOverMessage = (text, color) => {
   billBoard.innerText = text;
   billBoard.style.color = color;
   billBoard.style.visibility = 'visible';
-  playAgain.style.visibility = 'visible';
   modal.style.display = 'block';
-  window.addEventListener('keyup', e => {
-    if (e.keyCode === 32) window.location.reload();
-  });
+  playAgain();
 }
 
 const checkShield = player => {
@@ -153,6 +146,14 @@ const checkShield = player => {
     return true;
   }
   return false;
+}
+
+export const playAgain = () => {
+  const playAgain = document.querySelector('#play-again');
+  playAgain.style.visibility = 'visible';
+  window.addEventListener('keyup', e => {
+    if (e.keyCode === 32) window.location.reload();
+  });
 }
 
 export {

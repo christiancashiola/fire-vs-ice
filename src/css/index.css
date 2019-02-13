@@ -277,3 +277,74 @@ a {
   background-color: #fff;
   color: #000;
 }
+
+/* SCORE SUBMISSION */
+
+#score-submission {
+  color: #fff;
+  display: none;
+  z-index: 4;
+  position: absolute;
+  top: 150px;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 275px;
+  background-color: #000;
+  border: 3px solid #fff;
+}
+
+#player-score-header {
+  margin: 10px 0 0;
+}
+
+#score-submit-btn {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 1.1em;
+  background-color: #3B8314;
+  width: 150px;
+  height: 50px;
+  border: 1px solid #183708;
+  border-bottom: 3px solid #0f2405;
+  text-shadow: 0 2px #000;
+}
+
+input {
+  font-family: 'Press Start 2P', cursive;
+  margin: 10px;
+  border: none;
+  outline: none;
+  padding: 5px;
+  width: 50px;
+  font-size: 16px;
+}
+
+/* HIGH SCORES */
+#high-scores-container {
+  color: #fff;
+  display: none;
+  z-index: 4;
+  position: absolute;
+  top: 150px;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 275px;
+  background-color: #000;
+  border: 3px solid #fff;
+}
+
+#high-scores-wrapper {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 40px;
+  padding: 0;
+}
+
+li {
+  text-align: center;
+}
