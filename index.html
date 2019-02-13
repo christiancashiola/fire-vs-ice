@@ -28,14 +28,14 @@
         <div class="character" id="character-1">
           <img src="public/gameImages/characters/player1front.png" alt="fire man">
           <p class="instructions">
-            Fire-Man<br/>( left-hand controls )
+            Fire-Man<br/>(left-hand controls)
           </p>
         </div>
 
         <div class="character" id="character-2">
           <img src="public/gameImages/characters/player2front.png" alt="ice man">
           <p class="instructions">
-            Ice-Man<br/>( right-hand controls )
+            Ice-Man<br/>(right-hand controls)
           </p>
         </div>
       </div>
@@ -52,22 +52,28 @@
         </p>
       </div>
       <div id="instructions-wrapper">
+        <img src="public/gameImages/walls/breakableWall.png" alt="breakable wall">
+        <p class="instructions">
+          Breakable walls
+        </p>
+      </div>
+      <div id="instructions-wrapper">
           <img src="public/gameImages/characters/player2front.png" alt="ice man">
           <p class="instructions">
             Ice-Man
           </p>
       </div>
       <div id="instructions-wrapper">
-          <img src="public/gameImages/walls/breakableWall.png" alt="breakable wall">
+          <img src="public/gameImages/powerUps/powerUp.png" alt="power up">
           <p class="instructions">
-            Break these walls<br/>to find power ups
+            Increase attack 
           </p>
       </div>
       <div id="instructions-wrapper">
-          <img src="public/gameImages/powerUps/powerUp.png" alt="power up">
-          <p class="instructions">
-            Increase attack range 
-          </p>
+        <img src="public/gameImages/traps/spikes.png" alt="spikes">
+        <p class="instructions">
+          Avoid spikes
+        </p>
       </div>
       <div id="instructions-wrapper">
           <img src="public/gameImages/powerUps/shield.png" alt="shield">
@@ -75,37 +81,29 @@
             Activates shield
           </p>
       </div>
-      <div id="instructions-wrapper">
-          <img src="public/gameImages/traps/spikes.png" alt="spikes">
-          <p class="instructions">
-            Avoid spikes<br/>(One hit KO, even with shield)
-          </p>
+      <div id="fire-controls-wrapper">
+        <h3>Fire-Man controls</h3>
+        <p class="controls">
+          A = left<br/>
+          W = up<br/>
+          D = right<br/>
+          S = down<br/>
+          Q = attack
+        </p>
       </div>
-      <div id="controls-container">
-        <div class="controls-wrapper">
-          <h3>Fire-Man controls</h3>
-          <p id="controls">
-            A = left<br/>
-            W = up<br/>
-            D = right<br/>
-            S = down<br/>
-            Q = attack
-          </p>
-        </div>
-        <div class="controls-wrapper">
-          <h3>Ice-Man controls</h3>
-          <p id="controls">
-              J = left<br/>
-              I = up<br/>
-              L = right<br/>
-              K = down<br/>
-              O = attack
-          </p>
-          </div>
+      <div id="ice-controls-wrapper">
+        <h3>Ice-Man controls</h3>
+        <p class="controls">
+            J = left<br/>
+            I = up<br/>
+            L = right<br/>
+            K = down<br/>
+            O = attack
+        </p>
       </div>
     </article>
     
-    <p class="goal" id="single-player-goal">Destroy all the breakable walls as fast a possible</p>
+    <p class="goal" id="single-player-goal">Destroy all the breakable walls as fast a possible!</p>
     <p class="goal" id="two-player-goal">Destroy the other player to win!</p>
     <button id="start">START</button>
   </section>
