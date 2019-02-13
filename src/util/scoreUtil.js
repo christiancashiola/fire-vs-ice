@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { playAgain } from './gameUtil';
+import { playAgain, muteSounds } from './gameUtil';
 
 const postScore = (initials, score) => (
   $.ajax({
@@ -22,6 +22,7 @@ const getScores = () => (
 export const getTopFiveScores = () => {
   getScores()
     .then(scores => {
+      debugger
       scores = Object.values(scores);
       scores.sort((a, b) => b.score - a.score).slice(0, 5);
       insertScores(scores);
@@ -38,8 +39,8 @@ export const enterInitials = score => {
   form.style.display = 'flex';
   muteSounds();  
   form.addEventListener('submit', e => {
-    document.querySelector('#score-submit-btn').focus();
     e.preventDefault();
+    document.querySelector('#score-submit-btn').focus();
     const initials = e.target[0].value;
     postScore(initials, score)
       .then(() => {

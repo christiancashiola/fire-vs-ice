@@ -1,7 +1,11 @@
 export default(e, player) => {
   const { left, right, back, front } = player;
-  if (e.keyCode === 81 && player.id === 1) return player.dropBomb();
-  if (e.keyCode === 79 && player.id === 2) return player.dropBomb();
+  if (e.keyCode === 81 || e.keyCode === 69 && player.id === 1) {
+    return player.dropBomb();
+  }
+  if (e.keyCode === 79 || e.keyCode === 85 && player.id === 2) {
+    return player.dropBomb();
+  }
   if (!player.possibleMoves.includes(e.keyCode)) return;
   switch(e.keyCode) {
     case 65:

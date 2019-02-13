@@ -10644,8 +10644,12 @@ class Bomb {
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ((e, player) => {
   const { left, right, back, front } = player;
-  if (e.keyCode === 81 && player.id === 1) return player.dropBomb();
-  if (e.keyCode === 79 && player.id === 2) return player.dropBomb();
+  if (e.keyCode === 81 || e.keyCode === 69 && player.id === 1) {
+    return player.dropBomb();
+  }
+  if (e.keyCode === 79 || e.keyCode === 85 && player.id === 2) {
+    return player.dropBomb();
+  }
   if (!player.possibleMoves.includes(e.keyCode)) return;
   switch(e.keyCode) {
     case 65:
@@ -11667,6 +11671,7 @@ const getScores = () => (
 const getTopFiveScores = () => {
   getScores()
     .then(scores => {
+      debugger
       scores = Object.values(scores);
       scores.sort((a, b) => b.score - a.score).slice(0, 5);
       insertScores(scores);
@@ -11681,10 +11686,10 @@ const enterInitials = score => {
   const playerScore = document.querySelector('#player-score');
   playerScore.innerText = score;
   form.style.display = 'flex';
-  muteSounds();  
+  Object(_gameUtil__WEBPACK_IMPORTED_MODULE_1__["muteSounds"])();  
   form.addEventListener('submit', e => {
-    document.querySelector('#score-submit-btn').focus();
     e.preventDefault();
+    document.querySelector('#score-submit-btn').focus();
     const initials = e.target[0].value;
     postScore(initials, score)
       .then(() => {
