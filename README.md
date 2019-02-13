@@ -8,6 +8,6 @@ This project will be utilize the following technologies:
 + `Javascript` for game logic
 + `HTML Canvas` for graphics rendering
 + `Webbpack` to bundle JS files
-+ Music (with toggle) by yours truly
++ Custom artwork (heavily influenced by _Bomberman_)
 
 _In most cases I chose `for` loops over `forEach` loops for optimization_
