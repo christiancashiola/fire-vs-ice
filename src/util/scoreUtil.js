@@ -30,13 +30,15 @@ export const getTopFiveScores = () => {
 }
 
 export const enterInitials = score => {
+  const curtain = document.querySelector('#curtain');
+  curtain.style.visibility = 'visible';
   const form = document.querySelector('#score-submission');
   const playerScore = document.querySelector('#player-score');
   playerScore.innerText = score;
   form.style.display = 'flex';
-  
-  document.querySelector('#score-submit-btn').focus();
+  muteSounds();  
   form.addEventListener('submit', e => {
+    document.querySelector('#score-submit-btn').focus();
     e.preventDefault();
     const initials = e.target[0].value;
     postScore(initials, score)

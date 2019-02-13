@@ -1,6 +1,4 @@
-import { updatePossibleMoves } from "../util/moveUtil";
-
-export default (e, player) => {
+export default(e, player) => {
   const { left, right, back, front } = player;
   if (e.keyCode === 81 && player.id === 1) return player.dropBomb();
   if (e.keyCode === 79 && player.id === 2) return player.dropBomb();

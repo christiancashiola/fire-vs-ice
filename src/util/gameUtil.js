@@ -96,9 +96,9 @@ export const checkGameOver = (spread ) => {
 
 export const checkTimeTrialEnd = () => {
   if (player1.singlePlayer || player2.singlePlayer) {
+    music.stop();
+    gameOverSound.play();
     let score = getTimerScore();
-    let innerText = `SCORE ${score}`;
-    let color = 'white';
     enterInitials(score);
   }
 }
@@ -106,7 +106,10 @@ export const checkTimeTrialEnd = () => {
 export const evaluateWinner = (p1Win, p2Win) => {
   let innerText, color, gameOver;
 
-  if (p1Win && p2Win) {
+  if (p1Win || p2Win) {
+    innerText = 'GAME OVER.';
+    color = 'white';
+  } else if (p1Win && p2Win) {
     innerText = 'TIE!';
     color = 'white';
   } else if (p1Win) {
@@ -156,6 +159,21 @@ export const playAgain = () => {
   });
 }
 
+export const muteSounds = () => {
+  const sounds = [
+    explosionSound,
+    shieldSound,
+    powerUpSound, 
+    music,
+    spikeSound,
+    gameOverSound
+  ]
+
+  for (let i = 0; i < sounds.length; i++) {
+    sounds[i].mute();    
+  }
+}
+
 export {
   explosionSound,
   shieldSound,
@@ -163,5 +181,6 @@ export {
   music,
   player1,
   player2,
-  spikeSound
+  spikeSound,
+  gameOverSound
 };

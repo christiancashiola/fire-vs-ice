@@ -21,4 +21,8 @@ export default class Sound {
   raiseVolume() {
     this.sound.volume = 0.1;
   }
+
+  mute() {
+    this.sound.volume = 0;
+  }
 }

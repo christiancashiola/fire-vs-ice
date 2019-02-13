@@ -10642,9 +10642,6 @@ class Bomb {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util_moveUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/moveUtil */ "./src/util/moveUtil.js");
-
-
 /* harmony default export */ __webpack_exports__["default"] = ((e, player) => {
   const { left, right, back, front } = player;
   if (e.keyCode === 81 && player.id === 1) return player.dropBomb();
@@ -11191,6 +11188,10 @@ class Sound {
   raiseVolume() {
     this.sound.volume = 0.1;
   }
+
+  mute() {
+    this.sound.volume = 0;
+  }
 }
 
 /***/ }),
@@ -11342,7 +11343,7 @@ const player2 = ctx => ({
 /*!******************************!*\
   !*** ./src/util/gameUtil.js ***!
   \******************************/
-/*! exports provided: newSinglePlayerGame, newTwoPlayerGame, loadSounds, addToggleSound, checkGameOver, checkTimeTrialEnd, evaluateWinner, playAgain, explosionSound, shieldSound, powerUpSound, music, player1, player2, spikeSound */
+/*! exports provided: newSinglePlayerGame, newTwoPlayerGame, loadSounds, addToggleSound, checkGameOver, checkTimeTrialEnd, evaluateWinner, playAgain, muteSounds, explosionSound, shieldSound, powerUpSound, music, player1, player2, spikeSound, gameOverSound */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11355,6 +11356,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkTimeTrialEnd", function() { return checkTimeTrialEnd; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "evaluateWinner", function() { return evaluateWinner; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "playAgain", function() { return playAgain; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "muteSounds", function() { return muteSounds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "explosionSound", function() { return explosionSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shieldSound", function() { return shieldSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "powerUpSound", function() { return powerUpSound; });
@@ -11362,6 +11364,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "player1", function() { return player1; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "player2", function() { return player2; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spikeSound", function() { return spikeSound; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gameOverSound", function() { return gameOverSound; });
 /* harmony import */ var _sounds_sound__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sounds/sound */ "./src/sounds/sound.js");
 /* harmony import */ var _board_greenBackdrop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../board/greenBackdrop */ "./src/board/greenBackdrop.js");
 /* harmony import */ var _walls_staticWalls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../walls/staticWalls */ "./src/walls/staticWalls.js");
@@ -11471,9 +11474,9 @@ const checkGameOver = (spread ) => {
 
 const checkTimeTrialEnd = () => {
   if (player1.singlePlayer || player2.singlePlayer) {
+    music.stop();
+    gameOverSound.play();
     let score = Object(_timerUtil__WEBPACK_IMPORTED_MODULE_9__["getTimerScore"])();
-    let innerText = `SCORE ${score}`;
-    let color = 'white';
     Object(_scoreUtil__WEBPACK_IMPORTED_MODULE_10__["enterInitials"])(score);
   }
 }
@@ -11481,7 +11484,10 @@ const checkTimeTrialEnd = () => {
 const evaluateWinner = (p1Win, p2Win) => {
   let innerText, color, gameOver;
 
-  if (p1Win && p2Win) {
+  if (p1Win || p2Win) {
+    innerText = 'GAME OVER.';
+    color = 'white';
+  } else if (p1Win && p2Win) {
     innerText = 'TIE!';
     color = 'white';
   } else if (p1Win) {
@@ -11529,6 +11535,21 @@ const playAgain = () => {
   window.addEventListener('keyup', e => {
     if (e.keyCode === 32) window.location.reload();
   });
+}
+
+const muteSounds = () => {
+  const sounds = [
+    explosionSound,
+    shieldSound,
+    powerUpSound, 
+    music,
+    spikeSound,
+    gameOverSound
+  ]
+
+  for (let i = 0; i < sounds.length; i++) {
+    sounds[i].mute();    
+  }
 }
 
 
@@ -11654,13 +11675,15 @@ const getTopFiveScores = () => {
 }
 
 const enterInitials = score => {
+  const curtain = document.querySelector('#curtain');
+  curtain.style.visibility = 'visible';
   const form = document.querySelector('#score-submission');
   const playerScore = document.querySelector('#player-score');
   playerScore.innerText = score;
   form.style.display = 'flex';
-  
-  document.querySelector('#score-submit-btn').focus();
+  muteSounds();  
   form.addEventListener('submit', e => {
+    document.querySelector('#score-submit-btn').focus();
     e.preventDefault();
     const initials = e.target[0].value;
     postScore(initials, score)
