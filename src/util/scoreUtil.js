@@ -22,7 +22,7 @@ const getScores = () => (
 export const getTopFiveScores = () => {
   getScores()
     .then(scores => {
-=      scores = Object.values(scores);
+      scores = Object.values(scores);
       scores.sort((a, b) => b.score - a.score).slice(0, 5);
       insertScores(scores);
       showScoreBoard();
