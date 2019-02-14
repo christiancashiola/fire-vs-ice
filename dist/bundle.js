@@ -11637,12 +11637,11 @@ const getPlayer2Moves = (x, y) => {
 /*!*******************************!*\
   !*** ./src/util/scoreUtil.js ***!
   \*******************************/
-/*! exports provided: getTopFiveScores, enterInitials */
+/*! exports provided: enterInitials */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTopFiveScores", function() { return getTopFiveScores; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enterInitials", function() { return enterInitials; });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
@@ -11671,8 +11670,8 @@ const getScores = () => (
 const getTopFiveScores = () => {
   getScores()
     .then(scores => {
-      scores = Object.values(scores);
-      scores.sort((a, b) => b.score - a.score).slice(0, 5);
+      scores = Object.values(scores).sort((a, b) => b.score - a.score);
+      scores = scores.slice(0, 10);
       insertScores(scores);
       showScoreBoard();
     });
@@ -11707,7 +11706,6 @@ const insertScores = scores => {
     highScore.innerText = scores[i].score;
     lis.push(highScore);
   }
-
   const highScoresWrapper = document.querySelector('#high-scores-wrapper');
   for (let i = 0; i < lis.length; i++) {
     highScoresWrapper.appendChild(lis[i]);

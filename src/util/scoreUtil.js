@@ -19,11 +19,11 @@ const getScores = () => (
   })
 );
 
-export const getTopFiveScores = () => {
+const getTopFiveScores = () => {
   getScores()
     .then(scores => {
-      scores = Object.values(scores);
-      scores.sort((a, b) => b.score - a.score).slice(0, 5);
+      scores = Object.values(scores).sort((a, b) => b.score - a.score);
+      scores = scores.slice(0, 10);
       insertScores(scores);
       showScoreBoard();
     });
@@ -58,7 +58,6 @@ const insertScores = scores => {
     highScore.innerText = scores[i].score;
     lis.push(highScore);
   }
-
   const highScoresWrapper = document.querySelector('#high-scores-wrapper');
   for (let i = 0; i < lis.length; i++) {
     highScoresWrapper.appendChild(lis[i]);

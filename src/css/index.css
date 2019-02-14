@@ -271,7 +271,7 @@ a {
   position: absolute;
   top: 450px;
   padding: 20px 10px;
-  z-index: 3;
+  z-index: 5;
 }
 
 #space {
