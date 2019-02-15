@@ -370,17 +370,23 @@ li {
 /* TOUCH CONTROLS */
 #touch-controls {
   position: absolute;
-  bottom: 80px;
+  bottom: 60px;
   display: none;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  width: 75%;
+  width: 85%;
 }
 
-#direction-controls {
-  display: grid;
-  grid-template-columns: 45px 45px 45px;
-  grid-template-rows: 45px 45px 45px;
+#touch-controls:active {
+  
+}
+
+#row-2 :first-child {
+  margin-right: 5px;
+}
+
+#row-2 :last-child {
+  margin-left: 5px;
 }
 
 #up {
