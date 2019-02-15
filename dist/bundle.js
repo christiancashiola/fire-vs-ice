@@ -11619,13 +11619,13 @@ const addMobileControls = () => {
   
   let syntheticE;
   for (let i = 0; i < directions.length; i++) {
-    directions[i].addEventListener('click', () => {
+    directions[i].addEventListener('touchstart', () => {
       syntheticE = mapMobileControl(keyCodes[i]);
       Object(_characters_moveMap__WEBPACK_IMPORTED_MODULE_0__["default"])(syntheticE, _gameUtil__WEBPACK_IMPORTED_MODULE_1__["currentPlayer"]);
     });
   }
 
-  bomb.addEventListener('click', () => {
+  bomb.addEventListener('touchstart', () => {
     syntheticE = mapMobileControl([81, 79]);
     Object(_characters_moveMap__WEBPACK_IMPORTED_MODULE_0__["default"])(syntheticE, _gameUtil__WEBPACK_IMPORTED_MODULE_1__["currentPlayer"]);
   });

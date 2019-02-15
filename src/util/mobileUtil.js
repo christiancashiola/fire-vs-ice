@@ -13,13 +13,13 @@ export const addMobileControls = () => {
   
   let syntheticE;
   for (let i = 0; i < directions.length; i++) {
-    directions[i].addEventListener('click', () => {
+    directions[i].addEventListener('touchstart', () => {
       syntheticE = mapMobileControl(keyCodes[i]);
       moveMap(syntheticE, currentPlayer);
     });
   }
 
-  bomb.addEventListener('click', () => {
+  bomb.addEventListener('touchstart', () => {
     syntheticE = mapMobileControl([81, 79]);
     moveMap(syntheticE, currentPlayer);
   });
