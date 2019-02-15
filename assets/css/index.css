@@ -277,6 +277,7 @@ a {
   top: 450px;
   padding: 20px 10px;
   z-index: 5;
+  cursor: pointer;
 }
 
 #space {

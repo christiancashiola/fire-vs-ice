@@ -11554,6 +11554,7 @@ const checkShield = player => {
 const playAgain = () => {
   const playAgain = document.querySelector('#play-again');
   playAgain.style.visibility = 'visible';
+  playAgain.addEventListener('click', () => window.location.reload());
   window.addEventListener('keyup', e => {
     if (e.keyCode === 32) window.location.reload();
   });
