@@ -377,8 +377,9 @@ li {
   width: 85%;
 }
 
-#touch-controls:active {
-  
+#direction-controls {
+  display: flex;
+  flex-flow: column;
 }
 
 #row-2 :first-child {
