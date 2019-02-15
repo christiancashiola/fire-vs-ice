@@ -1,0 +1,171 @@
+@media (min-width: 735px) and (max-width: 1024px) {
+  main {
+    transform: scale(0.9);
+  }
+  #links-wrapper {
+    right: auto;
+    top: auto;
+    bottom: 20px;
+    left: 20px;
+  }
+  #links-wrapper a {
+    margin: 0;
+  }
+  .selection-section {
+    height: 100%;
+  }
+}
+
+@media (min-width: 735px) and (max-width: 1024px) and (orientation: landscape) {
+  main {
+    transform: scale(0.9);
+  }
+  #links-wrapper {
+    right: auto;
+    top: auto;
+    bottom: 20px;
+    left: 20px;
+  }
+  #links-wrapper a {
+    margin: 0;
+  }
+  .selection-section {
+    height: 100%;
+  }
+}
+
+
+@media (min-width: 600px) and (max-width: 734px) {
+  main {
+    transform: scale(0.75);
+  }
+  #links-wrapper {
+    right: auto;
+    top: auto;
+    bottom: 20px;
+    left: 20px;
+  }
+  #links-wrapper a {
+    margin: 0;
+  }
+  .selection-section {
+    height: 100%;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 600px) {
+  main {
+    transform: scale(0.6);
+  }
+  #links-wrapper {
+    right: auto;
+    top: auto;
+    bottom: 20px;
+    left: 20px;
+  }
+  #links-wrapper a {
+    margin: 0;
+  }
+  .selection-section {
+    height: 100%;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  body {
+    overflow: hidden;
+  }
+  .bill-board {
+    transform: scale(0.7);
+    top: 150px;
+  }
+  #play-again {
+    transform: scale(0.7);
+    top: 300px;
+  }
+  header {
+    font-size: 30px;
+    background-color: #333;
+    padding-bottom: 20px;
+  }
+  .mode-header {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  canvas {
+    transform: scale(0.4);
+    position: absolute;
+    top: -50px;
+  }
+  .selection-section {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    background-color: #333;
+    width: 100%;
+    height: 400px;
+  }
+  #character-wrapper {
+    transform: scale(0.8);
+    display: flex;
+    flex-flow: column;
+    align-content: space-between;
+  }
+  #instruction-section {
+    margin-top: 50px;
+  }
+  .instructions {
+    margin-bottom: 30px;
+  }
+  #instructions-container {
+    transform: scale(0.9);
+    width: 95%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100px 100px 100px;
+  }
+  .goal {
+    margin-bottom: 5px;
+  }
+  #controls-container {
+    grid-column: 1;
+  }
+  #ice-controls-wrapper {
+    grid-column: 2;
+  }
+  #links-wrapper {
+    right: auto;
+    top: auto;
+    bottom: 25px;
+    left: auto;
+    font-size: 20px;
+  }
+  #links-wrapper a {
+    margin: 0;
+  }
+  #name {
+    right: auto;
+    top: auto;
+    bottom: 5px;
+    left: auto;
+    font-size: 12px;
+  }
+  #timer {
+    font-size: 20px;
+    top: 80px;
+    left: auto;
+  }
+  #green-backdrop {
+    margin: 0;
+  }
+  #toggle-sound {
+    top: 320px;
+    transform: scale(0.6);
+    margin-left: 150px;
+    position: relative;
+  }
+  #selection-2 {
+    height: 100%;
+  }
+}

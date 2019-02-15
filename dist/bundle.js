@@ -10953,42 +10953,54 @@ class Player2 {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util/gameUtil */ "./src/util/gameUtil.js");
 /* harmony import */ var _util_characterUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util/characterUtil */ "./src/util/characterUtil.js");
+/* harmony import */ var _util_mobileUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./util/mobileUtil */ "./src/util/mobileUtil.js");
+
 
 
 
 let players, mode, characters;
 document.addEventListener('DOMContentLoaded', () => {
   characters = Object(_util_characterUtil__WEBPACK_IMPORTED_MODULE_1__["loadCharacters"])();
-  if (window.innerWidth < 1200) {
-    alert('This game is best enjoyed on a full screen computer screen');
-  }
-  
+  window.addEventListener('resize', checkScreen);
+  checkScreen();
   Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["loadSounds"])();
   handleSinglePlayerClick();
   handleTwoPlayerClick();
   handleStartClick();
 });
 
+const checkScreen = () => {
+  if ((typeof window.orientation !== "undefined")||
+    (navigator.userAgent.indexOf('IEMobile') !== -1) ||
+    (window.innerWidth < 480)) {
+    startSinglePlayerMode();
+    Object(_util_mobileUtil__WEBPACK_IMPORTED_MODULE_2__["addMobileControls"])();
+    document.querySelector('#fire-controls-wrapper').style.display = 'none';
+    document.querySelector('#ice-controls-wrapper').style.display = 'none';
+  }
+};
+
 const handleSinglePlayerClick = () => {
   const singlePlayerBtn = document.querySelector('#single-player');
-  const goal = document.querySelector('#two-player-goal');
-  
-  singlePlayerBtn.addEventListener('click', () => {
-    goal.style.display = 'none';
-    document.querySelector('.selection-section').style.display = 'none';
-    const character1 = document.querySelector('#character-1');
-    character1.addEventListener('click', () => {
-      players = characters[0];
-      setupSinglePlayerMode();
-    });
+  singlePlayerBtn.addEventListener('click', startSinglePlayerMode);
+};
 
-    const character2 = document.querySelector('#character-2');
-    character2.addEventListener('click', () => {
-      players = characters[1];
-      setupSinglePlayerMode();
-    });
+const startSinglePlayerMode = () => {
+  const goal = document.querySelector('#two-player-goal');
+  goal.style.display = 'none';
+  document.querySelector('.selection-section').style.display = 'none';
+  const character1 = document.querySelector('#character-1');
+  character1.addEventListener('click', () => {
+    players = characters[0];
+    setupSinglePlayerMode();
   });
-}
+
+  const character2 = document.querySelector('#character-2');
+  character2.addEventListener('click', () => {
+    players = characters[1];
+    setupSinglePlayerMode();
+  });
+};
 
 const handleTwoPlayerClick = () => {
   const twoPlayerBtn = document.querySelector('#two-player');
@@ -11002,12 +11014,12 @@ const handleTwoPlayerClick = () => {
     mode = _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newTwoPlayerGame"];
     document.querySelector('#selection-2').style.display = 'none';
   });
-}
+};
 
 const setupSinglePlayerMode = () => {
   mode = _util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["newSinglePlayerGame"];
   document.querySelector('#selection-2').style.display = 'none';
-}
+};
 
 const handleStartClick = () => {
     document.querySelector('#start').addEventListener('click', () => {
@@ -11019,8 +11031,8 @@ const handleStartClick = () => {
 
     Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["addToggleSound"])();
     mode(players);
-  })
-}
+  });
+};
 
 /***/ }),
 
@@ -11347,7 +11359,7 @@ const player2 = ctx => ({
 /*!******************************!*\
   !*** ./src/util/gameUtil.js ***!
   \******************************/
-/*! exports provided: newSinglePlayerGame, newTwoPlayerGame, loadSounds, addToggleSound, checkGameOver, checkTimeTrialEnd, evaluateWinner, playAgain, muteSounds, explosionSound, shieldSound, powerUpSound, music, player1, player2, spikeSound, gameOverSound */
+/*! exports provided: newSinglePlayerGame, newTwoPlayerGame, loadSounds, addToggleSound, checkGameOver, checkTimeTrialEnd, evaluateWinner, playAgain, muteSounds, explosionSound, shieldSound, powerUpSound, music, player1, player2, currentPlayer, spikeSound, gameOverSound */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11367,6 +11379,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "music", function() { return music; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "player1", function() { return player1; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "player2", function() { return player2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currentPlayer", function() { return currentPlayer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spikeSound", function() { return spikeSound; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gameOverSound", function() { return gameOverSound; });
 /* harmony import */ var _sounds_sound__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../sounds/sound */ "./src/sounds/sound.js");
@@ -11401,17 +11414,22 @@ let explosionSound,
     gameOverSound,
     music;
 
+let currentPlayer;
+    
 const newSinglePlayerGame = playerState => {
   initialSetup();
   if (playerState.id === 1) {
     player1 = new _characters_player1__WEBPACK_IMPORTED_MODULE_6__["default"](playerState);
+    currentPlayer = player1;
     player1.singlePlayer = true;
     player2 = {};
   } else {
     player2 = new _characters_player2__WEBPACK_IMPORTED_MODULE_7__["default"](playerState);
+    currentPlayer = player2;
     player2.singlePlayer = true;
     player1 = {};
   }
+  checkMobileMode();
   Object(_timerUtil__WEBPACK_IMPORTED_MODULE_9__["startTimer"])();
 }  
 
@@ -11556,7 +11574,74 @@ const muteSounds = () => {
   }
 }
 
+const checkMobileMode = () => {
+  if ((typeof window.orientation !== "undefined")||
+  (navigator.userAgent.indexOf('IEMobile') !== -1) ||
+  (window.innerWidth < 480)) {
+    const controls = document.querySelector('#touch-controls');
+    controls.style.display = 'flex';
+    if (player2.id) {
+      controls.style.flexDirection = 'row-reverse';
+      document.querySelector('#toggle-sound').style.margin = '20px 150px 0 0';   
+    }
+  }
+};
 
+
+
+/***/ }),
+
+/***/ "./src/util/mobileUtil.js":
+/*!********************************!*\
+  !*** ./src/util/mobileUtil.js ***!
+  \********************************/
+/*! exports provided: addMobileControls */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMobileControls", function() { return addMobileControls; });
+/* harmony import */ var _characters_moveMap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../characters/moveMap */ "./src/characters/moveMap.js");
+/* harmony import */ var _gameUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameUtil */ "./src/util/gameUtil.js");
+
+
+
+const addMobileControls = () => {
+  const bomb = document.querySelector('#bomb');
+  let directions = getMobileDirections();
+  let keyCodes = [
+    [65, 74],
+    [87, 73],
+    [68, 76],
+    [83, 75]
+  ]
+  
+  let syntheticE;
+  for (let i = 0; i < directions.length; i++) {
+    directions[i].addEventListener('click', () => {
+      syntheticE = mapMobileControl(keyCodes[i]);
+      Object(_characters_moveMap__WEBPACK_IMPORTED_MODULE_0__["default"])(syntheticE, _gameUtil__WEBPACK_IMPORTED_MODULE_1__["currentPlayer"]);
+    });
+  }
+
+  bomb.addEventListener('click', () => {
+    syntheticE = mapMobileControl([81, 79]);
+    Object(_characters_moveMap__WEBPACK_IMPORTED_MODULE_0__["default"])(syntheticE, _gameUtil__WEBPACK_IMPORTED_MODULE_1__["currentPlayer"]);
+  });
+};
+
+const mapMobileControl = keyCodes => {
+  return { keyCode: keyCodes[_gameUtil__WEBPACK_IMPORTED_MODULE_1__["currentPlayer"].id - 1] }
+}
+
+const getMobileDirections = () => {
+  const left = document.querySelector('#left');
+  const up = document.querySelector('#up');
+  const right = document.querySelector('#right');
+  const down = document.querySelector('#down');
+
+  return [left, up, right, down];
+}
 
 /***/ }),
 

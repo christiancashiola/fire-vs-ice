@@ -19,17 +19,22 @@ let explosionSound,
     gameOverSound,
     music;
 
+let currentPlayer;
+    
 export const newSinglePlayerGame = playerState => {
   initialSetup();
   if (playerState.id === 1) {
     player1 = new Player1(playerState);
+    currentPlayer = player1;
     player1.singlePlayer = true;
     player2 = {};
   } else {
     player2 = new Player2(playerState);
+    currentPlayer = player2;
     player2.singlePlayer = true;
     player1 = {};
   }
+  checkMobileMode();
   startTimer();
 }  
 
@@ -174,6 +179,19 @@ export const muteSounds = () => {
   }
 }
 
+const checkMobileMode = () => {
+  if ((typeof window.orientation !== "undefined")||
+  (navigator.userAgent.indexOf('IEMobile') !== -1) ||
+  (window.innerWidth < 480)) {
+    const controls = document.querySelector('#touch-controls');
+    controls.style.display = 'flex';
+    if (player2.id) {
+      controls.style.flexDirection = 'row-reverse';
+      document.querySelector('#toggle-sound').style.margin = '20px 150px 0 0';   
+    }
+  }
+};
+
 export {
   explosionSound,
   shieldSound,
@@ -181,6 +199,7 @@ export {
   music,
   player1,
   player2,
+  currentPlayer,
   spikeSound,
   gameOverSound
 };

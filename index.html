@@ -7,132 +7,154 @@
   <title>Fire vs Ice</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="public/favicon.ico" />
-  <link rel="stylesheet" type="text/css" media="screen" href="src/css/index.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="assets/css/index.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="assets/css/mediaQueries.css" />
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 <body> 
-  <header><span id="fire">FIRE</span>vs<span id="ice">ICE</span></header>
+  <main>
+    <header><span id="fire">FIRE</span>vs<span id="ice">ICE</span></header>
 
-  <section class="selection-section">
-    <h3 class="mode-header">Select mode to play</h3>
-    <div class="selection-wrapper">
-      <button class="mode-buttons" id="two-player">2-Player<br/>Battle Mode</button>
-      <button class="mode-buttons" id="single-player">1-Player<br/>Time Trial Mode</button>
-    </div>
-  </section>
+    <section class="selection-section">
+      <h3 class="mode-header">Select mode to play</h3>
+      <div class="selection-wrapper">
+        <button class="mode-buttons" id="two-player">2-Player<br/>Battle Mode</button>
+        <button class="mode-buttons" id="single-player">1-Player<br/>Time Trial Mode</button>
+      </div>
+    </section>
 
-  <section class="selection-section" id="selection-2">
-      <h3 class="mode-header">Select character</h3>
-      <div id="character-wrapper">
-        <div class="character" id="character-1">
+    <section class="selection-section" id="selection-2">
+        <h3 class="mode-header">Select character</h3>
+        <div id="character-wrapper">
+          <div class="character" id="character-1">
+            <img src="public/gameImages/characters/player1front.png" alt="fire man">
+            <p class="instructions">
+              Fire-Man<br/>(left-hand controls)
+            </p>
+          </div>
+
+          <div class="character" id="character-2">
+            <img src="public/gameImages/characters/player2front.png" alt="ice man">
+            <p class="instructions">
+              Ice-Man<br/>(right-hand controls)
+            </p>
+          </div>
+        </div>
+    </section>
+    
+    <canvas id="green-backdrop" width="750" height="550"></canvas>
+    <h2 class="bill-board"></h2>
+    <section id="instruction-section">
+      <article id="instructions-container">
+        <div id="instructions-wrapper">
           <img src="public/gameImages/characters/player1front.png" alt="fire man">
           <p class="instructions">
-            Fire-Man<br/>(left-hand controls)
+            Fire-Man
           </p>
         </div>
-
-        <div class="character" id="character-2">
-          <img src="public/gameImages/characters/player2front.png" alt="ice man">
+        <div id="instructions-wrapper">
+          <img src="public/gameImages/walls/breakableWall.png" alt="breakable wall">
           <p class="instructions">
-            Ice-Man<br/>(right-hand controls)
+            Breakable walls
           </p>
         </div>
-      </div>
-  </section>
-  
-  <canvas id="green-backdrop" width="750" height="550"></canvas>
-  <h2 class="bill-board"></h2>
-  <section id="instruction-section">
-    <article id="instructions-container">
-      <div id="instructions-wrapper">
-        <img src="public/gameImages/characters/player1front.png" alt="fire man">
-        <p class="instructions">
-          Fire-Man
-        </p>
-      </div>
-      <div id="instructions-wrapper">
-        <img src="public/gameImages/walls/breakableWall.png" alt="breakable wall">
-        <p class="instructions">
-          Breakable walls
-        </p>
-      </div>
-      <div id="instructions-wrapper">
-          <img src="public/gameImages/characters/player2front.png" alt="ice man">
+        <div id="instructions-wrapper">
+            <img src="public/gameImages/characters/player2front.png" alt="ice man">
+            <p class="instructions">
+              Ice-Man
+            </p>
+        </div>
+        <div id="instructions-wrapper">
+            <img src="public/gameImages/powerUps/powerUp.png" alt="power up">
+            <p class="instructions">
+              Increase attack 
+            </p>
+        </div>
+        <div id="instructions-wrapper">
+          <img src="public/gameImages/traps/spikes.png" alt="spikes">
           <p class="instructions">
-            Ice-Man
+            Avoid spikes
           </p>
-      </div>
-      <div id="instructions-wrapper">
-          <img src="public/gameImages/powerUps/powerUp.png" alt="power up">
-          <p class="instructions">
-            Increase attack 
+        </div>
+        <div id="instructions-wrapper">
+            <img src="public/gameImages/powerUps/shield.png" alt="shield">
+            <p class="instructions">
+              Activates shield
+            </p>
+        </div>
+        <div id="fire-controls-wrapper">
+          <h3>Fire-Man controls</h3>
+          <p class="controls">
+            A = left<br/>
+            W = up<br/>
+            D = right<br/>
+            S = down<br/>
+            Q/E = attack
           </p>
-      </div>
-      <div id="instructions-wrapper">
-        <img src="public/gameImages/traps/spikes.png" alt="spikes">
-        <p class="instructions">
-          Avoid spikes
-        </p>
-      </div>
-      <div id="instructions-wrapper">
-          <img src="public/gameImages/powerUps/shield.png" alt="shield">
-          <p class="instructions">
-            Activates shield
+        </div>
+        <div id="ice-controls-wrapper">
+          <h3>Ice-Man controls</h3>
+          <p class="controls">
+              J = left<br/>
+              I = up<br/>
+              L = right<br/>
+              K = down<br/>
+              O/U = attack
           </p>
-      </div>
-      <div id="fire-controls-wrapper">
-        <h3>Fire-Man controls</h3>
-        <p class="controls">
-          A = left<br/>
-          W = up<br/>
-          D = right<br/>
-          S = down<br/>
-          Q/E = attack
-        </p>
-      </div>
-      <div id="ice-controls-wrapper">
-        <h3>Ice-Man controls</h3>
-        <p class="controls">
-            J = left<br/>
-            I = up<br/>
-            L = right<br/>
-            K = down<br/>
-            O/U = attack
-        </p>
-      </div>
-    </article>
+        </div>
+      </article>
+      
+      <p class="goal" id="single-player-goal">Destroy all the breakable walls as fast a possible!</p>
+      <p class="goal" id="two-player-goal">Destroy the other player to win!</p>
+      <button id="start">START</button>
+    </section>
     
-    <p class="goal" id="single-player-goal">Destroy all the breakable walls as fast a possible!</p>
-    <p class="goal" id="two-player-goal">Destroy the other player to win!</p>
-    <button id="start">START</button>
+    <button id="toggle-sound">Toggle Music</button>
+    <div id="modal"></div> 
+    <p id="play-again">Press <span id="space">space</span> or click here to continue</p>
+    
+    <form id="score-submission">
+      <h3 id="player-score-header">SCORE:</h3>
+      <h3 id="player-score">123123</h3>
+      <h3 id="player-score-header">Enter intials</h3>
+      <input type="text" maxlength="3" required>
+      <button id="score-submit-btn">Submit</button>
+    </form>
+
+    <article id="high-scores-container">
+      <h3 id="player-score-header">HIGH SCORES</h3>
+      <ul id="high-scores-wrapper">
+      </ul>
+    </article>
+    <div id="curtain"></div>
+  </main>
+  <section id="touch-controls">
+      <div id="direction-controls">
+        <button class="touch-control" id="left">
+          <i class="fas fa-arrow-circle-left"></i>
+        </button>
+        <button class="touch-control" id="up">
+          <i class="fas fa-arrow-circle-up"></i>
+        </button>
+        <button class="touch-control" id="right">
+          <i class="fas fa-arrow-circle-right"></i>
+        </button>
+        <button class="touch-control" id="down">
+          <i class="fas fa-arrow-circle-down"></i>
+        </button>
+      </div>
+      
+      <button class="touch-control" id="bomb">
+        <i class="fas fa-bomb"></i>
+      </button>
   </section>
-  
-  <button id="toggle-sound">Toggle Music</button>
+  <aside id="timer">00:00</aside>
   <aside id="links-wrapper">
     <a href="https://github.com/christiancashiola"><i class="fab fa-github"></i></a>
     <a href="https://angel.co/christian-cashiola"><i class="fab fa-angellist"></i></a>
     <a href="https://www.linkedin.com/in/christian-cashiola-48574616b/"><i class="fab fa-linkedin"></i></a>
   </aside>
-  <aside id="timer">00:00</aside>
   <aside id="name">© Christian Cashiola</aside>
-  <div id="modal"></div> 
-  <p id="play-again">Press <span id="space">space</span> to continue</p>
-  
-  <form id="score-submission">
-    <h3 id="player-score-header">SCORE:</h3>
-    <h3 id="player-score">123123</h3>
-    <h3 id="player-score-header">Enter intials</h3>
-    <input type="text" maxlength="3" required>
-    <button id="score-submit-btn">Submit</button>
-  </form>
-
-  <article id="high-scores-container">
-    <h3 id="player-score-header">HIGH SCORES</h3>
-    <ul id="high-scores-wrapper">
-    </ul>
-  </article>
-
-  <div id="curtain"></div>
 </body>
 </html>

@@ -4,7 +4,7 @@ html {
   height: 100vh;
 }
 
-body {
+body, main {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -13,6 +13,11 @@ body {
   align-items: center;
   position: relative;
   font-family: 'Press Start 2P', cursive;
+  text-align: center;
+}
+
+main {
+  height: auto;
 }
 
 #instruction-section {
@@ -34,7 +39,7 @@ canvas {
   position: absolute;
   bottom: 20px;
   right: 20px;
-  z-index: 3;
+  z-index: 6;
 }
 
 /* HEADER */
@@ -45,7 +50,7 @@ header {
   font-size: 50px;
   position: fixed;
   top: 20px;
-  z-index: 5;
+  z-index: 2;
   font-family: 'Press Start 2P', cursive;
 }
 
@@ -226,7 +231,7 @@ button {
   position: absolute;
   top: 20px;
   right: 40px;
-  z-index: 3;
+  z-index: 6;
 }
 
 a {
@@ -359,4 +364,47 @@ li {
   width: 100%;
   background-color: #333;
   z-index: 4;
+}
+
+/* TOUCH CONTROLS */
+#touch-controls {
+  position: absolute;
+  bottom: 80px;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 75%;
+}
+
+#direction-controls {
+  display: grid;
+  grid-template-columns: 45px 45px 45px;
+  grid-template-rows: 45px 45px 45px;
+}
+
+#up {
+  grid-column: 2;
+}
+
+#left {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+#right {
+  grid-row: 2;
+  grid-column: 3;
+}
+
+#down {
+  grid-row: 3;
+  grid-column: 2;
+}
+
+.touch-control {
+  background-color: transparent;
+  border: none;
+  font-size: 3em;
+  color: #ccc;
+  text-shadow: 0 5px 5px #000;
 }
