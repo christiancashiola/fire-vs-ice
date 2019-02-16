@@ -369,12 +369,13 @@ li {
 
 /* TOUCH CONTROLS */
 #touch-controls {
+  font-size: 1.2em;
   position: absolute;
-  bottom: 60px;
+  bottom: 10%;
   display: none;
   justify-content: space-around;
   align-items: center;
-  width: 85%;
+  width: 100%;
 }
 
 #direction-controls {
@@ -383,11 +384,11 @@ li {
 }
 
 #row-2 :first-child {
-  margin-right: 5px;
+  margin-right: 6px;
 }
 
 #row-2 :last-child {
-  margin-left: 5px;
+  margin-left: 6px;
 }
 
 #up {
