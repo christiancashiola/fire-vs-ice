@@ -1,5 +1,6 @@
 # Fire vs Ice (火対氷)
 ### [Play it here!](http://christiancashiola.me/fire-vs-ice/)
+![screen shots](public/fire-vs-ice.gif?raw=true)
 ## Background
 A responsive single or two-player retro-styled action game inspired by the _1983 Bomberman_. This project was built entirely with vanilla Javascript. (No libraries)
 
