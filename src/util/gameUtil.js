@@ -127,6 +127,7 @@ export const evaluateWinner = (p1Win, p2Win) => {
 
   gameOver = p1Win || p2Win ? true : false;
   if (gameOver) {
+    stopTimer();
     gameOverMessage(innerText, color);
   }
 }

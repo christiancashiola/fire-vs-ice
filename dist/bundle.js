@@ -11522,6 +11522,7 @@ const evaluateWinner = (p1Win, p2Win) => {
 
   gameOver = p1Win || p2Win ? true : false;
   if (gameOver) {
+    Object(_timerUtil__WEBPACK_IMPORTED_MODULE_9__["stopTimer"])();
     gameOverMessage(innerText, color);
   }
 }
