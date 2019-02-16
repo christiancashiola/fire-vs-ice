@@ -371,7 +371,7 @@ li {
 #touch-controls {
   font-size: 1.2em;
   position: absolute;
-  top: 50%;
+  top: 45%;
   display: none;
   justify-content: space-around;
   align-items: center;
@@ -383,38 +383,54 @@ li {
   flex-flow: column;
 }
 
+#row-1 {
+  height: 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
 #row-2 button {
   width: 100px;
+  height: 80px;
+  padding: 0;
+}
+
+#row-3 {
+  height: 100px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 #up {
   grid-column: 2;
-  color: #8feafc;
+  color: #8feafccb;
 }
 
 #left {
   grid-row: 2;
   grid-column: 1;
-  color: #fc8200;
+  color: #fc8200cb;
 }
 
 #right {
   grid-row: 2;
   grid-column: 3;
-  color: #fc8200;
+  color: #fc8200cb;
 }
 
 #down {
   grid-row: 3;
   grid-column: 2;
-  color: #8feafc;
+  color: #8feafccb;
 }
 
 #bomb {
   width: 100px;
   height: 80px;
-  color: #fff;
-  /* background: linear-gradient(#fc8200, #8feafc); */
+  color: #ffffffcb;
+  height: 100px;
 }
 
 .touch-control {
