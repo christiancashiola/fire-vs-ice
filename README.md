@@ -1,12 +1,13 @@
 # Fire vs Ice (火対氷)
 ### [Play it here!](http://christiancashiola.me/fire-vs-ice/)
 ## Background
-Fire vs Ice e is a retro-styled 2-player action game inspired by the _1983 Bomberman_. The object is the game is to detroy the other player using fire or ice bombs. Blowing up breakable walls sometimes releases power ups or a trap. There is a shield power up (which grants the player an extra hit-point), an attack power up (which increasing attack range), and spikes (which you want to avoid). Beware, it is very possible for player to destroy him/herself!
+A responsive single or two-player retro-styled action game inspired by the _1983 Bomberman_. This project was built entirely with vanilla Javascript. (No libraries)
 
 ## Technologies
 This project will be utilize the following technologies: 
 + `Javascript` for game logic
 + `HTML Canvas` for graphics rendering
++ `CSS` for styling and media queries
 + `Webbpack` to bundle JS files
 + Custom artwork (heavily influenced by _Bomberman_)
 
