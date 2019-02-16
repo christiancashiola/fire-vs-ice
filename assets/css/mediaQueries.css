@@ -74,6 +74,7 @@
 @media (min-width: 320px) and (max-width: 480px) {
   body {
     overflow: hidden;
+    touch-action: none;
   }
   .bill-board {
     transform: scale(0.7);

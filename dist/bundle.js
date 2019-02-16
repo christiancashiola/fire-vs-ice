@@ -11608,6 +11608,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const addMobileControls = () => {
+  // disableSwipe();
   const bomb = document.querySelector('#bomb');
   let directions = getMobileDirections();
   let keyCodes = [
@@ -11642,6 +11643,27 @@ const getMobileDirections = () => {
   const down = document.querySelector('#down');
 
   return [left, up, right, down];
+}
+
+const disableSwipe = () => {
+  let xPos, yPos, touch, prevX, prevY;
+  window.addEventListener( "touchmove", e => {
+    if (e.isTrusted) {
+      touch = e.touches[0];
+    }
+    prevX = xPos;
+    prevY = yPos;
+    xPos = touch.pageX;
+    yPos = touch.pageY;
+    if (!prevX && !prevY) {
+      return false;
+    } else {
+      if (Math.abs(prevX - xPos) > Math.abs(prevY - yPos)) {
+        e.preventDefault();
+        return false;
+      }
+    }
+  });
 }
 
 /***/ }),
