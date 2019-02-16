@@ -371,7 +371,7 @@ li {
 #touch-controls {
   font-size: 1.2em;
   position: absolute;
-  top: 45%;
+  top: 50%;
   display: none;
   justify-content: space-around;
   align-items: center;
