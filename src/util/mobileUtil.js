@@ -32,9 +32,9 @@ const mapMobileControl = keyCodes => {
 
 const getMobileDirections = () => {
   const left = document.querySelector('#left');
-  const up = document.querySelector('#up');
+  const up = document.querySelector('#row-1');
   const right = document.querySelector('#right');
-  const down = document.querySelector('#down');
+  const down = document.querySelector('#row-3');
 
   return [left, up, right, down];
 }

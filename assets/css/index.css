@@ -383,31 +383,38 @@ li {
   flex-flow: column;
 }
 
-#row-2 :first-child {
-  margin-right: 6px;
-}
-
-#row-2 :last-child {
-  margin-left: 6px;
+#row-2 button {
+  width: 100px;
 }
 
 #up {
   grid-column: 2;
+  color: #8feafc;
 }
 
 #left {
   grid-row: 2;
   grid-column: 1;
+  color: #fc8200;
 }
 
 #right {
   grid-row: 2;
   grid-column: 3;
+  color: #fc8200;
 }
 
 #down {
   grid-row: 3;
   grid-column: 2;
+  color: #8feafc;
+}
+
+#bomb {
+  width: 100px;
+  height: 80px;
+  color: #fff;
+  /* background: linear-gradient(#fc8200, #8feafc); */
 }
 
 .touch-control {
