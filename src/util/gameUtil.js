@@ -95,7 +95,7 @@ export const checkGameOver = (spread ) => {
         p1Win = checkShield(player2) ? false : true;
     }
   }
-
+  
   evaluateWinner(p1Win, p2Win);
 }
 
@@ -111,7 +111,7 @@ export const checkTimeTrialEnd = () => {
 export const evaluateWinner = (p1Win, p2Win) => {
   let innerText, color, gameOver;
 
-  if (p1Win || p2Win) {
+  if (player1.singlePlayer || player2.singlePlayer) {
     innerText = 'GAME OVER.';
     color = 'white';
   } else if (p1Win && p2Win) {

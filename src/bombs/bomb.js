@@ -20,7 +20,7 @@ export class Bomb {
     liveBombs[x] = { [y]: this };
   }
 
-  explode(initialBomb) {
+  explode() {
     delete liveBombs[this.x][this.y]
     const spread = this.getSpread();
     this.detonateProximalBombs(spread);

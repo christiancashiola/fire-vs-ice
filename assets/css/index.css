@@ -178,6 +178,7 @@ h3 {
 .controls {
   padding-left: 60px;
   line-height: 24px;
+  text-align: left;
 }
 
 #ice-controls-wrapper {
