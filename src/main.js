@@ -4,21 +4,20 @@ import { addMobileControls } from './util/mobileUtil';
 
 let players, mode, characters;
 document.addEventListener('DOMContentLoaded', () => {
+  checkScreen();
   characters = loadCharacters();
-  window.addEventListener('resize', checkScreen);
   checkScreen();
   loadSounds();
-  setTimeout(() => {
-    handleSinglePlayerClick();
-    handleTwoPlayerClick();
-    handleStartClick();
-  }, 1000);
+  handleSinglePlayerClick();
+  handleTwoPlayerClick();
+  handleStartClick();
 });
 
 const checkScreen = () => {
   if ((typeof window.orientation !== "undefined")||
     (navigator.userAgent.indexOf('IEMobile') !== -1) ||
     (window.innerWidth < 480)) {
+    window.screen.lockOrientation(orientation);
     startSinglePlayerMode();
     addMobileControls();
     document.querySelector('#fire-controls-wrapper').style.display = 'none';

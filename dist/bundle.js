@@ -10960,21 +10960,20 @@ __webpack_require__.r(__webpack_exports__);
 
 let players, mode, characters;
 document.addEventListener('DOMContentLoaded', () => {
+  checkScreen();
   characters = Object(_util_characterUtil__WEBPACK_IMPORTED_MODULE_1__["loadCharacters"])();
-  window.addEventListener('resize', checkScreen);
   checkScreen();
   Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["loadSounds"])();
-  setTimeout(() => {
-    handleSinglePlayerClick();
-    handleTwoPlayerClick();
-    handleStartClick();
-  }, 1000);
+  handleSinglePlayerClick();
+  handleTwoPlayerClick();
+  handleStartClick();
 });
 
 const checkScreen = () => {
   if ((typeof window.orientation !== "undefined")||
     (navigator.userAgent.indexOf('IEMobile') !== -1) ||
     (window.innerWidth < 480)) {
+    window.screen.lockOrientation(orientation);
     startSinglePlayerMode();
     Object(_util_mobileUtil__WEBPACK_IMPORTED_MODULE_2__["addMobileControls"])();
     document.querySelector('#fire-controls-wrapper').style.display = 'none';
