@@ -10964,9 +10964,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', checkScreen);
   checkScreen();
   Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["loadSounds"])();
-  handleSinglePlayerClick();
-  handleTwoPlayerClick();
-  handleStartClick();
+  setTimeout(() => {
+    handleSinglePlayerClick();
+    handleTwoPlayerClick();
+    handleStartClick();
+  }, 1000);
 });
 
 const checkScreen = () => {

@@ -8,9 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', checkScreen);
   checkScreen();
   loadSounds();
-  handleSinglePlayerClick();
-  handleTwoPlayerClick();
-  handleStartClick();
+  setTimeout(() => {
+    handleSinglePlayerClick();
+    handleTwoPlayerClick();
+    handleStartClick();
+  }, 1000);
 });
 
 const checkScreen = () => {
