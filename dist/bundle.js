@@ -10960,7 +10960,6 @@ __webpack_require__.r(__webpack_exports__);
 
 let players, mode, characters;
 document.addEventListener('DOMContentLoaded', () => {
-  checkScreen();
   characters = Object(_util_characterUtil__WEBPACK_IMPORTED_MODULE_1__["loadCharacters"])();
   checkScreen();
   Object(_util_gameUtil__WEBPACK_IMPORTED_MODULE_0__["loadSounds"])();
@@ -10973,7 +10972,6 @@ const checkScreen = () => {
   if ((typeof window.orientation !== "undefined")||
     (navigator.userAgent.indexOf('IEMobile') !== -1) ||
     (window.innerWidth < 480)) {
-    window.screen.lockOrientation(orientation);
     startSinglePlayerMode();
     Object(_util_mobileUtil__WEBPACK_IMPORTED_MODULE_2__["addMobileControls"])();
     document.querySelector('#fire-controls-wrapper').style.display = 'none';
@@ -11610,7 +11608,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const addMobileControls = () => {
-  // disableSwipe();
+  disableSwipe();
   const bomb = document.querySelector('#bomb');
   let directions = getMobileDirections();
   let keyCodes = [

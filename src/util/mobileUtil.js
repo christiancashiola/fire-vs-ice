@@ -2,7 +2,7 @@ import moveMap from "../characters/moveMap";
 import { currentPlayer } from "./gameUtil";
 
 export const addMobileControls = () => {
-  // disableSwipe();
+  disableSwipe();
   const bomb = document.querySelector('#bomb');
   let directions = getMobileDirections();
   let keyCodes = [
