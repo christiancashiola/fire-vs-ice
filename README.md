@@ -9,7 +9,7 @@ This project will be utilize the following technologies:
 + `Javascript` for game logic
 + `HTML Canvas` for graphics rendering
 + `CSS` for styling and media queries
-+ `Webbpack` to bundle JS files
++ `Webpack` to bundle JS files
 + Custom artwork (heavily influenced by _Bomberman_)
 
 _In most cases I chose `for` loops over `forEach` loops for optimization_
