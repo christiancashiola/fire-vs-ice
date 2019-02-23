@@ -237,7 +237,14 @@ button {
 
 a {
   color: #ddd;
-  margin-left: 5px;
+}
+
+a:nth-child(odd):hover {
+  color: #fc8200;
+}
+
+a:nth-child(even):hover {
+  color: #8feafc;
 }
 
 /* MODAL */
